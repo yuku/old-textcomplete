@@ -24,6 +24,7 @@
     "browserify": "^13.0.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.1.1",
+    "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
     "vinyl-buffer": "^1.0.0",
