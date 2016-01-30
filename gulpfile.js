@@ -1,6 +1,5 @@
 var gulp        = require('gulp');
 
-var babelify    = require('babelify');
 var browserify  = require('browserify');
 var buffer      = require('vinyl-buffer');
 var eslint      = require('gulp-eslint');
