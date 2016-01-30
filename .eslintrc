@@ -5,6 +5,10 @@
 
   extends: eslint:recommended
 
+  ecmaFeatures:
+    module: true
+    modules: true
+
   rules:
     brace-style: [2, "1tbs", { allowSingleLine: true }]
     camelcase: 2
