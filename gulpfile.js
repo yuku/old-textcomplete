@@ -4,6 +4,7 @@ var babelify    = require('babelify');
 var browserify  = require('browserify');
 var buffer      = require('vinyl-buffer');
 var source      = require('vinyl-source-stream');
+var sourcemaps  = require('gulp-sourcemaps');
 var uglify      = require('gulp-uglify');
  
 gulp.task('build', function () {
@@ -12,7 +13,9 @@ gulp.task('build', function () {
         .bundle()
         .pipe(source('index.js'))
         .pipe(buffer())
+        .pipe(sourcemaps.init())
         .pipe(uglify())
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest('./dist'));
 });
  
