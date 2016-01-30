@@ -30,5 +30,9 @@ gulp.task('build', ['lint'], function () {
 gulp.task('watch', ['build'], function () {
   gulp.watch('./src/*.js', ['build']);
 });
+
+gulp.task('test', ['lint'], function () {
+  // TODO
+});
  
 gulp.task('default', ['build', 'watch']);
