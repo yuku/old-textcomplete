@@ -1,0 +1,19 @@
+{
+  "name": "textcomplete",
+  "version": "0.0.0",
+  "description": "Autocomplete for textarea elements",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/yuku-t/textcomplete.git"
+  },
+  "author": "Yuku Takahashi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuku-t/textcomplete/issues"
+  },
+  "homepage": "https://github.com/yuku-t/textcomplete#readme"
+}
