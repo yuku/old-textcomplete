@@ -52,7 +52,7 @@ gulp.task('power-assert', function () {
     .pipe(gulp.dest('./powered-test/'));
 });
 
-gulp.task('test', ['lint', 'power-assert', 'istanbul'], function () {
+gulp.task('test', ['power-assert', 'istanbul'], function () {
   return gulp.src('./powered-test/*.js')
     .pipe(mocha())
     .pipe(istanbul.writeReports());
