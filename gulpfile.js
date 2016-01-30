@@ -1,5 +1,3 @@
-'use strict';
-
 var gulp        = require('gulp');
 
 require('babel-register');
@@ -45,7 +43,7 @@ gulp.task('istanbul', function () {
     .pipe(istanbul({
       instrumenter: isparta.Instrumenter,
     }))
-    .pipe(istanbul.hookRequire())
+    .pipe(istanbul.hookRequire());
 });
 
 gulp.task('power-assert', function () {
