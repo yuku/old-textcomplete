@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp        = require('gulp');
 
 var browserify  = require('browserify');
@@ -30,8 +32,6 @@ gulp.task('watch', ['build'], function () {
   gulp.watch('./src/*.js', ['build']);
 });
 
-gulp.task('test', ['lint'], function () {
-  // TODO
-});
+gulp.task('test', ['lint']);
  
 gulp.task('default', ['build', 'watch']);
