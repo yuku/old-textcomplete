@@ -2,7 +2,7 @@
   "name": "textcomplete",
   "version": "0.0.0",
   "description": "Autocomplete for textarea elements",
-  "main": "index.js",
+  "main": "textcomplete.js",
   "scripts": {
     "build": "node_modules/.bin/gulp build",
     "test": "node_modules/.bin/gulp test",
