@@ -19,7 +19,7 @@ gulp.task('lint', function () {
  
 gulp.task('build', ['lint'], function () {
   return browserify({entries: './src/index.js', debug: true})
-    .transform('babelify', {presets: ['es2015']})
+    .transform('babelify')
     .bundle()
     .pipe(source('index.js'))
     .pipe(rename('bundle.js'))
