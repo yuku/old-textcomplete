@@ -4,7 +4,9 @@
   "description": "Autocomplete for textarea elements",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "node_modules/.bin/gulp build",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "node_modules/.bin/gulp watch"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,10 @@
   },
   "homepage": "https://github.com/yuku-t/textcomplete#readme",
   "devDependencies": {
-    "gulp": "^3.9.0"
+    "babel-preset-es2015": "^6.3.13",
+    "babelify": "^7.2.0",
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
