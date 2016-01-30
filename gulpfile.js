@@ -8,6 +8,8 @@ var browserify  = require('browserify');
 var buffer      = require('vinyl-buffer');
 var eslint      = require('gulp-eslint');
 var espower     = require('gulp-espower');
+var isparta     = require('isparta');
+var istanbul    = require('gulp-istanbul');
 var mocha       = require('gulp-mocha');
 var rename      = require('gulp-rename');
 var source      = require('vinyl-source-stream');
@@ -38,15 +40,24 @@ gulp.task('watch', ['build'], function () {
   gulp.watch('./src/*.js', ['build']);
 });
 
+gulp.task('istanbul', function () {
+  return gulp.src('./src/**/*.js')
+    .pipe(istanbul({
+      instrumenter: isparta.Instrumenter,
+    }))
+    .pipe(istanbul.hookRequire())
+});
+
 gulp.task('power-assert', function () {
   return gulp.src('./test/*.js')
     .pipe(espower())
     .pipe(gulp.dest('./powered-test/'));
 });
 
-gulp.task('test', ['lint', 'power-assert'], function () {
+gulp.task('test', ['lint', 'power-assert', 'istanbul'], function () {
   return gulp.src('./powered-test/*.js')
-    .pipe(mocha());
+    .pipe(mocha())
+    .pipe(istanbul.writeReports());
 });
  
 gulp.task('default', ['build', 'watch']);
