@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/yuku-t/textcomplete/issues"
   },
-  "homepage": "https://github.com/yuku-t/textcomplete#readme"
+  "homepage": "https://github.com/yuku-t/textcomplete#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0"
+  }
 }
