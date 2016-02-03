@@ -1,4 +1,5 @@
 import Completer from './completer';
+import Strategy from './strategy';
 
 export default class Textcomplete {
   /**
@@ -11,11 +12,12 @@ export default class Textcomplete {
 
   /**
    * @param {Object[]} strategies
-   * @returns {void}
+   * @returns {this}
    */
   register(strategies) {
     strategies.forEach((strategy) => {
       this.completer.registerStrategy(new Strategy(strategy));
     });
+    return this;
   }
 }
