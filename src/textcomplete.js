@@ -1,16 +1,21 @@
-import Strategy from './strategy';
+import Completer from './completer';
 
 export default class Textcomplete {
-  constructor() {
-    this.strategies = [];
+  /**
+   * @param {HTMLTextAreaElement} el where the textcomplete works on
+   */
+  constructor(el) {
+    this.el = el;
+    this.completer = new Completer();
   }
 
   /**
    * @param {Object[]} strategies
+   * @returns {void}
    */
   register(strategies) {
     strategies.forEach((strategy) => {
-      this.strategies.push(new Strategy(strategy));
+      this.completer.registerStrategy(new Strategy(strategy));
     });
   }
 }

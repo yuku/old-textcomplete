@@ -2,7 +2,7 @@ import Strategy from '../src/strategy';
 
 import {isArray} from 'lodash';
 
-var assert = require('power-assert');
+const assert = require('power-assert');
 
 describe('Strategy', function () {
   describe('#strategy', function () {
