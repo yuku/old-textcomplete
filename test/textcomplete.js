@@ -46,5 +46,26 @@ describe('Textcomplete', function () {
       assert(spy.calledOnce);
       assert(spy.calledWith('abc'));
     });
+
+    it('should call #completer.execute exclusvely', function () {
+      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var stub = sinon.stub(textcomplete.completer, 'execute');
+
+      textcomplete.trigger('a');
+      textcomplete.trigger('b');
+      assert(stub.calledOnce);
+      assert(stub.calledWith('a', textcomplete.handleQueryResult));
+
+      textcomplete.unlock();
+      assert(stub.calledTwice); // Replay
+      assert(stub.calledWith('b', textcomplete.handleQueryResult));
+
+      textcomplete.unlock().trigger('c');
+      assert(stub.calledThrice);
+      assert(stub.calledWith('c', textcomplete.handleQueryResult));
+
+      textcomplete.trigger('d');
+      assert(stub.calledThrice);
+    });
   });
 });
