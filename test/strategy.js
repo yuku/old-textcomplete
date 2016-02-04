@@ -1,8 +1,6 @@
 import Strategy from '../src/strategy';
 import Query from '../src/query';
 
-import {isArray} from 'lodash';
-
 const assert = require('power-assert');
 
 describe('Strategy', function () {
@@ -22,7 +20,7 @@ describe('Strategy', function () {
           assert.ok(result instanceof Query);
           assert.strictEqual(result.strategy, this.strategy);
           assert.strictEqual(result.term, 'hello');
-          assert.ok(isArray(result.match));
+          assert.ok(Array.isArray(result.match));
         });
       });
 
