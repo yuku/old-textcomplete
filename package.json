@@ -34,6 +34,7 @@
     "isparta": "^4.0.0",
     "jsdom": "^8.0.2",
     "power-assert": "^1.2.0",
+    "sinon": "^1.17.3",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
