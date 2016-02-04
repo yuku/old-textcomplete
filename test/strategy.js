@@ -1,4 +1,5 @@
 import Strategy from '../src/strategy';
+import Query from '../src/query';
 
 import {isArray} from 'lodash';
 
@@ -13,7 +14,7 @@ describe('Strategy', function () {
     });
   });
 
-  describe('#test()', function () {
+  describe('#buildQuery()', function () {
     context('when match param is a function' , function () {
       beforeEach(function () {
         var object = {
@@ -23,17 +24,18 @@ describe('Strategy', function () {
       });
 
       context("and given text matches to the function's result", function () {
-        it('should return object with strategy, query and match', function () {
-          var result = this.strategy.test('@hello');
+        it('should return a Query object', function () {
+          var result = this.strategy.buildQuery('@hello');
+          assert.ok(result instanceof Query);
           assert.strictEqual(result.strategy, this.strategy);
-          assert.strictEqual(result.query, 'hello');
+          assert.strictEqual(result.term, 'hello');
           assert.ok(isArray(result.match));
         });
       });
 
       context("and given text does not match to the function's result", function () {
-        it('should return false', function () {
-          assert.equal(this.strategy.test('hello'), false);
+        it('should return null', function () {
+          assert.equal(this.strategy.buildQuery('hello'), null);
         });
       });
     });
@@ -47,17 +49,18 @@ describe('Strategy', function () {
       });
 
       context("and given text matches to the function's result", function () {
-        it('should return object with strategy, query and match', function () {
-          var result = this.strategy.test('@hello');
+        it('should return a Query object', function () {
+          var result = this.strategy.buildQuery('@hello');
+          assert.ok(result instanceof Query);
           assert.strictEqual(result.strategy, this.strategy);
-          assert.strictEqual(result.query, 'hello');
+          assert.strictEqual(result.term, 'hello');
           assert.ok(isArray(result.match));
         });
       });
 
       context("and given text does not match to the function's result", function () {
-        it('should return false', function () {
-          assert.equal(this.strategy.test('hello'), false);
+        it('should return null', function () {
+          assert.equal(this.strategy.buildQuery('hello'), null);
         });
       });
     });

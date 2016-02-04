@@ -1,3 +1,5 @@
+import Query from './query';
+
 import {isFunction} from 'lodash';
 
 /**
@@ -12,12 +14,14 @@ export default class Strategy {
   }
 
   /**
+   * Build a Query object by the given string if this matches to the string.
+   *
    * @param {string} text - Head to input cursor.
-   * @returns {Array|false}
+   * @returns {?Query}
    */
-  test(text) {
+  buildQuery(text) {
     var match = text.match(this.getMatchRegexp(text));
-    return match ? { strategy: this, query: match[this.index], match: match } : false;
+    return match ? new Query(this, match[this.index], match) : null;
   }
 
   /**
