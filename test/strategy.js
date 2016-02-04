@@ -15,14 +15,7 @@ describe('Strategy', function () {
   });
 
   describe('#buildQuery()', function () {
-    context('when match param is a function' , function () {
-      beforeEach(function () {
-        var object = {
-          match: function () { return /(^|\s)@(\w+)$/; },
-        };
-        this.strategy = new Strategy(object);
-      });
-
+    function sharedExamples() {
       context("and given text matches to the function's result", function () {
         it('should return a Query object', function () {
           var result = this.strategy.buildQuery('@hello');
@@ -38,6 +31,17 @@ describe('Strategy', function () {
           assert.equal(this.strategy.buildQuery('hello'), null);
         });
       });
+    }
+
+    context('when match param is a function' , function () {
+      beforeEach(function () {
+        var object = {
+          match: function () { return /(^|\s)@(\w+)$/; },
+        };
+        this.strategy = new Strategy(object);
+      });
+
+      sharedExamples.call(this);
     });
 
     context('when match param is a regexp', function () {
@@ -48,21 +52,7 @@ describe('Strategy', function () {
         this.strategy = new Strategy(object);
       });
 
-      context("and given text matches to the function's result", function () {
-        it('should return a Query object', function () {
-          var result = this.strategy.buildQuery('@hello');
-          assert.ok(result instanceof Query);
-          assert.strictEqual(result.strategy, this.strategy);
-          assert.strictEqual(result.term, 'hello');
-          assert.ok(isArray(result.match));
-        });
-      });
-
-      context("and given text does not match to the function's result", function () {
-        it('should return null', function () {
-          assert.equal(this.strategy.buildQuery('hello'), null);
-        });
-      });
+      sharedExamples.call(this);
     });
   });
 });
