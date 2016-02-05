@@ -22,11 +22,7 @@ export default class Completer {
    */
   execute(text, callback) {
     var query = this.extractQuery(text);
-    if (query) {
-      // TODO
-    } else {
-      callback(NO_RESULT);
-    }
+    query ? query.execute(callback) : callback(NO_RESULT, []);
   }
 
   /**
