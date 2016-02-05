@@ -2,6 +2,7 @@ import Completer from '../src/completer';
 import Query from '../src/query';
 import Strategy from '../src/strategy';
 import {NO_RESULT} from '../src/textcomplete';
+import {createStrategy} from './test-helper';
 
 const assert = require('power-assert');
 const sinon = require('sinon');
@@ -64,6 +65,23 @@ describe('Completer', function () {
         this.completer.execute(text, spy);
         assert(spy.calledOnce);
         assert(spy.calledWith(NO_RESULT, []));
+      });
+    });
+  });
+
+  describe('#extractQuery', function () {
+    context('when there is a appropreate strategy', function () {
+      it('should return a Query', function () {
+        var completer = new Completer();
+        completer.registerStrategy(createStrategy({ match: /(he)(llo)$/ }));
+        assert(completer.extractQuery('hello') instanceof Query);
+      });
+    });
+
+    context('when there is not an appropreate strategy', function () {
+      it('should return null', function () {
+        var completer = new Completer();
+        assert(completer.extractQuery('hello') === null);
       });
     });
   });
