@@ -5,7 +5,6 @@ import {NO_RESULT} from '../src/textcomplete';
 import {createStrategy} from './test-helper';
 
 const assert = require('power-assert');
-const sinon = require('sinon');
 
 describe('Completer', function () {
   beforeEach(function () {
@@ -42,12 +41,12 @@ describe('Completer', function () {
       beforeEach(function () {
         this.completer = new Completer();
         this.query = new Query();
-        sinon.stub(this.completer, 'extractQuery', () => { return this.query; });
+        this.sinon.stub(this.completer, 'extractQuery', () => { return this.query; });
       });
 
       it('should call #execute to the query', function () {
         function callback() {}
-        var stub = sinon.stub(this.query, 'execute');
+        var stub = this.sinon.stub(this.query, 'execute');
         this.completer.execute(text, callback);
         assert(stub.calledOnce);
         assert(stub.calledWith(callback));
@@ -57,11 +56,11 @@ describe('Completer', function () {
     context('when a query is not extracted', function () {
       beforeEach(function () {
         this.completer = new Completer();
-        sinon.stub(this.completer, 'extractQuery', () => { return null; });
+        this.sinon.stub(this.completer, 'extractQuery', () => { return null; });
       });
 
       it('should callback with NO_RESULT and an empty array', function () {
-        var spy = sinon.spy();
+        var spy = this.sinon.spy();
         this.completer.execute(text, spy);
         assert(spy.calledOnce);
         assert(spy.calledWith(NO_RESULT, []));

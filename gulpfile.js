@@ -53,7 +53,7 @@ gulp.task('power-assert', function () {
 });
 
 gulp.task('test', ['power-assert', 'istanbul'], function () {
-  return gulp.src('./powered-test/*.js')
+  return gulp.src('./powered-test/test-runner.js')
     .pipe(mocha())
     .pipe(istanbul.writeReports());
 });

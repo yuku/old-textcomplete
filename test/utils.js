@@ -1,12 +1,11 @@
 import {lock} from '../src/utils';
 
 const assert = require('power-assert');
-const sinon = require('sinon');
 
 describe('lock', function () {
   it('should ignore locked call and replay last call when free arg is called', function () {
     var free = null;
-    var spy = sinon.spy();
+    var spy = this.sinon.spy();
     var lockedFunc = lock(function (freeFunc, arg) {
       spy(arg);
       free = freeFunc;
@@ -27,7 +26,7 @@ describe('lock', function () {
 
   it('should not replay if there is no extra call', function () {
     var free = null;
-    var spy = sinon.spy();
+    var spy = this.sinon.spy();
     var lockedFunc = lock(function (freeFunc) {
       spy();
       free = freeFunc;

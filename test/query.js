@@ -4,7 +4,6 @@ import {STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete';
 import {createStrategy} from './test-helper';
 
 const assert = require('power-assert');
-const sinon = require('sinon');
 
 describe('Query', function () {
   describe('#execute', function () {
@@ -12,12 +11,12 @@ describe('Query', function () {
     var match = [term, '', term];
 
     it("should call strategy's search func once", function () {
-      var spy = sinon.spy();
+      var spy = this.sinon.spy();
       var strategy = createStrategy({ search: spy });
       var query = new Query(strategy, term, match);
       query.execute(function () {});
       assert(spy.calledOnce);
-      assert(spy.calledWith(term, sinon.match.func, match));
+      assert(spy.calledWith(term, this.sinon.match.func, match));
     });
 
     function sharedExample(secondArg, state) {
@@ -29,11 +28,11 @@ describe('Query', function () {
         });
 
         it(`should callback with ${state} and an array`, function () {
-          var spy = sinon.spy();
+          var spy = this.sinon.spy();
           var query = new Query(this.strategy, term, match);
           query.execute(spy);
           assert(spy.calledOnce);
-          assert(spy.calledWith(state, sinon.match.array));
+          assert(spy.calledWith(state, this.sinon.match.array));
         });
       });
     }

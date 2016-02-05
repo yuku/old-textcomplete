@@ -2,7 +2,6 @@ import Dropdown from '../src/dropdown';
 
 const assert = require('power-assert');
 const jsdom = require('jsdom');
-const sinon = require('sinon');
 
 describe('Dropdown', function () {
   describe('.createElement', function () {
@@ -24,7 +23,7 @@ describe('Dropdown', function () {
   describe('#el', function () {
     it('should return a object created by Dropdown.createElement()', function () {
       var result = {};
-      var stub = sinon.stub(Dropdown, 'createElement', () => { return result; });
+      var stub = this.sinon.stub(Dropdown, 'createElement', () => { return result; });
       var dropdown = new Dropdown();
       assert.strictEqual(dropdown.el, result);
       assert(stub.calledOnce);

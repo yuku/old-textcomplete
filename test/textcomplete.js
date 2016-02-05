@@ -4,7 +4,6 @@ import {getHTMLTextAreaElement} from './test-helper';
 
 const assert = require('power-assert');
 const jsdom = require('jsdom');
-const sinon = require('sinon');
 
 describe('Textcomplete', function () {
   describe('#register', function () {
@@ -29,28 +28,28 @@ describe('Textcomplete', function () {
       el.value = 'abcdefg';
 
       var textcomplete = new Textcomplete(el);
-      var spy = textcomplete.trigger = sinon.spy();
+      var stub = this.sinon.stub(textcomplete, 'trigger');
 
       var document = jsdom.jsdom();
       var e = document.createEvent('KeyboardEvent');
       e.initEvent('keyup', true, true);
       el.dispatchEvent(e);
 
-      assert(spy.calledOnce);
-      assert(spy.calledWith(''));
+      assert(stub.calledOnce);
+      assert(stub.calledWith(''));
 
-      spy.reset(); // Resets the state of spy.
+      stub.reset(); // Resets the state of spy.
 
       el.selectionStart = el.selectionEnd = 3; // Move input cursor.
       el.dispatchEvent(e);
 
-      assert(spy.calledOnce);
-      assert(spy.calledWith('abc'));
+      assert(stub.calledOnce);
+      assert(stub.calledWith('abc'));
     });
 
     it('should call #completer.execute exclusvely', function () {
       var textcomplete = new Textcomplete(getHTMLTextAreaElement());
-      var stub = sinon.stub(textcomplete.completer, 'execute');
+      var stub = this.sinon.stub(textcomplete.completer, 'execute');
 
       textcomplete.trigger('a');
       textcomplete.trigger('b');
@@ -73,11 +72,11 @@ describe('Textcomplete', function () {
   describe('#handleQueryResult', function () {
     function sharedExample(status, dropdownMethod, unlock) {
       var textcomplete = new Textcomplete(getHTMLTextAreaElement());
-      var stub = sinon.stub(textcomplete.dropdown, dropdownMethod);
+      var stub = this.sinon.stub(textcomplete.dropdown, dropdownMethod);
       if (unlock) {
-        var unlockStub = sinon.stub(textcomplete, 'unlock');
+        var unlockStub = this.sinon.stub(textcomplete, 'unlock');
       } else {
-        sinon.stub(textcomplete, 'unlock').throws();
+        this.sinon.stub(textcomplete, 'unlock').throws();
       }
       textcomplete.handleQueryResult(status, []);
       assert(stub.calledOnce);
@@ -88,19 +87,19 @@ describe('Textcomplete', function () {
 
     context('when it is called with NO_RESULT', function () {
       it('should call #dropdown.deactivate and #unlock once', function () {
-        sharedExample(NO_RESULT, 'deactivate', true);
+        sharedExample.call(this, NO_RESULT, 'deactivate', true);
       });
     });
 
     context('when it is called with STILL_SEARCHING', function () {
       it('should call #dropdown.render and not call #unlock once', function () {
-        sharedExample(STILL_SEARCHING, 'render', false);
+        sharedExample.call(this, STILL_SEARCHING, 'render', false);
       });
     });
 
     context('when it is called with SEARCH_COMPLETED', function () {
       it('should call #dropdown.render and #unlock once', function () {
-        sharedExample(SEARCH_COMPLETED, 'render', true);
+        sharedExample.call(this, SEARCH_COMPLETED, 'render', true);
       });
     });
   });
