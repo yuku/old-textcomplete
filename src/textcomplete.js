@@ -12,6 +12,7 @@ const CALLBACK_METHODS = ['handleQueryResult'];
 
 /**
  * @param {string} text - Head to input cursor.
+ * @this Textcomplete
  */
 var lockableTrigger = lock(function (free, text) {
   this.free = free;
