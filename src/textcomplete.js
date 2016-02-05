@@ -30,6 +30,7 @@ export default class Textcomplete {
   }
 
   /**
+   * @public
    * @param {Object[]} strategyPropsArray
    * @returns {this}
    */
@@ -43,6 +44,7 @@ export default class Textcomplete {
   /**
    * Start autocompleting.
    *
+   * @public
    * @param {string} text - Head to input cursor.
    * @returns {this}
    */
