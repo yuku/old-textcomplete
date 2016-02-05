@@ -37,8 +37,9 @@ export default class Dropdown {
    * Render the given data as dropdown items.
    *
    * @param {SearchResult[]} _searchResults
+   * @param {{top: number, left: number}} _cursorPosition
    */
-  render(_searchResults) {
+  render(_searchResults, _cursorPosition) {
   }
 
   /**

@@ -33,6 +33,8 @@ export default class Textarea {
    * @returns {{top: number, left: number}}
    */
   get cursorPosition() {
-    return getCaretCoordinates(this.el, this.el.selectionEnd);
+    // textarea-caret throws an error if `window` is undefined.
+    return typeof window !== 'undefined' ?
+      getCaretCoordinates(this.el, this.el.selectionEnd) : { top: 0, left: 0 };
   }
 }
