@@ -10,9 +10,9 @@ export default class Dropdown {
   /**
    * Render the given data as dropdown items.
    *
-   * @param {object[]} _data
+   * @param {SearchResult[]} _searchResults
    */
-  render(_data) {
+  render(_searchResults) {
   }
 
   /**

@@ -73,19 +73,19 @@ export default class Textcomplete {
   /**
    * @private
    * @param {number} status
-   * @param {object[]} data
+   * @param {SearchResult[]} searchResults
    */
-  handleQueryResult(status, data) {
+  handleQueryResult(status, searchResults) {
     switch (status) {
     case NO_RESULT:
       this.dropdown.deactivate();
       this.unlock();
       break;
     case STILL_SEARCHING:
-      this.dropdown.render(data);
+      this.dropdown.render(searchResults);
       break;
     case SEARCH_COMPLETED:
-      this.dropdown.render(data);
+      this.dropdown.render(searchResults);
       this.unlock();
       break;
     }

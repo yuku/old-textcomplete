@@ -1,3 +1,4 @@
+import SearchResult from './search-result';
 import {STILL_SEARCHING, SEARCH_COMPLETED} from './textcomplete';
 
 /**
@@ -19,8 +20,11 @@ export default class Query {
    * @param {Textcomplete#handleQueryResult} callback
    */
   execute(callback) {
-    this.strategy.search(this.term, (data, stillSearching) => {
-      callback(stillSearching ? STILL_SEARCHING : SEARCH_COMPLETED, data);
+    this.strategy.search(this.term, (results, stillSearching) => {
+      callback(
+        stillSearching ? STILL_SEARCHING : SEARCH_COMPLETED,
+        results.map((result) => { return new SearchResult(result, this.strategy); })
+      );
     }, this.match);
   }
 }
