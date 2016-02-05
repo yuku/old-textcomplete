@@ -8,51 +8,37 @@ const sinon = require('sinon');
 
 describe('Query', function () {
   describe('#execute', function () {
+    var term = 'hello';
+    var match = [term, '', term];
+
     it("should call strategy's search func once", function () {
       var spy = sinon.spy();
       var strategy = createStrategy({ search: spy });
-      var term = 'foo';
-      var match = [term, '', term];
       var query = new Query(strategy, term, match);
       query.execute(function () {});
       assert(spy.calledOnce);
       assert(spy.calledWith(term, sinon.match.func, match));
     });
 
-    context('when search func callbacks with falsy second argument', function () {
-      beforeEach(function () {
-        this.strategy = createStrategy({
-          search: function (term, callback) { callback([term], false); },
+    function sharedExample(secondArg, state) {
+      context(`when search func callbacks with ${secondArg} as second argument`, function () {
+        beforeEach(function () {
+          this.strategy = createStrategy({
+            search: function (t, callback) { callback([t], secondArg); },
+          });
+        });
+
+        it(`should callback with ${state} and an array`, function () {
+          var spy = sinon.spy();
+          var query = new Query(this.strategy, term, match);
+          query.execute(spy);
+          assert(spy.calledOnce);
+          assert(spy.calledWith(state, sinon.match.array));
         });
       });
+    }
 
-      it('should callback with SEARCH_COMPLETED and an array', function () {
-        var spy = sinon.spy();
-        var term = 'bar';
-        var match = [term, '', term];
-        var query = new Query(this.strategy, term, match);
-        query.execute(spy);
-        assert(spy.calledOnce);
-        assert(spy.calledWith(SEARCH_COMPLETED, sinon.match.array));
-      });
-    });
-
-    context('when search func callbacks with truthy second argument', function () {
-      beforeEach(function () {
-        this.strategy = createStrategy({
-          search: function (term, callback) { callback([term], true); },
-        });
-      });
-
-      it('should callback with SEARCH_COMPLETED and an array', function () {
-        var spy = sinon.spy();
-        var term = 'baz';
-        var match = [term, '', term];
-        var query = new Query(this.strategy, term, match);
-        query.execute(spy);
-        assert(spy.calledOnce);
-        assert(spy.calledWith(STILL_SEARCHING, sinon.match.array));
-      });
-    });
+    sharedExample.call(this, false, SEARCH_COMPLETED);
+    sharedExample.call(this, true, STILL_SEARCHING);
   });
 });
