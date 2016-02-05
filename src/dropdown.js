@@ -1,3 +1,4 @@
+import DropdownItem from './dropdown-item';
 import {extend, uniqueId} from 'lodash';
 
 /**
@@ -36,15 +37,24 @@ export default class Dropdown {
   }
 
   /**
+   * @returns {number}
+   */
+  get length() {
+    return this.items.length;
+  }
+
+  /**
    * Render the given data as dropdown items.
    *
-   * @param {SearchResult[]} _searchResults
-   * @param {{top: number, left: number}} _cursorPosition
+   * @param {SearchResult[]} searchResults
+   * @param {{top: number, left: number}} cursorPosition
    * @returns {this}
    */
-  render(_searchResults, _cursorPosition) {
-    this.show();
-    return this;
+  render(searchResults, cursorPosition) {
+    this.append(searchResults.map((searchResult) => {
+      return new DropdownItem(searchResult);
+    }));
+    return this.items.length > 0 ? this.setPosition(cursorPosition).show() : this.hide();
   }
 
   /**
@@ -54,6 +64,33 @@ export default class Dropdown {
    */
   deactivate() {
     return this.hide().clear();
+  }
+
+  /**
+   * Add items to dropdown.
+   *
+   * @private
+   * @param {DropdownItem[]} items
+   * @returns {this};
+   */
+  append(items) {
+    var fragment = document.createDocumentFragment();
+    items.forEach((item) => {
+      fragment.appendChild(item.el);
+      this.items.push(item);
+    });
+    this.el.appendChild(fragment);
+    return this;
+  }
+
+  /**
+   * @private
+   * @param {{top: number, left: number}} _cursorPosition
+   * @returns {this}
+   */
+  setPosition(_cursorPosition) {
+    // TODO imprement
+    return this;
   }
 
   /**
@@ -91,6 +128,8 @@ export default class Dropdown {
    * @returns {this}
    */
   clear() {
+    this.el.innerHTML = '';
+    this.items.forEach((item) => { item.finalize(); });
     this.items = [];
     return this;
   }

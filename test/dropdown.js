@@ -1,4 +1,6 @@
 import Dropdown from '../src/dropdown';
+import DropdownItem from '../src/dropdown-item';
+import SearchResult from '../src/search-result';
 
 const assert = require('power-assert');
 
@@ -26,15 +28,29 @@ describe('Dropdown', function () {
   describe('#render', function () {
     it('should return itself', function () {
       var dropdown = new Dropdown();
-      assert.strictEqual(dropdown.render(), dropdown);
+      assert.strictEqual(dropdown.render(['lol']), dropdown);
     });
 
     context('when it is hidden', function () {
       it('should change #shown from false to true', function () {
         var dropdown = new Dropdown();
         dropdown.shown = false;
-        dropdown.render();
+        dropdown.render(['lol']);
         assert(dropdown.shown);
+      });
+    });
+
+    context('when search results are given', function () {
+      beforeEach(function () {
+        this.dropdown = new Dropdown();
+        this.searchResult = new SearchResult('hello');
+      });
+
+      it('should append dropdown items with the search results', function () {
+        this.dropdown.render([this.searchResult]);
+        assert.equal(this.dropdown.items.length, 1);
+        assert(this.dropdown.items[0] instanceof DropdownItem);
+        assert.equal(this.dropdown.items[0].searchResult, this.searchResult);
       });
     });
   });
@@ -45,12 +61,12 @@ describe('Dropdown', function () {
       assert.strictEqual(dropdown.deactivate(), dropdown);
     });
 
-    it('should empty #items', function () {
+    it('should empty itself', function () {
       var dropdown = new Dropdown();
-      dropdown.items = [1];
-      assert.equal(dropdown.items.length, 1);
+      dropdown.append([new DropdownItem(new SearchResult('hello'))]);
+      assert.equal(dropdown.length, 1);
       dropdown.deactivate();
-      assert.equal(dropdown.items.length, 0);
+      assert.equal(dropdown.length, 0);
     });
 
     context('when it is shown', function () {
