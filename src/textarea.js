@@ -12,17 +12,17 @@ export default class Textarea {
     this.el = el;
     this.textcomplete = textcomplete;
     this.el.addEventListener('keyup', () => {
-      this.textcomplete.trigger(this.getText());
+      this.textcomplete.trigger(this.text);
     });
   }
 
   /**
-   * Returns the string from head to current input cursor position.
+   * The string from head to current input cursor position.
    *
    * @private
    * @returns {string}
    */
-  getText() {
+  get text() {
     return this.el.value.substring(0, this.el.selectionEnd);
   }
 
