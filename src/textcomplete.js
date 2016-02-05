@@ -5,6 +5,8 @@ import {lock} from './utils';
 import {isFunction} from 'lodash';
 
 export const NO_RESULT = 0;
+export const STILL_SEARCHING = 1;
+export const SEARCH_COMPLETED = 2;
 
 const CALLBACK_METHODS = ['handleQueryResult'];
 
@@ -70,10 +72,16 @@ export default class Textcomplete {
   /**
    * @private
    * @param {number} status
+   * @param {string[]} _data
    */
-  handleQueryResult(status) {
+  handleQueryResult(status, _data) {
     switch (status) {
     case NO_RESULT:
+      this.unlock();
+      break;
+    case STILL_SEARCHING:
+      break;
+    case SEARCH_COMPLETED:
       this.unlock();
       break;
     }

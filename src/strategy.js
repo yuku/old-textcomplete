@@ -25,6 +25,15 @@ export default class Strategy {
   }
 
   /**
+   * @param {string} term
+   * @param {function} callback
+   * @param {string[]} match
+   */
+  search(term, callback, match) {
+    this.props.search(term, callback, match);
+  }
+
+  /**
    * @private
    * @param {string} text
    * @returns {RegExp}
