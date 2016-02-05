@@ -3,7 +3,6 @@ import {NO_RESULT, STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete'
 import {getHTMLTextAreaElement} from './test-helper';
 
 const assert = require('power-assert');
-const jsdom = require('jsdom');
 
 describe('Textcomplete', function () {
   describe('#register', function () {
@@ -30,7 +29,6 @@ describe('Textcomplete', function () {
       var textcomplete = new Textcomplete(el);
       var stub = this.sinon.stub(textcomplete, 'trigger');
 
-      var document = jsdom.jsdom();
       var e = document.createEvent('KeyboardEvent');
       e.initEvent('keyup', true, true);
       el.dispatchEvent(e);

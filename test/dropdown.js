@@ -1,22 +1,9 @@
 import Dropdown from '../src/dropdown';
 
 const assert = require('power-assert');
-const jsdom = require('jsdom');
 
 describe('Dropdown', function () {
-  function loadDocument() {
-    before(function () {
-      global.document = jsdom.jsdom();
-    });
-
-    after(function () {
-      delete global.document;
-    });
-  }
-
   describe('.createElement', function () {
-    loadDocument.call(this);
-
     it('should return a HTMLUListElement under body element', function () {
       var el = Dropdown.createElement();
       assert(el instanceof document.defaultView.HTMLUListElement);
@@ -37,8 +24,6 @@ describe('Dropdown', function () {
   });
 
   describe('#render', function () {
-    loadDocument.call(this);
-
     it('should return itself', function () {
       var dropdown = new Dropdown();
       assert.strictEqual(dropdown.render(), dropdown);
@@ -55,8 +40,6 @@ describe('Dropdown', function () {
   });
 
   describe('#deactivate', function () {
-    loadDocument.call(this);
-
     it('should return itself', function () {
       var dropdown = new Dropdown();
       assert.strictEqual(dropdown.deactivate(), dropdown);

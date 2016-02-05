@@ -1,13 +1,16 @@
 /* eslint-env node */
 
-var sinon = require('sinon');
+const sinon = require('sinon');
+const jsdom = require('jsdom');
 
 beforeEach(function () {
   this.sinon = sinon.sandbox.create();
+  global.document = jsdom.jsdom();
 });
 
 afterEach(function () {
   this.sinon.restore();
+  delete global.document;
 });
 
 var fs = require('fs');
