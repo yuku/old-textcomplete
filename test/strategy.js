@@ -4,11 +4,11 @@ import Query from '../src/query';
 const assert = require('power-assert');
 
 describe('Strategy', function () {
-  describe('#strategy', function () {
+  describe('#props', function () {
     it('should be an object', function () {
       var object = {};
       var strategy = new Strategy(object);
-      assert.strictEqual(strategy.strategy, object);
+      assert.strictEqual(strategy.props, object);
     });
   });
 

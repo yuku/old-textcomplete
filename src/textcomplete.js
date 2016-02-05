@@ -31,12 +31,12 @@ export default class Textcomplete {
   }
 
   /**
-   * @param {Object[]} strategies
+   * @param {Object[]} strategyPropsArray
    * @returns {this}
    */
-  register(strategies) {
-    strategies.forEach((strategy) => {
-      this.completer.registerStrategy(new Strategy(strategy));
+  register(strategyPropsArray) {
+    strategyPropsArray.forEach((props) => {
+      this.completer.registerStrategy(new Strategy(props));
     });
     return this;
   }

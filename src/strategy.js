@@ -7,10 +7,10 @@ import {isFunction} from 'lodash';
  */
 export default class Strategy {
   /**
-   * @param {Object} strategy
+   * @param {Object} props - Attributes of the strategy.
    */
-  constructor(strategy) {
-    this.strategy = strategy;
+  constructor(props) {
+    this.props = props;
   }
 
   /**
@@ -38,7 +38,7 @@ export default class Strategy {
    * @returns {RegExp|Function}
    */
   get match() {
-    return this.strategy.match;
+    return this.props.match;
   }
 
   /**
@@ -46,6 +46,6 @@ export default class Strategy {
    * @returns {Number}
    */
   get index() {
-    return this.strategy.index || 2;
+    return this.props.index || 2;
   }
 }
