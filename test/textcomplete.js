@@ -1,4 +1,5 @@
 import Textcomplete from '../src/textcomplete';
+import {NO_RESULT, STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete';
 import {getHTMLTextAreaElement} from './test-helper';
 
 const assert = require('power-assert');
@@ -66,6 +67,41 @@ describe('Textcomplete', function () {
 
       textcomplete.trigger('d');
       assert(stub.calledThrice);
+    });
+  });
+
+  describe('#handleQueryResult', function () {
+    function sharedExample(status, dropdownMethod, unlock) {
+      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var stub = sinon.stub(textcomplete.dropdown, dropdownMethod);
+      if (unlock) {
+        var unlockStub = sinon.stub(textcomplete, 'unlock');
+      } else {
+        sinon.stub(textcomplete, 'unlock').throws();
+      }
+      textcomplete.handleQueryResult(status, []);
+      assert(stub.calledOnce);
+      if (unlock) {
+        assert(unlockStub.calledOnce);
+      }
+    }
+
+    context('when it is called with NO_RESULT', function () {
+      it('should call #dropdown.deactivate and #unlock once', function () {
+        sharedExample(NO_RESULT, 'deactivate', true);
+      });
+    });
+
+    context('when it is called with STILL_SEARCHING', function () {
+      it('should call #dropdown.render and not call #unlock once', function () {
+        sharedExample(STILL_SEARCHING, 'render', false);
+      });
+    });
+
+    context('when it is called with SEARCH_COMPLETED', function () {
+      it('should call #dropdown.render and #unlock once', function () {
+        sharedExample(SEARCH_COMPLETED, 'render', true);
+      });
     });
   });
 });

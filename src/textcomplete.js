@@ -1,4 +1,5 @@
 import Completer from './completer';
+import Dropdown from './dropdown';
 import Strategy from './strategy';
 import Textarea from './textarea';
 import {lock} from './utils';
@@ -16,6 +17,7 @@ export default class Textcomplete {
    */
   constructor(el) {
     this.completer = new Completer();
+    this.dropdown = new Dropdown();
     this.textarea = new Textarea(el, this);
 
     // Bind callback methods
@@ -71,16 +73,19 @@ export default class Textcomplete {
   /**
    * @private
    * @param {number} status
-   * @param {string[]} _data
+   * @param {object[]} data
    */
-  handleQueryResult(status, _data) {
+  handleQueryResult(status, data) {
     switch (status) {
     case NO_RESULT:
+      this.dropdown.deactivate();
       this.unlock();
       break;
     case STILL_SEARCHING:
+      this.dropdown.render(data);
       break;
     case SEARCH_COMPLETED:
+      this.dropdown.render(data);
       this.unlock();
       break;
     }
