@@ -10,15 +10,6 @@ export const SEARCH_COMPLETED = 2;
 
 const CALLBACK_METHODS = ['handleQueryResult'];
 
-/**
- * @param {string} text - Head to input cursor.
- * @this Textcomplete
- */
-var lockableTrigger = lock(function (free, text) {
-  this.free = free;
-  this.completer.execute(text, this.handleQueryResult);
-});
-
 export default class Textcomplete {
   /**
    * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
@@ -30,6 +21,11 @@ export default class Textcomplete {
     // Bind callback methods
     CALLBACK_METHODS.forEach(name => {
       this[name] = this[name].bind(this);
+    });
+
+    this.lockableTrigger = lock(function (free, text) {
+      this.free = free;
+      this.completer.execute(text, this.handleQueryResult);
     });
   }
 
@@ -51,7 +47,7 @@ export default class Textcomplete {
    * @returns {this}
    */
   trigger(text) {
-    lockableTrigger.call(this, text);
+    this.lockableTrigger(text);
     return this;
   }
 
