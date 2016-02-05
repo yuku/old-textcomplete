@@ -39,6 +39,7 @@
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {
-    "lodash": "^4.1.0"
+    "lodash": "^4.1.0",
+    "textarea-caret": "^3.0.1"
   }
 }
