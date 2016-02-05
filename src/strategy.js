@@ -7,10 +7,11 @@ import {isFunction} from 'lodash';
  */
 export default class Strategy {
   /**
-   * @param {Object} props - Attributes of the strategy.
+   * @param {object} props - Attributes of the strategy.
    */
   constructor(props) {
     this.props = props;
+    this.props.template || (this.props.template = function (value) { return value; });
   }
 
   /**
@@ -56,5 +57,12 @@ export default class Strategy {
    */
   get index() {
     return this.props.index || 2;
+  }
+
+  /**
+   * @returns {function}
+   */
+  get template() {
+    return this.props.template;
   }
 }

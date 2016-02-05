@@ -1,6 +1,5 @@
 import Completer from '../src/completer';
 import Query from '../src/query';
-import Strategy from '../src/strategy';
 import {NO_RESULT} from '../src/textcomplete';
 import {createStrategy} from './test-helper';
 
@@ -19,12 +18,11 @@ describe('Completer', function () {
 
   describe('#registerStrategy', function () {
     it('should return itself', function () {
-      var strategy = new Strategy();
-      assert.strictEqual(this.completer.registerStrategy(strategy), this.completer);
+      assert.strictEqual(this.completer.registerStrategy(createStrategy()), this.completer);
     });
 
     it('should append the given strategy to #strategies', function () {
-      var strategy = new Strategy();
+      var strategy = createStrategy();
       var prev = this.completer.strategies.length;
       this.completer.registerStrategy(strategy);
       var curr = this.completer.strategies.length;

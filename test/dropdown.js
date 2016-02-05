@@ -1,6 +1,6 @@
 import Dropdown from '../src/dropdown';
 import DropdownItem from '../src/dropdown-item';
-import SearchResult from '../src/search-result';
+import {createSearchResult} from './test-helper';
 
 const assert = require('power-assert');
 
@@ -28,14 +28,14 @@ describe('Dropdown', function () {
   describe('#render', function () {
     it('should return itself', function () {
       var dropdown = new Dropdown();
-      assert.strictEqual(dropdown.render(['lol']), dropdown);
+      assert.strictEqual(dropdown.render([createSearchResult()]), dropdown);
     });
 
     context('when it is hidden', function () {
       it('should change #shown from false to true', function () {
         var dropdown = new Dropdown();
         dropdown.shown = false;
-        dropdown.render(['lol']);
+        dropdown.render([createSearchResult()]);
         assert(dropdown.shown);
       });
     });
@@ -43,7 +43,7 @@ describe('Dropdown', function () {
     context('when search results are given', function () {
       beforeEach(function () {
         this.dropdown = new Dropdown();
-        this.searchResult = new SearchResult('hello');
+        this.searchResult = createSearchResult();
       });
 
       it('should append dropdown items with the search results', function () {
@@ -63,7 +63,7 @@ describe('Dropdown', function () {
 
     it('should empty itself', function () {
       var dropdown = new Dropdown();
-      dropdown.append([new DropdownItem(new SearchResult('hello'))]);
+      dropdown.append([new DropdownItem(createSearchResult())]);
       assert.equal(dropdown.length, 1);
       dropdown.deactivate();
       assert.equal(dropdown.length, 0);

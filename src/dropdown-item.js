@@ -17,7 +17,7 @@ export default class DropdownItem {
       var li = document.createElement('li');
       li.className = 'textcomplete-item';
       var a = document.createElement('a');
-      a.innerHTML = ''; // TODO imprement
+      a.innerHTML = this.searchResult.render();
       li.appendChild(a);
       this._el = li;
     }

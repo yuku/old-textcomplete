@@ -1,4 +1,5 @@
 import Strategy from '../src/strategy';
+import SearchResult from '../src/search-result';
 import {extend} from 'lodash';
 
 /**
@@ -9,7 +10,7 @@ export function getHTMLTextAreaElement() {
 }
 
 /**
- * @param {object} props
+ * @param {?object} props
  * @returns {Strategy}
  */
 export function createStrategy(props) {
@@ -22,4 +23,18 @@ export function createStrategy(props) {
       return `$1${value.toUpperCase()} `;
     },
   }, props));
+}
+
+/**
+ * @param {?object} data
+ * @param {?string} term
+ * @param {?object} strategyProps
+ * @returns {Strategy}
+ */
+export function createSearchResult(data, term, strategyProps) {
+  return new SearchResult(
+    data || 'hello',
+    term || 'he',
+    createStrategy(strategyProps)
+  );
 }

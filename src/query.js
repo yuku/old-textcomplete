@@ -23,7 +23,7 @@ export default class Query {
     this.strategy.search(this.term, (results, stillSearching) => {
       callback(
         stillSearching ? STILL_SEARCHING : SEARCH_COMPLETED,
-        results.map((result) => { return new SearchResult(result, this.strategy); })
+        results.map((result) => { return new SearchResult(result, this.term, this.strategy); })
       );
     }, this.match);
   }
