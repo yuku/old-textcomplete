@@ -1,3 +1,5 @@
+import {uniqueId} from 'lodash';
+
 /**
  * Encapsulate an item of dropdown.
  */
@@ -7,6 +9,7 @@ export default class DropdownItem {
    */
   constructor(searchResult) {
     this.searchResult = searchResult;
+    this.id = uniqueId('dropdown-item-');
   }
 
   /**
@@ -16,6 +19,7 @@ export default class DropdownItem {
     if (!this._el) {
       var li = document.createElement('li');
       li.className = 'textcomplete-item';
+      li.id = this.id;
       var a = document.createElement('a');
       a.innerHTML = this.searchResult.render();
       li.appendChild(a);
