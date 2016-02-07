@@ -53,6 +53,16 @@ describe('Dropdown', function () {
         assert.equal(this.dropdown.items[0].searchResult, this.searchResult);
       });
     });
+
+    context('when it is completed', function () {
+      it('should call #clear', function () {
+        var dropdown = new Dropdown();
+        dropdown.completed();
+        var stub = this.sinon.stub(dropdown, 'clear');
+        dropdown.render([], { top: 0, left: 0 });
+        assert(stub.calledOnce);
+      });
+    });
   });
 
   describe('#deactivate', function () {

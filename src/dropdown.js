@@ -51,10 +51,25 @@ export default class Dropdown {
    * @returns {this}
    */
   render(searchResults, cursorPosition) {
+    if (this._completed) {
+      this._completed = false;
+      this.clear();
+    }
     this.append(searchResults.map((searchResult) => {
       return new DropdownItem(searchResult);
     }));
     return this.items.length > 0 ? this.setPosition(cursorPosition).show() : this.hide();
+  }
+
+  /**
+   * Mark itself as completed. `#clear` is going to be called before
+   * rendering a completed dropdown.
+   *
+   * @returns {this}
+   */
+  completed() {
+    this._completed = true;
+    return this;
   }
 
   /**

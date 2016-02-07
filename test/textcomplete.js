@@ -68,16 +68,20 @@ describe('Textcomplete', function () {
   });
 
   describe('#handleQueryResult', function () {
-    function sharedExample(status, dropdownMethod, unlock) {
+    function sharedExample(status, dropdownMethods, unlock) {
       var textcomplete = new Textcomplete(getHTMLTextAreaElement());
-      var stub = this.sinon.stub(textcomplete.dropdown, dropdownMethod);
+      var stubs = dropdownMethods.map((dropdownMethod) => {
+        return this.sinon.stub(textcomplete.dropdown, dropdownMethod, function () {
+          return this; // Dropdown methods return itself for method chaining.
+        });
+      });
       if (unlock) {
         var unlockStub = this.sinon.stub(textcomplete, 'unlock');
       } else {
         this.sinon.stub(textcomplete, 'unlock').throws();
       }
       textcomplete.handleQueryResult(status, []);
-      assert(stub.calledOnce);
+      stubs.forEach((stub) => { assert(stub.calledOnce); });
       if (unlock) {
         assert(unlockStub.calledOnce);
       }
@@ -85,19 +89,19 @@ describe('Textcomplete', function () {
 
     context('when it is called with NO_RESULT', function () {
       it('should call #dropdown.deactivate and #unlock once', function () {
-        sharedExample.call(this, NO_RESULT, 'deactivate', true);
+        sharedExample.call(this, NO_RESULT, ['deactivate'], true);
       });
     });
 
     context('when it is called with STILL_SEARCHING', function () {
       it('should call #dropdown.render and not call #unlock once', function () {
-        sharedExample.call(this, STILL_SEARCHING, 'render', false);
+        sharedExample.call(this, STILL_SEARCHING, ['render'], false);
       });
     });
 
     context('when it is called with SEARCH_COMPLETED', function () {
-      it('should call #dropdown.render and #unlock once', function () {
-        sharedExample.call(this, SEARCH_COMPLETED, 'render', true);
+      it('should call #dropdown.render, #dropdown.completed and #unlock once', function () {
+        sharedExample.call(this, SEARCH_COMPLETED, ['render', 'completed'], true);
       });
     });
   });
