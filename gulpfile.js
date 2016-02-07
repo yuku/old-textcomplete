@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+var connect = require('gulp-connect');
 var path = require('path');
 
 require('babel-register');
@@ -8,6 +9,11 @@ var paths = {
   src: {
     js: './src/*.js',
     entry: 'index.js',
+  },
+  doc: {
+    main: './textcomplete/',
+    css: './textcomplete/src/*.css',
+    jade: './textcomplete/src/*.jade',
   },
   test: {
     js: './test/*.js',
@@ -40,11 +46,36 @@ gulp.task('build', ['lint'], function () {
     .pipe(sourcemaps.init())
     .pipe(uglify())
     .pipe(sourcemaps.write('./maps'))
-    .pipe(gulp.dest(paths.dist));
+    .pipe(gulp.dest(paths.dist))
+    .pipe(gulp.dest(paths.doc.main))
+    .pipe(connect.reload());
 });
 
-gulp.task('watch', ['build'], function () {
+gulp.task('build:doc:html', function () {
+  var jade = require('gulp-jade');
+  return gulp.src(paths.doc.jade)
+    .pipe(jade())
+    .pipe(gulp.dest(paths.doc.main))
+    .pipe(connect.reload());
+});
+
+gulp.task('build:doc:css', function () {
+  var autoprefixer = require('autoprefixer');
+  var postcss = require('gulp-postcss');
+  var precss = require('precss');
+  var sourcemaps = require('gulp-sourcemaps');
+  return gulp.src(paths.doc.css)
+    .pipe(sourcemaps.init())
+    .pipe(postcss([autoprefixer, precss]))
+    .pipe(sourcemaps.write('./maps'))
+    .pipe(gulp.dest(paths.doc.main))
+    .pipe(connect.reload());
+});
+
+gulp.task('watch', ['build', 'build:doc:html', 'build:doc:css'], function () {
   gulp.watch(paths.src.js, ['build']);
+  gulp.watch(paths.doc.jade, ['build:doc:html']);
+  gulp.watch(paths.doc.css, ['build:doc:css']);
 });
 
 gulp.task('istanbul', function () {
@@ -71,5 +102,9 @@ gulp.task('test', ['power-assert', 'istanbul'], function () {
     .pipe(mocha())
     .pipe(istanbul.writeReports());
 });
+
+gulp.task('server', function () {
+  return connect.server({ root: './', livereload: true, });
+});
  
-gulp.task('default', ['watch']);
+gulp.task('default', ['server', 'watch']);
