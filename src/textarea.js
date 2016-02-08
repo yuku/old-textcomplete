@@ -24,10 +24,11 @@ export default class Textarea {
    */
   get cursorOffset() {
     var elOffset = this.getElOffset();
+    var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
     return {
-      top: elOffset.top + cursorPosition.top + this.getElLineHeight(),
-      left: elOffset.left + cursorPosition.left,
+      top: elOffset.top - elScroll.top + cursorPosition.top + this.getElLineHeight(),
+      left: elOffset.left - elScroll.left + cursorPosition.left,
     };
   }
 
@@ -54,6 +55,14 @@ export default class Textarea {
       top: rect.top - documentElement.clientTop,
       left: rect.left - documentElement.clientLeft,
     };
+  }
+
+  /**
+   * @private
+   * @returns {{top: number, left: number}}
+   */
+  getElScroll() {
+    return { top: this.el.scrollTop, left: this.el.scrollLeft };
   }
 
   /**
