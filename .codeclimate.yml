@@ -14,4 +14,5 @@ ratings:
   - "**.js"
 exclude_paths:
 - dist
+- textcomplete
 - gulpfile.js
