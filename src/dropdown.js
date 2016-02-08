@@ -47,10 +47,10 @@ export default class Dropdown {
    * Render the given data as dropdown items.
    *
    * @param {SearchResult[]} searchResults
-   * @param {{top: number, left: number}} cursorPosition
+   * @param {{top: number, left: number}} cursorOffset
    * @returns {this}
    */
-  render(searchResults, cursorPosition) {
+  render(searchResults, cursorOffset) {
     if (this._completed) {
       this._completed = false;
       this.clear();
@@ -58,7 +58,7 @@ export default class Dropdown {
     this.append(searchResults.map((searchResult) => {
       return new DropdownItem(searchResult);
     }));
-    return this.items.length > 0 ? this.setPosition(cursorPosition).show() : this.hide();
+    return this.items.length > 0 ? this.setOffset(cursorOffset).show() : this.hide();
   }
 
   /**
@@ -100,11 +100,12 @@ export default class Dropdown {
 
   /**
    * @private
-   * @param {{top: number, left: number}} _cursorPosition
+   * @param {{top: number, left: number}} cursorOffset
    * @returns {this}
    */
-  setPosition(_cursorPosition) {
-    // TODO imprement
+  setOffset(cursorOffset) {
+    this.el.style.top = `${cursorOffset.top}px`;
+    this.el.style.left = `${cursorOffset.left}px`;
     return this;
   }
 

@@ -82,10 +82,10 @@ export default class Textcomplete {
       this.unlock();
       break;
     case STILL_SEARCHING:
-      this.dropdown.render(searchResults, this.textarea.cursorPosition);
+      this.dropdown.render(searchResults, this.textarea.cursorOffset);
       break;
     case SEARCH_COMPLETED:
-      this.dropdown.render(searchResults, this.textarea.cursorPosition).completed();
+      this.dropdown.render(searchResults, this.textarea.cursorOffset).completed();
       this.unlock();
       break;
     }

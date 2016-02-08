@@ -28,14 +28,14 @@ describe('Dropdown', function () {
   describe('#render', function () {
     it('should return itself', function () {
       var dropdown = new Dropdown();
-      assert.strictEqual(dropdown.render([createSearchResult()]), dropdown);
+      assert.strictEqual(dropdown.render([createSearchResult()], { top: 0, left: 0 }), dropdown);
     });
 
     context('when it is hidden', function () {
       it('should change #shown from false to true', function () {
         var dropdown = new Dropdown();
         dropdown.shown = false;
-        dropdown.render([createSearchResult()]);
+        dropdown.render([createSearchResult()], { top: 0, left: 0 });
         assert(dropdown.shown);
       });
     });
@@ -47,7 +47,7 @@ describe('Dropdown', function () {
       });
 
       it('should append dropdown items with the search results', function () {
-        this.dropdown.render([this.searchResult]);
+        this.dropdown.render([this.searchResult], { top: 0, left: 0 });
         assert.equal(this.dropdown.items.length, 1);
         assert(this.dropdown.items[0] instanceof DropdownItem);
         assert.equal(this.dropdown.items[0].searchResult, this.searchResult);
