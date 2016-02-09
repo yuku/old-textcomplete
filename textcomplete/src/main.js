@@ -1,5 +1,5 @@
 (function () {
-  var textarea = document.getElementById('textarea1');
+  var textarea = new Textcomplete.editors.Textarea(document.getElementById('textarea1'));
   var textcomplete = new Textcomplete(textarea);
   textcomplete.register([
     {

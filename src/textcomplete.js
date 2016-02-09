@@ -1,7 +1,6 @@
 import Completer from './completer';
 import Dropdown from './dropdown';
 import Strategy from './strategy';
-import Textarea from './textarea';
 import {lock} from './utils';
 import {isFunction} from 'lodash';
 
@@ -13,12 +12,12 @@ const CALLBACK_METHODS = ['handleQueryResult'];
 
 export default class Textcomplete {
   /**
-   * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
+   * @param {Editor} editor - Where the textcomplete works on.
    */
-  constructor(el) {
+  constructor(editor) {
     this.completer = new Completer();
     this.dropdown = new Dropdown();
-    this.textarea = new Textarea(el, this);
+    this.editor = editor.registerTextcomplete(this);
 
     // Bind callback methods
     CALLBACK_METHODS.forEach(name => {
@@ -82,10 +81,10 @@ export default class Textcomplete {
       this.unlock();
       break;
     case STILL_SEARCHING:
-      this.dropdown.render(searchResults, this.textarea.cursorOffset);
+      this.dropdown.render(searchResults, this.editor.cursorOffset);
       break;
     case SEARCH_COMPLETED:
-      this.dropdown.render(searchResults, this.textarea.cursorOffset).completed();
+      this.dropdown.render(searchResults, this.editor.cursorOffset).completed();
       this.unlock();
       break;
     }

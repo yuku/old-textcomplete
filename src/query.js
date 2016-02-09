@@ -2,7 +2,7 @@ import SearchResult from './search-result';
 import {STILL_SEARCHING, SEARCH_COMPLETED} from './textcomplete';
 
 /**
- * Encapsulate matching condition between a Strategy and current textarea's value.
+ * Encapsulate matching condition between a Strategy and current editor's value.
  */
 export default class Query {
   /**

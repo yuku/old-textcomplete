@@ -1,13 +1,13 @@
 import Textcomplete from '../src/textcomplete';
 import {NO_RESULT, STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete';
-import {getHTMLTextAreaElement} from './test-helper';
+import {createTextarea} from './test-helper';
 
 const assert = require('power-assert');
 
 describe('Textcomplete', function () {
   describe('#register', function () {
     it('should return itself', function () {
-      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var textcomplete = new Textcomplete(createTextarea());
       assert.strictEqual(textcomplete.register([{}]), textcomplete);
     });
 
@@ -18,15 +18,16 @@ describe('Textcomplete', function () {
 
   describe('#trigger', function () {
     it('should return itself', function () {
-      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var textcomplete = new Textcomplete(createTextarea());
       assert.strictEqual(textcomplete.trigger(''), textcomplete);
     });
 
     it('should be callbacked if keyup event occurs on the textarea', function () {
-      var el = getHTMLTextAreaElement();
+      var textarea = createTextarea();
+      var el = textarea.el;
       el.value = 'abcdefg';
 
-      var textcomplete = new Textcomplete(el);
+      var textcomplete = new Textcomplete(textarea);
       var stub = this.sinon.stub(textcomplete, 'trigger');
 
       var e = document.createEvent('KeyboardEvent');
@@ -46,7 +47,7 @@ describe('Textcomplete', function () {
     });
 
     it('should call #completer.execute exclusvely', function () {
-      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var textcomplete = new Textcomplete(createTextarea());
       var stub = this.sinon.stub(textcomplete.completer, 'execute');
 
       textcomplete.trigger('a');
@@ -69,7 +70,7 @@ describe('Textcomplete', function () {
 
   describe('#handleQueryResult', function () {
     function sharedExample(status, dropdownMethods, unlock) {
-      var textcomplete = new Textcomplete(getHTMLTextAreaElement());
+      var textcomplete = new Textcomplete(createTextarea());
       var stubs = dropdownMethods.map((dropdownMethod) => {
         return this.sinon.stub(textcomplete.dropdown, dropdownMethod, function () {
           return this; // Dropdown methods return itself for method chaining.

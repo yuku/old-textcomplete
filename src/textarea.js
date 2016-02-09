@@ -1,27 +1,29 @@
+import Editor from './editor';
+
 const getCaretCoordinates = require('textarea-caret');
+
+const CALLBACK_METHODS = ['onKeyup'];
 
 /**
  * Encapsulate the target textarea element.
  */
-export default class Textarea {
+export default class Textarea extends Editor {
   /**
    * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
-   * @param {Textcomplete} textcomplete
    */
-  constructor(el, textcomplete) {
+  constructor(el) {
+    super();
     this.el = el;
-    this.textcomplete = textcomplete;
-    this.el.addEventListener('keyup', () => {
-      this.textcomplete.trigger(this.text);
+
+    // Bind callback methods
+    CALLBACK_METHODS.forEach(name => {
+      this[name] = this[name].bind(this);
     });
+
+    this.el.addEventListener('keyup', this.onKeyup);
   }
 
-  /**
-   * The input cursor's absolute coordinates from the window's left
-   * top corner.
-   *
-   * @returns {{top: number, left: number}}
-   */
+  /** @inheritdoc */
   get cursorOffset() {
     var elOffset = this.getElOffset();
     var elScroll = this.getElScroll();
@@ -86,5 +88,12 @@ export default class Textarea {
     var computed = document.defaultView.getComputedStyle(this.el);
     var lineHeight = parseInt(computed.lineHeight, 10);
     return isNaN(lineHeight) ? parseInt(computed.fontSize, 10) : lineHeight;
+  }
+
+  /**
+   * @param {KeyboardEvent} _e
+   */
+  onKeyup(_e) {
+    this.textcomplete.trigger(this.text);
   }
 }
