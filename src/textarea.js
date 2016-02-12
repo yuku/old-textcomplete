@@ -91,9 +91,30 @@ export default class Textarea extends Editor {
   }
 
   /**
-   * @param {KeyboardEvent} _e
+   * @private
+   * @param {KeyboardEvent} e
    */
-  onKeyup(_e) {
-    this.textcomplete.trigger(this.text);
+  onKeyup(e) {
+    this.textcomplete.trigger(this.skipTrigger(e) ? null : this.text);
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} e
+   * @returns {boolean}
+   */
+  skipTrigger(e) {
+    switch (e.keyCode) {
+    case 37: // left
+    case 38: // up
+    case 39: // right
+    case 40: // down
+      return true;
+    case 78: // n
+    case 80: // p
+      return e.ctrlKey;
+    default:
+      return false;
+    }
   }
 }

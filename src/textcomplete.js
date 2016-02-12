@@ -46,11 +46,15 @@ export default class Textcomplete {
    * Start autocompleting.
    *
    * @public
-   * @param {string} text - Head to input cursor.
+   * @param {?string} text - Head to input cursor.
    * @returns {this}
    */
   trigger(text) {
-    this.lockableTrigger(text);
+    if (text != null) {
+      this.lockableTrigger(text);
+    } else {
+      this.dropdown.deactivate();
+    }
     return this;
   }
 

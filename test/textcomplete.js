@@ -22,30 +22,6 @@ describe('Textcomplete', function () {
       assert.strictEqual(textcomplete.trigger(''), textcomplete);
     });
 
-    it('should be callbacked if keyup event occurs on the textarea', function () {
-      var textarea = createTextarea();
-      var el = textarea.el;
-      el.value = 'abcdefg';
-
-      var textcomplete = new Textcomplete(textarea);
-      var stub = this.sinon.stub(textcomplete, 'trigger');
-
-      var e = document.createEvent('KeyboardEvent');
-      e.initEvent('keyup', true, true);
-      el.dispatchEvent(e);
-
-      assert(stub.calledOnce);
-      assert(stub.calledWith(''));
-
-      stub.reset(); // Resets the state of spy.
-
-      el.selectionStart = el.selectionEnd = 3; // Move input cursor.
-      el.dispatchEvent(e);
-
-      assert(stub.calledOnce);
-      assert(stub.calledWith('abc'));
-    });
-
     it('should call #completer.execute exclusvely', function () {
       var textcomplete = new Textcomplete(createTextarea());
       var stub = this.sinon.stub(textcomplete.completer, 'execute');
@@ -65,6 +41,65 @@ describe('Textcomplete', function () {
 
       textcomplete.trigger('d');
       assert(stub.calledThrice);
+    });
+
+    it('should deactivate #dropdown if it is called with null', function () {
+      var textcomplete = new Textcomplete(createTextarea());
+      var stub = this.sinon.stub(textcomplete.dropdown, 'deactivate');
+      textcomplete.trigger(null);
+      assert(stub.calledOnce);
+    });
+
+    context('when a keyup event occurs on the textarea', function () {
+      beforeEach(function () {
+        var textarea = createTextarea();
+        this.el = textarea.el;
+        this.textcomplete = new Textcomplete(textarea);
+        this.e = document.createEvent('UIEvents');
+        this.e.initEvent('keyup', true, true);
+      });
+
+      it('should be callbacked with a string', function () {
+        this.el.value = 'abcdefg';
+        var stub = this.sinon.stub(this.textcomplete, 'trigger');
+        this.el.dispatchEvent(this.e);
+
+        assert(stub.calledOnce);
+        assert(stub.calledWith(''));
+
+        stub.reset(); // Resets the state of spy.
+
+        this.el.selectionStart = this.el.selectionEnd = 3; // Move input cursor.
+        this.el.dispatchEvent(this.e);
+
+        assert(stub.calledOnce);
+        assert(stub.calledWith('abc'));
+      });
+
+      context('and move keys are pushed', function () {
+        it('should be called with null', function () {
+          var stub = this.sinon.stub(this.textcomplete, 'trigger');
+          function calledOnceWithNull() {
+            this.el.dispatchEvent(this.e);
+            assert(stub.calledOnce);
+            assert(stub.calledWith(null));
+            stub.reset();
+          }
+
+          // left, up, right, down
+          [37, 38, 39, 40].forEach((keyCode) => {
+            this.e.keyCode = keyCode;
+            calledOnceWithNull.call(this);
+          });
+
+          // ctrl-n, ctrl-p
+          [78, 80].forEach((keyCode) => {
+            this.e.keyCode = keyCode;
+            this.e.ctrlKey = true;
+            calledOnceWithNull.call(this);
+          });
+        });
+      });
     });
   });
 
