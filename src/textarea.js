@@ -23,7 +23,10 @@ export default class Textarea extends Editor {
     this.el.addEventListener('keyup', this.onKeyup);
   }
 
-  /** @inheritdoc */
+  /**
+   * @override
+   * @returns {{top: number, left: number}}
+   */
   get cursorOffset() {
     var elOffset = this.getElOffset();
     var elScroll = this.getElScroll();
