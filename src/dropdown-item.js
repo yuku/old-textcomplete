@@ -28,6 +28,10 @@ export default class DropdownItem {
     return this._el;
   }
 
+  /**
+   * Try to free resources and perform other cleanup operations.
+   * @public
+   */
   finalize() {
     // This element has already been removed by `Dropdown#clear`.
     this._el = null;
