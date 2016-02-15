@@ -42,3 +42,5 @@
     strict: [2, "global"]
     valid-jsdoc: [1, { requireParamDescription: false, requireReturn: false, requireReturnDescription: false, prefer: { return: "returns" }}]
     wrap-iife: [2, "inside"]
+
+# vim: filetype=yaml
