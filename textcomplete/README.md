@@ -1,1 +1,1 @@
-These files are hosted as gh-pages under [http://yuku-t.com/textcomplete/](http://yuku-t.com/textcomplete/). This directory is named as "textcomplete" in order to emulate the path in the development server.
+This directory contains files for gh-pages, which are hosted under [http://yuku-t.com/textcomplete/](http://yuku-t.com/textcomplete/). It is named as "textcomplete" in order to emulate the path in the development server.
