@@ -88,4 +88,15 @@ describe('Dropdown', function () {
       });
     });
   });
+
+  describe('#append', function () {
+    it('should call #appended of the appended dropdown item', function () {
+      var dropdown = new Dropdown();
+      var dropdownItem = new DropdownItem(createSearchResult());
+      var stub = this.sinon.stub(dropdownItem, 'appended');
+      dropdown.append([dropdownItem]);
+      assert(stub.calledOnce);
+      assert(stub.calledWith(dropdown));
+    });
+  });
 });

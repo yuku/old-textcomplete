@@ -5,7 +5,7 @@
     {
       match: /(^|\s)(\w+)$/,
       search: function (term, callback) {
-        callback([term.toUpperCase()]);
+        callback([term.toUpperCase(), term.toLowerCase()]);
       },
       replace: function (value) {
         return '$1' + value;

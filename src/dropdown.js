@@ -3,6 +3,9 @@ import {extend, uniqueId} from 'lodash';
 
 /**
  * Encapsulate a dropdown view.
+ *
+ * @prop {boolean} shown - Whether the #el is shown or not.
+ * @prop {DropdownItem[]} items - The array of rendered dropdown items.
  */
 export default class Dropdown {
   /**
@@ -25,6 +28,7 @@ export default class Dropdown {
   constructor() {
     this.shown = false;
     this.items = [];
+    this._completed = true;
   }
 
   /**
@@ -91,8 +95,9 @@ export default class Dropdown {
   append(items) {
     var fragment = document.createDocumentFragment();
     items.forEach((item) => {
-      fragment.appendChild(item.el);
       this.items.push(item);
+      item.appended(this);
+      fragment.appendChild(item.el);
     });
     this.el.appendChild(fragment);
     return this;
