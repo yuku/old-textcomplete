@@ -2,6 +2,8 @@
 engines:
   duplication:
     enabled: true
+    exclude_paths:
+    - test
     config:
       languages:
       - javascript
@@ -14,5 +16,5 @@ ratings:
   - "**.js"
 exclude_paths:
 - dist
-- textcomplete
 - gulpfile.js
+- textcomplete
