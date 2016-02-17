@@ -4,9 +4,15 @@ import Strategy from './strategy';
 import {lock} from './utils';
 import {isFunction} from 'lodash';
 
+// Query results consts
 export const NO_RESULT = 0;
 export const STILL_SEARCHING = 1;
 export const SEARCH_COMPLETED = 2;
+
+// Keydown consts
+export const ENTER = 'enter';
+export const UP = 'up';
+export const DOWN = 'down';
 
 const CALLBACK_METHODS = ['handleQueryResult'];
 
@@ -90,5 +96,33 @@ export default class Textcomplete {
       this.unlock();
       break;
     }
+  }
+
+  /**
+   * @param {ENTER|UP|DOWN} code
+   * @param {funcion} callback
+   */
+  handleMoveKeydown(code, callback) {
+    switch (code) {
+    case ENTER:
+      this.dropdown.select((dropdownItem) => {
+        this.handleSelect(dropdownItem);
+        callback(dropdownItem);
+      });
+      break;
+    case UP:
+      this.dropdown.up(callback);
+      break;
+    case DOWN:
+      this.dropdown.down(callback);
+      break;
+    }
+  }
+
+  /**
+   * @param {DropdownItem} dropdownItem
+   */
+  handleSelect(dropdownItem) {
+    this.editor.applySearchResult(dropdownItem.searchResult);
   }
 }

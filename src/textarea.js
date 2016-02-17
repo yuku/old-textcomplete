@@ -1,8 +1,10 @@
 import Editor from './editor';
 
+import {ENTER, UP, DOWN} from './textcomplete';
+
 const getCaretCoordinates = require('textarea-caret');
 
-const CALLBACK_METHODS = ['onKeyup'];
+const CALLBACK_METHODS = ['onKeydown', 'onKeyup'];
 
 /**
  * Encapsulate the target textarea element.
@@ -20,6 +22,7 @@ export default class Textarea extends Editor {
       this[name] = this[name].bind(this);
     });
 
+    this.el.addEventListener('keydown', this.onKeydown);
     this.el.addEventListener('keyup', this.onKeyup);
   }
 
@@ -117,6 +120,24 @@ export default class Textarea extends Editor {
    * @private
    * @param {KeyboardEvent} e
    */
+  onKeydown(e) {
+    var code = e.keyCode === 13 ? ENTER
+             : e.keyCode === 38 ? UP
+             : e.keyCode === 40 ? DOWN
+             : e.keyCode === 78 && e.ctrlKey ? DOWN
+             : e.keyCode === 80 && e.ctrlKey ? UP
+             : null;
+    if (code) {
+      this.textcomplete.handleMoveKeydown(code, function () {
+        e.preventDefault();
+      });
+    }
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} e
+   */
   onKeyup(e) {
     this.textcomplete.trigger(this.skipTrigger(e) ? null : this.beforeCursor);
   }
@@ -128,6 +149,7 @@ export default class Textarea extends Editor {
    */
   skipTrigger(e) {
     switch (e.keyCode) {
+    case 13: // enter
     case 38: // up
     case 40: // down
       return true;

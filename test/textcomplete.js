@@ -1,6 +1,8 @@
 import Textcomplete from '../src/textcomplete';
+import DropdownItem from '../src/dropdown-item';
 import {NO_RESULT, STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete';
-import {createTextarea} from './test-helper';
+import {ENTER, UP, DOWN} from '../src/textcomplete';
+import {createTextarea, createSearchResult} from './test-helper';
 
 const assert = require('power-assert');
 
@@ -132,6 +134,97 @@ describe('Textcomplete', function () {
       it('should call #dropdown.render, #dropdown.completed and #unlock once', function () {
         sharedExample.call(this, SEARCH_COMPLETED, ['render', 'completed'], true);
       });
+    });
+  });
+
+  describe('#handleMoveKeydown', function () {
+    var event, textarea, textcomplete;
+
+    beforeEach(function () {
+      event = document.createEvent('UIEvents');
+      event.initEvent('keydown', true, true);
+      textarea = createTextarea();
+      textcomplete = new Textcomplete(textarea);
+    });
+
+    function sharedExamples(keyCode, code, ctrlKey) {
+      it(`should be called with ${code}`, function () {
+        var stub = this.sinon.stub(textcomplete, 'handleMoveKeydown');
+        event.keyCode = keyCode;
+        event.ctrlKey = ctrlKey;
+        textarea.el.dispatchEvent(event);
+        assert(stub.calledOnce);
+        assert(stub.calledWith(code, this.sinon.match.func));
+      });
+    }
+
+    context('when enter key is pushed', function () {
+      sharedExamples.call(this, 13, ENTER, false);
+    });
+
+    context('when up key is pushed', function () {
+      sharedExamples.call(this, 38, UP, false);
+    });
+
+    context('when down key is pushed', function () {
+      sharedExamples.call(this, 40, DOWN, false);
+    });
+
+    context('when ctrl-n is pushed', function () {
+      sharedExamples.call(this, 78, DOWN, true);
+    });
+
+    context('when ctrl-p is pushed', function () {
+      sharedExamples.call(this, 80, UP, true);
+    });
+
+    context('when normal key is pushed', function () {
+      it('should not be called', function () {
+        var stub = this.sinon.stub(textcomplete, 'handleMoveKeydown');
+        event.keyCode = 80;
+        textarea.el.dispatchEvent(event);
+        assert(!stub.called);
+      });
+    });
+
+    context('when it is called with ENTER', function () {
+      it('should call dropdown.select', function () {
+        var stub = this.sinon.stub(textcomplete.dropdown, 'select');
+        textcomplete.handleMoveKeydown(ENTER, function () {});
+        assert(stub.calledOnce);
+        assert(stub.calledWith(this.sinon.match.func));
+      });
+    });
+
+    context('when it is called with UP', function () {
+      it('should call dropdown.select', function () {
+        var stub = this.sinon.stub(textcomplete.dropdown, 'up');
+        textcomplete.handleMoveKeydown(UP, function () {});
+        assert(stub.calledOnce);
+        assert(stub.calledWith(this.sinon.match.func));
+      });
+    });
+
+    context('when it is called with DOWN', function () {
+      it('should call dropdown.select', function () {
+        var stub = this.sinon.stub(textcomplete.dropdown, 'down');
+        textcomplete.handleMoveKeydown(DOWN, function () {});
+        assert(stub.calledOnce);
+        assert(stub.calledWith(this.sinon.match.func));
+      });
+    });
+  });
+
+  describe('#handleSelect', function () {
+    it('should call editor.applySearchResult', function () {
+      var textarea = createTextarea();
+      var textcomplete = new Textcomplete(textarea);
+      var searchResult = createSearchResult();
+      var dropdownItem = new DropdownItem(searchResult);
+      var stub = this.sinon.stub(textcomplete.editor, 'applySearchResult');
+      textcomplete.handleSelect(dropdownItem);
+      assert(stub.calledOnce);
+      assert(stub.calledWith(searchResult));
     });
   });
 });

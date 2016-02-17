@@ -1,6 +1,6 @@
 (function () {
   var textarea = new Textcomplete.editors.Textarea(document.getElementById('textarea1'));
-  var textcomplete = new Textcomplete(textarea);
+  window.textcomplete = new Textcomplete(textarea);
   textcomplete.register([
     {
       match: /(^|\s)(\w+)$/,
