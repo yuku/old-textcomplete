@@ -99,4 +99,166 @@ describe('Dropdown', function () {
       assert(stub.calledWith(dropdown));
     });
   });
+
+  describe('#select', function () {
+    var dropdown;
+
+    beforeEach(function () {
+      dropdown = new Dropdown();
+    });
+
+    context('when it is shown', function () {
+      beforeEach(function () {
+        dropdown.show();
+      });
+
+      context('and it contains DropdownItems', function () {
+        beforeEach(function () {
+          dropdown.render([createSearchResult()], { top: 0, left: 0 });
+        });
+
+        it('should callback with the active DropdownItem', function () {
+          var spy = this.sinon.spy();
+          var activeItem = dropdown.getActiveItem();
+          dropdown.select(spy);
+          assert(spy.calledOnce);
+          assert(activeItem);
+        });
+
+        it('should be deactivated', function () {
+          var stub = this.sinon.stub(dropdown, 'deactivate');
+          dropdown.select(function () {});
+          assert(stub.calledOnce);
+        });
+      });
+
+      context('and it does not contain a DropdownItem', function () {
+        it('should not callback', function () {
+          var spy = this.sinon.spy();
+          dropdown.select(spy);
+          assert(!spy.called);
+        });
+      });
+    });
+
+    context('when it is not shown', function () {
+      beforeEach(function () {
+        dropdown.hide();
+      });
+
+      it('should not callback', function () {
+        var spy = this.sinon.spy();
+        dropdown.select(spy);
+        assert(!spy.called);
+      });
+    });
+  });
+
+  describe('#up', function () {
+    var dropdown;
+
+    beforeEach(function () {
+      dropdown = new Dropdown();
+    });
+
+    context('when it is shown', function () {
+      beforeEach(function () {
+        dropdown.show();
+      });
+
+      context('and it contains DropdownItems', function () {
+        it('should activate the previous DropdownItem and callback it', function () {
+          dropdown.render([
+            createSearchResult(),
+            createSearchResult(),
+            createSearchResult(),
+          ], { top: 0, left: 0 });
+          assert(dropdown.items[0].active);
+          assert(!dropdown.items[1].active);
+          assert(!dropdown.items[2].active);
+          var spy = this.sinon.spy();
+          dropdown.up(spy);
+          assert(!dropdown.items[0].active);
+          assert(!dropdown.items[1].active);
+          assert(dropdown.items[2].active);
+          assert(spy.calledOnce);
+          assert(spy.calledWith(dropdown.items[2]));
+        });
+      });
+
+      context('and it does not contain a DropdownItem', function () {
+        it('should not callback', function () {
+          var spy = this.sinon.spy();
+          dropdown.up(spy);
+          assert(!spy.called);
+        });
+      });
+    });
+
+    context('when it is not shown', function () {
+      beforeEach(function () {
+        dropdown.hide();
+      });
+
+      it('should not callback', function () {
+        var spy = this.sinon.spy();
+        dropdown.up(spy);
+        assert(!spy.called);
+      });
+    });
+  });
+
+  describe('#down', function () {
+    var dropdown;
+
+    beforeEach(function () {
+      dropdown = new Dropdown();
+    });
+
+    context('when it is shown', function () {
+      beforeEach(function () {
+        dropdown.show();
+      });
+
+      context('and it contains DropdownItems', function () {
+        it('should activate the next DropdownItem', function () {
+          dropdown.render([
+            createSearchResult(),
+            createSearchResult(),
+            createSearchResult(),
+          ], { top: 0, left: 0 });
+          assert(dropdown.items[0].active);
+          assert(!dropdown.items[1].active);
+          assert(!dropdown.items[2].active);
+          var spy = this.sinon.spy();
+          dropdown.down(spy);
+          assert(!dropdown.items[0].active);
+          assert(dropdown.items[1].active);
+          assert(!dropdown.items[2].active);
+          assert(spy.calledOnce);
+          assert(spy.calledWith(dropdown.items[1]));
+        });
+      });
+
+      context('and it does not contain a DropdownItem', function () {
+        it('should not callback', function () {
+          var spy = this.sinon.spy();
+          dropdown.down(spy);
+          assert(!spy.called);
+        });
+      });
+    });
+
+    context('when it is not shown', function () {
+      beforeEach(function () {
+        dropdown.hide();
+      });
+
+      it('should not callback', function () {
+        var spy = this.sinon.spy();
+        dropdown.down(spy);
+        assert(!spy.called);
+      });
+    });
+  });
 });

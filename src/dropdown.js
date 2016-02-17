@@ -86,6 +86,37 @@ export default class Dropdown {
   }
 
   /**
+   * @param {function} callback
+   * @returns {this}
+   */
+  select(callback) {
+    if (this.shown) {
+      var activeItem = this.getActiveItem();
+      if (activeItem) {
+        this.deactivate();
+        callback(activeItem);
+      }
+    }
+    return this;
+  }
+
+  /**
+   * @param {function} callback
+   * @returns {this}
+   */
+  up(callback) {
+    return this.moveActiveItem('prev', callback);
+  }
+
+  /**
+   * @param {function} callback
+   * @returns {this}
+   */
+  down(callback) {
+    return this.moveActiveItem('next', callback);
+  }
+
+  /**
    * Add items to dropdown.
    *
    * @private
@@ -152,6 +183,33 @@ export default class Dropdown {
     this.el.innerHTML = '';
     this.items.forEach((item) => { item.finalize(); });
     this.items = [];
+    return this;
+  }
+
+  /**
+   * Retrieve the active item.
+   *
+   * @private
+   * @returns {DropdownItem|undefined}
+   */
+  getActiveItem() {
+    return this.items.find((item) => { return item.active; });
+  }
+
+  /**
+   * @private
+   * @param {string} name
+   * @param {function} callback
+   * @returns {this}
+   */
+  moveActiveItem(name, callback) {
+    if (this.shown) {
+      let activeItem = this.getActiveItem();
+      if (activeItem) {
+        activeItem.deactivate();
+        callback(activeItem[name].activate());
+      }
+    }
     return this;
   }
 }

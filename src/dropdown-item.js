@@ -48,7 +48,9 @@ export default class DropdownItem {
    * @see Dropdown#append
    */
   appended(dropdown) {
-    if (dropdown.items.length === 1) {
+    this.siblings = dropdown.items;
+    this.index = this.siblings.length - 1;
+    if (this.index === 0) {
       this.activate();
     }
   }
@@ -75,5 +77,27 @@ export default class DropdownItem {
       this.el.className = INACTIVE_CLASS_NAME;
     }
     return this;
+  }
+
+  /**
+   * Get the next sibling.
+   *
+   * @public
+   * @returns {DropdownItem}
+   */
+  get next() {
+    var nextIndex = (this.index === this.siblings.length - 1 ? 0 : this.index + 1);
+    return this.siblings[nextIndex];
+  }
+
+  /**
+   * Get the previous sibling.
+   *
+   * @public
+   * @returns {DropdownItem}
+   */
+  get prev() {
+    var prevIndex = (this.index === 0 ? this.siblings.length : this.index) - 1;
+    return this.siblings[prevIndex];
   }
 }
