@@ -35,6 +35,14 @@ export default class Strategy {
   }
 
   /**
+   * @param {object} data - An element of array callbacked by search function.
+   * @returns {string[]|string|null}
+   */
+  replace(data) {
+    return this.props.replace(data);
+  }
+
+  /**
    * @private
    * @param {string} text
    * @returns {RegExp}

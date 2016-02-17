@@ -25,6 +25,18 @@ export default class Textarea extends Editor {
 
   /**
    * @override
+   * @param {SearchResult} searchResult
+   */
+  applySearchResult(searchResult) {
+    var replace = searchResult.replace(this.beforeCursor, this.afterCursor);
+    if (Array.isArray(replace)) {
+      this.el.value = replace[0] + replace[1];
+      this.el.selectionStart = this.el.selectionEnd = replace[0].length;
+    }
+  }
+
+  /**
+   * @override
    * @returns {{top: number, left: number}}
    */
   get cursorOffset() {
@@ -43,8 +55,16 @@ export default class Textarea extends Editor {
    * @private
    * @returns {string}
    */
-  get text() {
+  get beforeCursor() {
     return this.el.value.substring(0, this.el.selectionEnd);
+  }
+
+  /**
+   * @private
+   * @returns {string}
+   */
+  get afterCursor() {
+    return this.el.value.substring(this.el.selectionEnd);
   }
 
   /**
@@ -98,7 +118,7 @@ export default class Textarea extends Editor {
    * @param {KeyboardEvent} e
    */
   onKeyup(e) {
-    this.textcomplete.trigger(this.skipTrigger(e) ? null : this.text);
+    this.textcomplete.trigger(this.skipTrigger(e) ? null : this.beforeCursor);
   }
 
   /**

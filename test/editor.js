@@ -1,4 +1,5 @@
 import Editor from '../src/editor';
+import {createSearchResult} from './test-helper';
 
 const assert = require('power-assert');
 
@@ -13,6 +14,13 @@ describe('Editor', function () {
       var editor = new Editor();
       editor.registerTextcomplete({});
       assert.throws(function () { editor.registerTextcomplete({}); });
+    });
+  });
+
+  describe('#applySearchResult', function () {
+    it('should throw an error', function () {
+      var editor = new Editor();
+      assert.throws(function () { editor.applySearchResult(createSearchResult()); });
     });
   });
 

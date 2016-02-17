@@ -20,6 +20,15 @@ export default class Editor {
   }
 
   /**
+   * It is called when a search result is selected by a user.
+   *
+   * @param {SearchResult} _searchResult
+   */
+  applySearchResult(_searchResult) {
+    throw new Error('Not implemented.');
+  }
+
+  /**
    * The input cursor's absolute coordinates from the window's left
    * top corner. It is intended to be overridden by sub classes and
    * returns `{top: number, left: number}` object.
