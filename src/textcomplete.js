@@ -52,8 +52,6 @@ export default class Textcomplete {
   trigger(text) {
     if (text != null) {
       this.lockableTrigger(text);
-    } else {
-      this.dropdown.deactivate();
     }
     return this;
   }

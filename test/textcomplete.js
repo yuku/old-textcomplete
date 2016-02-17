@@ -43,13 +43,6 @@ describe('Textcomplete', function () {
       assert(stub.calledThrice);
     });
 
-    it('should deactivate #dropdown if it is called with null', function () {
-      var textcomplete = new Textcomplete(createTextarea());
-      var stub = this.sinon.stub(textcomplete.dropdown, 'deactivate');
-      textcomplete.trigger(null);
-      assert(stub.calledOnce);
-    });
-
     context('when a keyup event occurs on the textarea', function () {
       beforeEach(function () {
         var textarea = createTextarea();
