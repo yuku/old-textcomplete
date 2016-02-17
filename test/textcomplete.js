@@ -79,8 +79,8 @@ describe('Textcomplete', function () {
             stub.reset();
           }
 
-          // left, up, right, down
-          [37, 38, 39, 40].forEach((keyCode) => {
+          // up, down
+          [38, 40].forEach((keyCode) => {
             this.e.keyCode = keyCode;
             calledOnceWithNull.call(this);
           });

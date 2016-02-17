@@ -108,9 +108,7 @@ export default class Textarea extends Editor {
    */
   skipTrigger(e) {
     switch (e.keyCode) {
-    case 37: // left
     case 38: // up
-    case 39: // right
     case 40: // down
       return true;
     case 78: // n
