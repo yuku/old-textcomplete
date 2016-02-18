@@ -18,7 +18,7 @@ var files = fs.readdirSync(__dirname);
 
 for (var i = 0; i < files.length; i++) { 
   let file = files[i];
-  if (file !== 'test-runner.js') {
+  if (/-spec.js$/.test(file)) {
     require(`./${file}`);
   }
 }
