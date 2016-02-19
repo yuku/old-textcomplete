@@ -100,6 +100,28 @@ describe('Dropdown', function () {
     });
   });
 
+  describe('#select', function () {
+    var dropdown, dropdownItem;
+
+    function subject() {
+      dropdown.select(dropdownItem);
+    }
+
+    beforeEach(function () {
+      dropdown = new Dropdown();
+      dropdownItem = new DropdownItem(createSearchResult());
+      dropdown.append([dropdownItem]);
+    });
+
+    it('should emit a select event', function () {
+      var spy = this.sinon.spy();
+      dropdown.on('select', spy);
+      subject();
+      assert(spy.calledOnce);
+      assert(spy.calledWith({ searchResult: dropdownItem.searchResult }));
+    });
+  });
+
   describe('#selectActiveItem', function () {
     var dropdown, spy;
 

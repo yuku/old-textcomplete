@@ -2,6 +2,7 @@ import {uniqueId} from 'lodash';
 
 const INACTIVE_CLASS_NAME = 'textcomplete-item';
 const ACTIVE_CLASS_NAME = `${INACTIVE_CLASS_NAME} active`;
+const CALLBACK_METHODS = ['onClick'];
 
 /**
  * Encapsulate an item of dropdown.
@@ -14,6 +15,10 @@ export default class DropdownItem {
     this.searchResult = searchResult;
     this.id = uniqueId('dropdown-item-');
     this.active = false;
+
+    CALLBACK_METHODS.forEach(name => {
+      this[name] = this[name].bind(this);
+    });
   }
 
   /**
@@ -28,6 +33,7 @@ export default class DropdownItem {
       a.innerHTML = this.searchResult.render();
       li.appendChild(a);
       this._el = li;
+      li.addEventListener('click', this.onClick);
     }
     return this._el;
   }
@@ -37,6 +43,7 @@ export default class DropdownItem {
    * @public
    */
   finalize() {
+    this._el.removeEventListener('click', this.onClick, false);
     // This element has already been removed by `Dropdown#clear`.
     this._el = null;
   }
@@ -48,6 +55,7 @@ export default class DropdownItem {
    * @see Dropdown#append
    */
   appended(dropdown) {
+    this.dropdown = dropdown;
     this.siblings = dropdown.items;
     this.index = this.siblings.length - 1;
     if (this.index === 0) {
@@ -99,5 +107,13 @@ export default class DropdownItem {
   get prev() {
     var prevIndex = (this.index === 0 ? this.siblings.length : this.index) - 1;
     return this.siblings[prevIndex];
+  }
+
+  /**
+   * @private
+   * @param {MouseEvent} _e
+   */
+  onClick(_e) {
+    this.dropdown.select(this);
   }
 }

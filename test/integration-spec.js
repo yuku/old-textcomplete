@@ -4,12 +4,14 @@ import Textarea from '../src/textarea';
 const assert = require('power-assert');
 
 describe('Integration test', function () {
-  var window, textareaEl;
+  var window, textareaEl, textarea, textcomplete;
 
   beforeEach(function () {
     window = document.defaultView;
     textareaEl = document.createElement('textarea');
     document.body.appendChild(textareaEl);
+    textarea = new Textarea(textareaEl);
+    textcomplete = new Textcomplete(textarea);
   });
 
   /**
@@ -39,9 +41,19 @@ describe('Integration test', function () {
     textareaEl.dispatchEvent(keyupEvent);
   }
 
-  it('should work', function () {
-    var textarea = new Textarea(textareaEl);
-    var textcomplete = new Textcomplete(textarea);
+  function expectDropdownIsShown() {
+    var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
+    var computed = window.getComputedStyle(dropdownEl);
+    assert.equal(computed.display, 'block');
+  }
+
+  function expectDropdownIsHidden() {
+    var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
+    var computed = window.getComputedStyle(dropdownEl);
+    assert.equal(computed.display, 'none');
+  }
+
+  it('should work with keyboard', function () {
     textcomplete.register([
       {
         usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
@@ -56,18 +68,6 @@ describe('Integration test', function () {
         },
       },
     ]);
-
-    function expectDropdownIsShown() {
-      var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
-      var computed = window.getComputedStyle(dropdownEl);
-      assert.equal(computed.display, 'block');
-    }
-
-    function expectDropdownIsHidden() {
-      var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
-      var computed = window.getComputedStyle(dropdownEl);
-      assert.equal(computed.display, 'none');
-    }
 
     input(50, false, false, true, 'Hi, @'); // '@'
     expectDropdownIsHidden();
@@ -88,5 +88,35 @@ describe('Integration test', function () {
     assert.equal(textareaEl.value, 'Hi, @amanda ');
     assert.equal(textareaEl.selectionStart, 12);
     assert.equal(textareaEl.selectionEnd, 12);
+  });
+
+  it('should work with mouse', function () {
+    textcomplete.register([
+      {
+        usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
+        match: /(^|\s)@(\w+)$/,
+        search: function (term, callback) {
+          callback(this.usernames.filter((username) => {
+            return username.startsWith(term);
+          }));
+        },
+        replace: function (username) {
+          return `$1@${username} `;
+        },
+      },
+    ]);
+
+    input(50, false, false, true, 'Hi, @'); // '@'
+    expectDropdownIsHidden();
+    input(65, false, false, false, 'Hi, @a'); // 'a'
+    expectDropdownIsShown();
+    var dropdownItemEl = document.querySelector('.textcomplete-item');
+    var clickEvent = document.createEvent('MouseEvent');
+    clickEvent.initEvent('click', true, true);
+    dropdownItemEl.dispatchEvent(clickEvent);
+    expectDropdownIsHidden();
+    assert.equal(textareaEl.value, 'Hi, @alice ');
+    assert.equal(textareaEl.selectionStart, 11);
+    assert.equal(textareaEl.selectionEnd, 11);
   });
 });

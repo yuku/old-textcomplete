@@ -88,6 +88,21 @@ export default class Dropdown extends EventEmitter {
   }
 
   /**
+   * @param {DropdownItem} dropdownItem
+   * @returns {this}
+   * @fires Dropdown#select
+   */
+  select(dropdownItem) {
+    /**
+      * @event Dropdown#select
+      * @type {object}
+      * @prop {SearchResult} searchResult
+      */
+    this.emit('select', { searchResult: dropdownItem.searchResult });
+    return this.deactivate();
+  }
+
+  /**
    * @param {function} callback
    * @returns {this}
    * @fires Dropdown#select
@@ -96,12 +111,7 @@ export default class Dropdown extends EventEmitter {
     if (this.shown) {
       var activeItem = this.getActiveItem();
       if (activeItem) {
-        /**
-         * @event Dropdown#select
-         * @type {object}
-         * @prop {SearchResult} searchResult
-         */
-        this.deactivate().emit('select', { searchResult: activeItem.searchResult });
+        this.select(activeItem);
         callback(activeItem);
       }
     }
