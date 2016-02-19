@@ -1,18 +1,114 @@
+import {ENTER, UP, DOWN} from '../src/editor';
 import {createTextarea, createSearchResult} from './test-helper';
 
 const assert = require('power-assert');
 
 describe('Textarea', function () {
-  describe('#applySearchResult', function () {
-    var textarea, searchResult;
+  var textarea;
+
+  beforeEach(function () {
+    textarea = createTextarea();
+  });
+
+  context('when a keydown event occurs', function () {
+    var event;
+
+    function subject() {
+      return textarea.el.dispatchEvent(event);
+    }
 
     beforeEach(function () {
-      textarea = createTextarea();
+      event = document.createEvent('UIEvents');
+      event.initEvent('keydown', true, true);
+    });
+
+    [ENTER, DOWN, UP].forEach(function (code) {
+      context(`and it is a ${code} key`, function () {
+        beforeEach(function () {
+          this.sinon.stub(textarea, 'getCode', () => { return code; });
+        });
+
+        it('should emit a move event', function () {
+          var spy = this.sinon.spy();
+          textarea.on('move', spy);
+          subject();
+          assert(spy.calledOnce);
+          assert(spy.calledWith({ code: code, callback: this.sinon.match.func }));
+        });
+      });
+    });
+
+    context('and it is a normal key', function () {
+      beforeEach(function () {
+        this.sinon.stub(textarea, 'getCode', () => { return null; });
+      });
+
+      it('should not emit a move event', function () {
+        var spy = this.sinon.spy();
+        textarea.on('move', spy);
+        subject();
+        assert(!spy.called);
+      });
+    });
+  });
+
+  context('when a keyup event occurs', function () {
+    var event;
+
+    function subject() {
+      return textarea.el.dispatchEvent(event);
+    }
+
+    beforeEach(function () {
+      event = document.createEvent('UIEvents');
+      event.initEvent('keyup', true, true);
+    });
+
+    context('and it is a move key', function () {
+      beforeEach(function () {
+        this.sinon.stub(textarea, 'isMoveKeyEvent', () => { return true; });
+      });
+
+      it('should not emit a change event', function () {
+        var spy = this.sinon.spy();
+        textarea.on('change', spy);
+        subject();
+        assert(!spy.called);
+      });
+    });
+
+    context('and it is not a move key', function () {
+      beforeEach(function () {
+        this.sinon.stub(textarea, 'isMoveKeyEvent', () => { return false; });
+      });
+
+      it('should emit a change event', function () {
+        textarea.el.value = 'abcdefg';
+
+        var spy = this.sinon.spy();
+        textarea.on('change', spy);
+        subject();
+        assert(spy.calledOnce);
+        assert(spy.calledWith({ beforeCursor: '' }));
+
+        spy.reset();
+        textarea.el.selectionStart = textarea.el.selectionEnd = 3;
+        subject();
+        assert(spy.calledOnce);
+        assert(spy.calledWith({ beforeCursor: 'abc' }));
+      });
+    });
+  });
+
+  describe('#applySearchResult', function () {
+    var searchResult;
+
+    beforeEach(function () {
+      searchResult = createSearchResult();
     });
 
     context('when SearchResult#replace returns null', function () {
       beforeEach(function () {
-        searchResult = createSearchResult();
         this.sinon.stub(searchResult, 'replace', function () {
           return null;
         });
@@ -35,7 +131,6 @@ describe('Textarea', function () {
 
     context('when SearchResult#replace returns an array of strings', function () {
       beforeEach(function () {
-        searchResult = createSearchResult();
         this.sinon.stub(searchResult, 'replace', function () {
           return ['before', 'after'];
         });

@@ -1,5 +1,6 @@
 import DropdownItem from './dropdown-item';
 import {extend, uniqueId} from 'lodash';
+import {EventEmitter} from 'events';
 
 /**
  * Encapsulate a dropdown view.
@@ -7,7 +8,7 @@ import {extend, uniqueId} from 'lodash';
  * @prop {boolean} shown - Whether the #el is shown or not.
  * @prop {DropdownItem[]} items - The array of rendered dropdown items.
  */
-export default class Dropdown {
+export default class Dropdown extends EventEmitter {
   /**
    * @returns {HTMLUListElement}
    */
@@ -26,6 +27,7 @@ export default class Dropdown {
   }
 
   constructor() {
+    super();
     this.shown = false;
     this.items = [];
     this._completed = true;
@@ -88,12 +90,18 @@ export default class Dropdown {
   /**
    * @param {function} callback
    * @returns {this}
+   * @fires Dropdown#select
    */
-  select(callback) {
+  selectActiveItem(callback) {
     if (this.shown) {
       var activeItem = this.getActiveItem();
       if (activeItem) {
-        this.deactivate();
+        /**
+         * @event Dropdown#select
+         * @type {object}
+         * @prop {SearchResult} searchResult
+         */
+        this.deactivate().emit('select', { searchResult: activeItem.searchResult });
         callback(activeItem);
       }
     }

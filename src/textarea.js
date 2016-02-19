@@ -1,6 +1,4 @@
-import Editor from './editor';
-
-import {ENTER, UP, DOWN} from './textcomplete';
+import Editor, {ENTER, UP, DOWN} from './editor';
 
 const getCaretCoordinates = require('textarea-caret');
 
@@ -8,6 +6,8 @@ const CALLBACK_METHODS = ['onKeydown', 'onKeyup'];
 
 /**
  * Encapsulate the target textarea element.
+ *
+ * @extends Editor
  */
 export default class Textarea extends Editor {
   /**
@@ -118,28 +118,41 @@ export default class Textarea extends Editor {
 
   /**
    * @private
+   * @fires Editor#move
    * @param {KeyboardEvent} e
    */
   onKeydown(e) {
-    var code = e.keyCode === 13 ? ENTER
-             : e.keyCode === 38 ? UP
-             : e.keyCode === 40 ? DOWN
-             : e.keyCode === 78 && e.ctrlKey ? DOWN
-             : e.keyCode === 80 && e.ctrlKey ? UP
-             : null;
-    if (code) {
-      this.textcomplete.handleMoveKeydown(code, function () {
-        e.preventDefault();
+    var code = this.getCode(e);
+    if (code !== null) {
+      /**
+       * @event Editor#move
+       * @type {object}
+       * @prop {number} code
+       * @prop {function} callback
+       */
+      this.emit('move', {
+        code: code,
+        callback: function () {
+          e.preventDefault();
+        },
       });
     }
   }
 
   /**
    * @private
+   * @fires Editor#change
    * @param {KeyboardEvent} e
    */
   onKeyup(e) {
-    this.textcomplete.trigger(this.skipTrigger(e) ? null : this.beforeCursor);
+    if (!this.isMoveKeyEvent(e)) {
+      /**
+       * @event Editor#change
+       * @type {object}
+       * @prop {string} beforeCursor
+       */
+      this.emit('change', { beforeCursor: this.beforeCursor });
+    }
   }
 
   /**
@@ -147,17 +160,21 @@ export default class Textarea extends Editor {
    * @param {KeyboardEvent} e
    * @returns {boolean}
    */
-  skipTrigger(e) {
-    switch (e.keyCode) {
-    case 13: // enter
-    case 38: // up
-    case 40: // down
-      return true;
-    case 78: // n
-    case 80: // p
-      return e.ctrlKey;
-    default:
-      return false;
-    }
+  isMoveKeyEvent(e) {
+    return this.getCode(e) !== null;
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} e
+   * @returns {ENTER|UP|DOWN|null}
+   */
+  getCode(e) {
+    return e.keyCode === 13 ? ENTER
+         : e.keyCode === 38 ? UP
+         : e.keyCode === 40 ? DOWN
+         : e.keyCode === 78 && e.ctrlKey ? DOWN
+         : e.keyCode === 80 && e.ctrlKey ? UP
+         : null;
   }
 }

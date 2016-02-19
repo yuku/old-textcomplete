@@ -100,11 +100,16 @@ describe('Dropdown', function () {
     });
   });
 
-  describe('#select', function () {
-    var dropdown;
+  describe('#selectActiveItem', function () {
+    var dropdown, spy;
+
+    function subject() {
+      return dropdown.selectActiveItem(spy);
+    }
 
     beforeEach(function () {
       dropdown = new Dropdown();
+      spy = this.sinon.spy();
     });
 
     context('when it is shown', function () {
@@ -112,30 +117,38 @@ describe('Dropdown', function () {
         dropdown.show();
       });
 
-      context('and it contains DropdownItems', function () {
+      context('and there is an active item', function () {
+        var activeItem;
+
         beforeEach(function () {
           dropdown.render([createSearchResult()], { top: 0, left: 0 });
+          activeItem = dropdown.getActiveItem();
         });
 
         it('should callback with the active DropdownItem', function () {
-          var spy = this.sinon.spy();
-          var activeItem = dropdown.getActiveItem();
-          dropdown.select(spy);
+          subject();
           assert(spy.calledOnce);
           assert(activeItem);
         });
 
         it('should be deactivated', function () {
-          var stub = this.sinon.stub(dropdown, 'deactivate');
-          dropdown.select(function () {});
+          var stub = this.sinon.stub(dropdown, 'deactivate', () => { return dropdown; });
+          subject();
           assert(stub.calledOnce);
+        });
+
+        it('should emit a select event', function () {
+          var listener = this.sinon.spy();
+          dropdown.on('select', listener);
+          subject();
+          assert(listener.calledOnce);
+          assert(listener.calledWith({ searchResult: activeItem.searchResult }));
         });
       });
 
       context('and it does not contain a DropdownItem', function () {
         it('should not callback', function () {
-          var spy = this.sinon.spy();
-          dropdown.select(spy);
+          subject();
           assert(!spy.called);
         });
       });
@@ -147,8 +160,7 @@ describe('Dropdown', function () {
       });
 
       it('should not callback', function () {
-        var spy = this.sinon.spy();
-        dropdown.select(spy);
+        subject();
         assert(!spy.called);
       });
     });

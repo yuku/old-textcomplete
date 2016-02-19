@@ -1,24 +1,16 @@
+import {EventEmitter} from 'events';
+
+export const ENTER = 0;
+export const UP = 1;
+export const DOWN = 2;
+
 /**
  * Abstract class representing a editor target.
  *
  * @abstract
+ * @extends EventEmitter
  */
-export default class Editor {
-  /**
-   * Set a textcomplete without overriding existing one.
-   *
-   * @throws {Error} If a textcomplete has already been assigned.
-   * @param {Textcomplete} textcomplete
-   * @returns {this}
-   */
-  registerTextcomplete(textcomplete) {
-    if (this.textcomplete) {
-      throw new Error('Textcomplete has already been registered.');
-    }
-    this.textcomplete = textcomplete;
-    return this;
-  }
-
+export default class Editor extends EventEmitter {
   /**
    * It is called when a search result is selected by a user.
    *

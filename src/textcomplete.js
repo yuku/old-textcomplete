@@ -1,6 +1,7 @@
 import Completer from './completer';
 import Dropdown from './dropdown';
 import Strategy from './strategy';
+import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
 import {isFunction} from 'lodash';
 
@@ -9,12 +10,7 @@ export const NO_RESULT = 0;
 export const STILL_SEARCHING = 1;
 export const SEARCH_COMPLETED = 2;
 
-// Keydown consts
-export const ENTER = 'enter';
-export const UP = 'up';
-export const DOWN = 'down';
-
-const CALLBACK_METHODS = ['handleQueryResult'];
+const CALLBACK_METHODS = ['handleQueryResult', 'handleMove', 'handleSelect'];
 
 export default class Textcomplete {
   /**
@@ -23,7 +19,7 @@ export default class Textcomplete {
   constructor(editor) {
     this.completer = new Completer();
     this.dropdown = new Dropdown();
-    this.editor = editor.registerTextcomplete(this);
+    this.editor = editor;
 
     // Bind callback methods
     CALLBACK_METHODS.forEach(name => {
@@ -34,6 +30,8 @@ export default class Textcomplete {
       this.free = free;
       this.completer.execute(text, this.handleQueryResult);
     });
+
+    this.startListening();
   }
 
   /**
@@ -52,13 +50,12 @@ export default class Textcomplete {
    * Start autocompleting.
    *
    * @public
-   * @param {?string} text - Head to input cursor.
+   * @param {string} text - Head to input cursor.
    * @returns {this}
+   * @listens Editor#change
    */
   trigger(text) {
-    if (text != null) {
-      this.lockableTrigger(text);
-    }
+    this.lockableTrigger(text);
     return this;
   }
 
@@ -99,30 +96,36 @@ export default class Textcomplete {
   }
 
   /**
+   * @private
    * @param {ENTER|UP|DOWN} code
    * @param {funcion} callback
+   * @listens Editor#move
    */
-  handleMoveKeydown(code, callback) {
-    switch (code) {
-    case ENTER:
-      this.dropdown.select((dropdownItem) => {
-        this.handleSelect(dropdownItem);
-        callback(dropdownItem);
-      });
-      break;
-    case UP:
-      this.dropdown.up(callback);
-      break;
-    case DOWN:
-      this.dropdown.down(callback);
-      break;
+  handleMove({code, callback}) {
+    var method = code === ENTER ? 'selectActiveItem'
+               : code === UP ? 'up'
+               : code === DOWN ? 'down'
+               : null;
+    if (code !== null) {
+      this.dropdown[method](callback);
     }
   }
 
   /**
-   * @param {DropdownItem} dropdownItem
+   * @private
+   * @param {SearchResult} searchResult
+   * @listens Dropdown#select
    */
-  handleSelect(dropdownItem) {
-    this.editor.applySearchResult(dropdownItem.searchResult);
+  handleSelect({searchResult}) {
+    this.editor.applySearchResult(searchResult);
+  }
+
+  /**
+   * @private
+   */
+  startListening() {
+    this.editor.on('move', this.handleMove)
+               .on('change', ({beforeCursor}) => { this.trigger(beforeCursor); });
+    this.dropdown.on('select', this.handleSelect);
   }
 }
