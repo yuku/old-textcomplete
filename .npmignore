@@ -1,7 +1,8 @@
 coverage
 doc
+lib/main.js
+npm-debug.log
 powered-test
 src
 test
 textcomplete
-npm-debug.log

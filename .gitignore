@@ -2,6 +2,6 @@ coverage
 dist
 lib
 node_modules
+npm-debug.log
 powered-test
 textcomplete
-npm-debug.log
