@@ -1,13 +1,22 @@
-import {NO_RESULT} from './textcomplete';
+import {EventEmitter} from 'events';
 
-export default class Completer {
+const CALLBACK_METHODS = ['handleQueryResult'];
+
+export default class Completer extends EventEmitter {
   constructor() {
+    super();
     this.strategies = [];
+
+    // Bind callback methods
+    CALLBACK_METHODS.forEach(name => {
+      this[name] = this[name].bind(this);
+    });
   }
 
   /**
    * Register a strategy to the completer.
    *
+   * @public
    * @param {Strategy} strategy
    * @returns {this}
    */
@@ -17,15 +26,22 @@ export default class Completer {
   }
 
   /**
+   * @public
    * @param {string} text - Head to input cursor.
-   * @param {Textcomplete#handleQueryResult} callback
+   * @fires Completer#hit
    */
-  execute(text, callback) {
+  run(text) {
     var query = this.extractQuery(text);
-    query ? query.execute(callback) : callback(NO_RESULT, []);
+    if (query) {
+      query.execute(this.handleQueryResult);
+    } else {
+      this.handleQueryResult([]);
+    }
   }
 
   /**
+   * Find a query, which matches to the given text.
+   *
    * @private
    * @param {string} text - Head to input cursor.
    * @returns {?Query}
@@ -37,5 +53,20 @@ export default class Completer {
       if (query) { return query; }
     }
     return null;
+  }
+
+  /**
+   * Callbacked by Query#execute.
+   *
+   * @private
+   * @param {SearchResult[]} searchResults
+   */
+  handleQueryResult(searchResults) {
+    /**
+     * @event Completer#hit
+     * @type {object}
+     * @prop {SearchResult[]} searchResults
+     */
+    this.emit('hit', { searchResults });
   }
 }

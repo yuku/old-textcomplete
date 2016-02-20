@@ -22,6 +22,7 @@ export default class DropdownItem {
   }
 
   /**
+   * @public
    * @returns {HTMLLIElement}
    */
   get el() {
@@ -40,6 +41,7 @@ export default class DropdownItem {
 
   /**
    * Try to free resources and perform other cleanup operations.
+   *
    * @public
    */
   finalize() {
@@ -51,6 +53,7 @@ export default class DropdownItem {
   /**
    * Callbacked when it is appended to a dropdown.
    *
+   * @public
    * @param {Dropdown} dropdown
    * @see Dropdown#append
    */

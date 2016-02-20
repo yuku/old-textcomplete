@@ -1,6 +1,7 @@
 import Strategy from '../src/strategy';
 import SearchResult from '../src/search-result';
 import Textarea from '../src/textarea';
+import Query from '../src/query';
 import {extend} from 'lodash';
 
 /**
@@ -45,4 +46,18 @@ export function createSearchResult(data, term, strategyProps) {
  */
 export function createTextarea() {
   return new Textarea(getHTMLTextAreaElement());
+}
+
+/**
+ * @param {Strategy} strategy
+ * @param {string} term
+ * @param {string[]} match
+ * @returns {Query}
+ */
+export function createQuery(strategy, term, match) {
+  return new Query(
+    strategy || createStrategy(),
+    term || 'he',
+    match || ['he', 'he']
+  );
 }

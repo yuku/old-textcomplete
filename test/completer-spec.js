@@ -1,84 +1,91 @@
 import Completer from '../src/completer';
-import Query from '../src/query';
-import {NO_RESULT} from '../src/textcomplete';
-import {createStrategy} from './test-helper';
+import {createStrategy, createQuery} from './test-helper';
 
 const assert = require('power-assert');
 
 describe('Completer', function () {
+  var completer;
+
   beforeEach(function () {
-    this.completer = new Completer();
+    completer = new Completer();
   });
 
   describe('#strategies', function () {
     it('should be an Array', function () {
-      assert.ok(this.completer.strategies instanceof Array);
+      assert.ok(completer.strategies instanceof Array);
     });
   });
 
   describe('#registerStrategy', function () {
+    var strategy;
+
+    function subject() {
+      return completer.registerStrategy(strategy);
+    }
+
+    beforeEach(function () {
+      strategy = createStrategy();
+    });
+
     it('should return itself', function () {
-      assert.strictEqual(this.completer.registerStrategy(createStrategy()), this.completer);
+      assert.strictEqual(subject(), completer);
     });
 
     it('should append the given strategy to #strategies', function () {
-      var strategy = createStrategy();
-      var prev = this.completer.strategies.length;
-      this.completer.registerStrategy(strategy);
-      var curr = this.completer.strategies.length;
+      var prev = completer.strategies.length;
+      subject();
+      var curr = completer.strategies.length;
       assert.equal(curr, prev + 1);
-      var lastStrategy = this.completer.strategies[this.completer.strategies.length - 1];
+      var lastStrategy = completer.strategies.pop();
       assert.strictEqual(lastStrategy, strategy);
     });
   });
 
-  describe('#execute', function () {
-    var text = '';
+  describe('#run', function () {
+    var query, text = '';
+
+    function subject() {
+      return completer.run(text);
+    }
+
+    beforeEach(function () {
+      this.sinon.stub(completer, 'extractQuery', () => {
+        return query;
+      });
+    });
 
     context('when a query is extracted', function () {
       beforeEach(function () {
-        this.completer = new Completer();
-        this.query = new Query();
-        this.sinon.stub(this.completer, 'extractQuery', () => { return this.query; });
+        query = createQuery();
       });
 
-      it('should call #execute to the query', function () {
-        function callback() {}
-        var stub = this.sinon.stub(this.query, 'execute');
-        this.completer.execute(text, callback);
+      it('should call Query#execute', function () {
+        var stub = this.sinon.stub(query, 'execute');
+        subject();
         assert(stub.calledOnce);
-        assert(stub.calledWith(callback));
+        assert(stub.calledWith(completer.handleQueryResult));
+      });
+
+      it('should emit a hit event', function () {
+        var spy = this.sinon.spy();
+        completer.on('hit', spy);
+        subject();
+        assert(spy.calledOnce);
+        assert(spy.calledWith({ searchResults: this.sinon.match.array }));
       });
     });
 
     context('when a query is not extracted', function () {
       beforeEach(function () {
-        this.completer = new Completer();
-        this.sinon.stub(this.completer, 'extractQuery', () => { return null; });
+        query = null;
       });
 
-      it('should callback with NO_RESULT and an empty array', function () {
+      it('should emit a hit event', function () {
         var spy = this.sinon.spy();
-        this.completer.execute(text, spy);
+        completer.on('hit', spy);
+        subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith(NO_RESULT, []));
-      });
-    });
-  });
-
-  describe('#extractQuery', function () {
-    context('when there is a appropreate strategy', function () {
-      it('should return a Query', function () {
-        var completer = new Completer();
-        completer.registerStrategy(createStrategy({ match: /(he)(llo)$/ }));
-        assert(completer.extractQuery('hello') instanceof Query);
-      });
-    });
-
-    context('when there is not an appropreate strategy', function () {
-      it('should return null', function () {
-        var completer = new Completer();
-        assert(completer.extractQuery('hello') === null);
+        assert(spy.calledWith({ searchResults: [] }));
       });
     });
   });

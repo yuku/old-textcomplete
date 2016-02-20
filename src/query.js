@@ -1,5 +1,4 @@
 import SearchResult from './search-result';
-import {STILL_SEARCHING, SEARCH_COMPLETED} from './textcomplete';
 
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
@@ -17,14 +16,20 @@ export default class Query {
   }
 
   /**
-   * @param {Textcomplete#handleQueryResult} callback
+   * Invoke search strategy and callback the given function.
+   *
+   * @public
+   * @param {function} callback
    */
   execute(callback) {
-    this.strategy.search(this.term, (results, stillSearching) => {
-      callback(
-        stillSearching ? STILL_SEARCHING : SEARCH_COMPLETED,
-        results.map((result) => { return new SearchResult(result, this.term, this.strategy); })
-      );
-    }, this.match);
+    this.strategy.search(
+      this.term,
+      results => {
+        callback(results.map(result => {
+          return new SearchResult(result, this.term, this.strategy);
+        }));
+      },
+      this.match
+    );
   }
 }

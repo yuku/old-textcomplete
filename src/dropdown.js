@@ -30,7 +30,6 @@ export default class Dropdown extends EventEmitter {
     super();
     this.shown = false;
     this.items = [];
-    this._completed = true;
   }
 
   /**
@@ -57,25 +56,10 @@ export default class Dropdown extends EventEmitter {
    * @returns {this}
    */
   render(searchResults, cursorOffset) {
-    if (this._completed) {
-      this._completed = false;
-      this.clear();
-    }
-    this.append(searchResults.map((searchResult) => {
+    this.clear().append(searchResults.map((searchResult) => {
       return new DropdownItem(searchResult);
     }));
     return this.items.length > 0 ? this.setOffset(cursorOffset).show() : this.hide();
-  }
-
-  /**
-   * Mark itself as completed. `#clear` is going to be called before
-   * rendering a completed dropdown.
-   *
-   * @returns {this}
-   */
-  completed() {
-    this._completed = true;
-    return this;
   }
 
   /**

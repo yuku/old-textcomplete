@@ -1,43 +1,62 @@
-import Query from '../src/query';
-import {STILL_SEARCHING, SEARCH_COMPLETED} from '../src/textcomplete';
-
-import {createStrategy} from './test-helper';
+import Strategy from '../src/strategy';
+import SearchResult from '../src/search-result';
+import {createQuery} from './test-helper';
 
 const assert = require('power-assert');
 
 describe('Query', function () {
-  describe('#execute', function () {
-    var term = 'hello';
-    var match = [term, '', term];
+  var query, term, match;
 
-    it("should call strategy's search func once", function () {
-      var spy = this.sinon.spy();
-      var strategy = createStrategy({ search: spy });
-      var query = new Query(strategy, term, match);
-      query.execute(function () {});
-      assert(spy.calledOnce);
-      assert(spy.calledWith(term, this.sinon.match.func, match));
+  beforeEach(function () {
+    term = 'he';
+    match = [term, '', term];
+    query = createQuery(undefined, term, match);
+  });
+
+  describe('#strategy', function () {
+    it('should be a Strategy', function () {
+      assert(query.strategy instanceof Strategy);
     });
+  });
 
-    function sharedExample(secondArg, state) {
-      context(`when search func callbacks with ${secondArg} as second argument`, function () {
-        beforeEach(function () {
-          this.strategy = createStrategy({
-            search: function (t, callback) { callback([t], secondArg); },
-          });
-        });
+  describe('#execute', function () {
+    var callbackSpy;
 
-        it(`should callback with ${state} and an array`, function () {
-          var spy = this.sinon.spy();
-          var query = new Query(this.strategy, term, match);
-          query.execute(spy);
-          assert(spy.calledOnce);
-          assert(spy.calledWith(state, this.sinon.match.array));
-        });
-      });
+    function subject() {
+      query.execute(callbackSpy);
     }
 
-    sharedExample.call(this, false, SEARCH_COMPLETED);
-    sharedExample.call(this, true, STILL_SEARCHING);
+    beforeEach(function () {
+      callbackSpy = this.sinon.spy();
+    });
+
+    it('should call Strategy#search', function () {
+      var stub = this.sinon.stub(query.strategy, 'search');
+      subject();
+      assert(stub.calledOnce);
+      assert(stub.calledWith(term, this.sinon.match.func, match));
+    });
+
+    context('when Strategy#search callbacks with an array', function () {
+      var callbackData;
+
+      beforeEach(function () {
+        this.sinon.stub(query.strategy, 'search', function (str, callback) {
+          callbackData = str;
+          callback([callbackData]);
+        });
+      });
+
+      it('should callback with an array of SearchResults', function () {
+        subject();
+        assert(callbackSpy.calledOnce);
+        assert(callbackSpy.calledWith(this.sinon.match.array));
+        var result = callbackSpy.args[0][0][0];
+        assert(result instanceof SearchResult);
+        assert.strictEqual(result.data, callbackData);
+        assert.strictEqual(result.term, term);
+        assert.strictEqual(result.strategy, query.strategy);
+      });
+    });
   });
 });

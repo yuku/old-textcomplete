@@ -5,12 +5,7 @@ import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
 import {isFunction} from 'lodash';
 
-// Query results consts
-export const NO_RESULT = 0;
-export const STILL_SEARCHING = 1;
-export const SEARCH_COMPLETED = 2;
-
-const CALLBACK_METHODS = ['handleQueryResult', 'handleMove', 'handleSelect'];
+const CALLBACK_METHODS = ['handleHit', 'handleMove', 'handleSelect'];
 
 export default class Textcomplete {
   /**
@@ -28,7 +23,7 @@ export default class Textcomplete {
 
     this.lockableTrigger = lock(function (free, text) {
       this.free = free;
-      this.completer.execute(text, this.handleQueryResult);
+      this.completer.run(text);
     });
 
     this.startListening();
@@ -76,23 +71,16 @@ export default class Textcomplete {
 
   /**
    * @private
-   * @param {number} status
    * @param {SearchResult[]} searchResults
+   * @listens Completer#hit
    */
-  handleQueryResult(status, searchResults) {
-    switch (status) {
-    case NO_RESULT:
-      this.dropdown.deactivate();
-      this.unlock();
-      break;
-    case STILL_SEARCHING:
+  handleHit({searchResults}) {
+    if (searchResults.length) {
       this.dropdown.render(searchResults, this.editor.cursorOffset);
-      break;
-    case SEARCH_COMPLETED:
-      this.dropdown.render(searchResults, this.editor.cursorOffset).completed();
-      this.unlock();
-      break;
+    } else {
+      this.dropdown.deactivate();
     }
+    this.unlock();
   }
 
   /**
@@ -127,5 +115,6 @@ export default class Textcomplete {
     this.editor.on('move', this.handleMove)
                .on('change', ({beforeCursor}) => { this.trigger(beforeCursor); });
     this.dropdown.on('select', this.handleSelect);
+    this.completer.on('hit', this.handleHit);
   }
 }
