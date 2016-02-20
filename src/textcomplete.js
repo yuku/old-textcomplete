@@ -5,7 +5,13 @@ import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
 import {isFunction} from 'lodash';
 
-const CALLBACK_METHODS = ['handleHit', 'handleMove', 'handleSelect'];
+const CALLBACK_METHODS = [
+  'handleBlur',
+  'handleChange',
+  'handleHit',
+  'handleMove',
+  'handleSelect',
+];
 
 export default class Textcomplete {
   /**
@@ -101,6 +107,23 @@ export default class Textcomplete {
 
   /**
    * @private
+   * @param {string} beforeCursor
+   * @listens Editor#change
+   */
+  handleChange({beforeCursor}) {
+    this.trigger(beforeCursor);
+  }
+
+  /**
+   * @private
+   * @listens Editor#blur
+   */
+  handleBlur() {
+    this.dropdown.deactivate();
+  }
+
+  /**
+   * @private
    * @param {SearchResult} searchResult
    * @listens Dropdown#select
    */
@@ -113,7 +136,8 @@ export default class Textcomplete {
    */
   startListening() {
     this.editor.on('move', this.handleMove)
-               .on('change', ({beforeCursor}) => { this.trigger(beforeCursor); });
+               .on('change', this.handleChange)
+               .on('blur', this.handleBlur);
     this.dropdown.on('select', this.handleSelect);
     this.completer.on('hit', this.handleHit);
   }

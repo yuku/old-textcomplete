@@ -12,6 +12,20 @@ describe('Integration test', function () {
     document.body.appendChild(textareaEl);
     textarea = new Textarea(textareaEl);
     textcomplete = new Textcomplete(textarea);
+    textcomplete.register([
+      {
+        usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
+        match: /(^|\s)@(\w+)$/,
+        search: function (term, callback) {
+          callback(this.usernames.filter((username) => {
+            return username.startsWith(term);
+          }));
+        },
+        replace: function (username) {
+          return `$1@${username} `;
+        },
+      },
+    ]);
   });
 
   /**
@@ -54,21 +68,6 @@ describe('Integration test', function () {
   }
 
   it('should work with keyboard', function () {
-    textcomplete.register([
-      {
-        usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
-        match: /(^|\s)@(\w+)$/,
-        search: function (term, callback) {
-          callback(this.usernames.filter((username) => {
-            return username.startsWith(term);
-          }));
-        },
-        replace: function (username) {
-          return `$1@${username} `;
-        },
-      },
-    ]);
-
     input(50, false, false, true, 'Hi, @'); // '@'
     expectDropdownIsHidden();
     input(65, false, false, false, 'Hi, @a'); // 'a'
@@ -91,21 +90,6 @@ describe('Integration test', function () {
   });
 
   it('should work with mouse', function () {
-    textcomplete.register([
-      {
-        usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
-        match: /(^|\s)@(\w+)$/,
-        search: function (term, callback) {
-          callback(this.usernames.filter((username) => {
-            return username.startsWith(term);
-          }));
-        },
-        replace: function (username) {
-          return `$1@${username} `;
-        },
-      },
-    ]);
-
     input(50, false, false, true, 'Hi, @'); // '@'
     expectDropdownIsHidden();
     input(65, false, false, false, 'Hi, @a'); // 'a'
@@ -118,5 +102,16 @@ describe('Integration test', function () {
     assert.equal(textareaEl.value, 'Hi, @alice ');
     assert.equal(textareaEl.selectionStart, 11);
     assert.equal(textareaEl.selectionEnd, 11);
+  });
+
+  it('should work when blur', function () {
+    input(50, false, false, true, 'Hi, @'); // '@'
+    expectDropdownIsHidden();
+    input(65, false, false, false, 'Hi, @a'); // 'a'
+    expectDropdownIsShown();
+    var blurEvent = document.createEvent('UIEvents');
+    blurEvent.initEvent('blur', true, true);
+    textareaEl.dispatchEvent(blurEvent);
+    expectDropdownIsHidden();
   });
 });

@@ -114,9 +114,10 @@ export default class DropdownItem {
 
   /**
    * @private
-   * @param {MouseEvent} _e
+   * @param {MouseEvent} e
    */
-  onClick(_e) {
+  onClick(e) {
+    e.preventDefault(); // Prevent blur event
     this.dropdown.select(this);
   }
 }
