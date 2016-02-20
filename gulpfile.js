@@ -1,15 +1,18 @@
-var gulp = require('gulp');
+'use strict';
+
 var connect = require('gulp-connect');
+var gulp = require('gulp');
 
 var paths = {
   bundle: 'textcomplete.js',
   bundlemin: 'textcomplete.min.js',
   dist: 'dist/',
   doc: {
-    dest: 'textcomplete/',
-    js: 'src/doc/main.js',
+    all: 'textcomplete/**/*',
     css: 'src/doc/*.css',
+    dest: 'textcomplete/',
     jade: 'src/doc/*.jade',
+    js: 'src/doc/main.js',
   },
   entry: 'lib/main.js',
   lib: 'lib/',
@@ -114,21 +117,15 @@ gulp.task('doc:css', () => {
     .pipe(gulp.dest(paths.doc.dest))
     .pipe(connect.reload());
 });
- 
-gulp.task('watch', ['doc:html', 'doc:css'], () => {
-  var _ = require('lodash');
-  var browserify = require('browserify');
-  var gutil = require('gulp-util');
-  var source = require('vinyl-source-stream');
-  var watchify = require('watchify');
 
-  var b = watchify(browserify(_.extend({}, watchify.args, {
-    debug: true,
-    entries: [paths.doc.js],
-  })));
-  b.transform('babelify');
+{ // Browserify doc js tasks
+  let b;
+  let commonOpts = { debug: true, entries: [paths.doc.js] };
+  let gutil = require('gulp-util');
+  let source = require('vinyl-source-stream');
 
-  function bundle() {
+  // Shared bundle task.
+  function bundleDoc() {
     return b.bundle()
       .on('error', err => {
         gutil.log(err.message);
@@ -139,13 +136,38 @@ gulp.task('watch', ['doc:html', 'doc:css'], () => {
       .pipe(connect.reload());
   }
 
-  b.on('update', bundle);
-  b.on('log', gutil.log);
+  gulp.task('doc:js', () => {
+    var _ = require('lodash');
+    var browserify = require('browserify');
 
-  gulp.watch(paths.doc.jade, ['doc:html']);
-  gulp.watch(paths.doc.css, ['doc:css']);
+    b = browserify(commonOpts);
+    b.transform('babelify');
 
-  return bundle();
-});
+    return bundleDoc();
+  });
+
+  gulp.task('watch', ['doc:html', 'doc:css'], () => {
+    var _ = require('lodash');
+    var browserify = require('browserify');
+    var watchify = require('watchify');
+
+    b = watchify(browserify(_.extend({}, watchify.args, commonOpts)));
+    b.transform('babelify');
+
+    b.on('update', bundleDoc);
+    b.on('log', gutil.log);
+
+    gulp.watch(paths.doc.jade, ['doc:html']);
+    gulp.watch(paths.doc.css, ['doc:css']);
+
+    return bundleDoc();
+  });
+}
 
 gulp.task('default', ['server', 'watch']);
+
+gulp.task('gh-pages', ['doc:js', 'doc:html', 'doc:css'], () => {
+  var ghPages = require('gulp-gh-pages');
+  return gulp.src(paths.doc.all)
+    .pipe(ghPages());
+});
