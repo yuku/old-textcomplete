@@ -2,11 +2,13 @@
   "name": "textcomplete",
   "version": "0.1.0",
   "description": "Autocomplete for textarea elements",
-  "main": "textcomplete.js",
+  "main": "lib/textcomplete.js",
   "scripts": {
-    "build": "node_modules/.bin/gulp build",
-    "test": "node_modules/.bin/gulp lint test",
-    "start": "node_modules/.bin/gulp server watch"
+    "compile": "gulp compile",
+    "clean": "gulp clean",
+    "prepublish": "npm test && npm run clean && npm run compile",
+    "start": "gulp server watch",
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -24,7 +26,9 @@
     "babel-register": "^6.4.3",
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
+    "del": "^2.2.0",
     "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.2",
     "gulp-connect": "^2.3.1",
     "gulp-eslint": "^1.1.1",
     "gulp-espower": "^1.0.2",
@@ -36,13 +40,15 @@
     "gulp-rename": "^1.2.2",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
+    "gulp-util": "^3.0.7",
     "isparta": "^4.0.0",
     "jsdom": "^8.0.2",
     "power-assert": "^1.2.0",
     "precss": "^1.4.0",
     "sinon": "^1.17.3",
     "vinyl-buffer": "^1.0.0",
-    "vinyl-source-stream": "^1.1.0"
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   },
   "dependencies": {
     "events": "^1.1.0",
