@@ -168,6 +168,9 @@ gulp.task('default', ['server', 'watch']);
 
 gulp.task('gh-pages', ['doc:js', 'doc:html', 'doc:css'], () => {
   var ghPages = require('gulp-gh-pages');
+  var token = process.env.GH_TOKEN;
+  var slug = process.env.TRAVIS_REPO_SLUG;
+  var remoteUrl = token ? `https://${token}@github.com/${slug}.git` : undefined;
   return gulp.src(paths.doc.all)
-    .pipe(ghPages());
+    .pipe(ghPages({ remoteUrl: remoteUrl }));
 });

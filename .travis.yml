@@ -1,21 +1,28 @@
 language: node_js
 node_js:
-  - "4.2"
+- '4.2'
 compiler: clang-3.6
 env:
+  matrix:
   - CXX=clang-3.6
+  global:
+    secure: rHJJ1gxpX3tfifODcAMVVK4FZTmuzPNTmfXGGj9WAl7rmAala0w9hGi2MJIzOqeUljs23l7PQtv+vf7iYafmdxc6Ldo/6jS7vU61NrprOHhPrnoGJGCb+QswZXNXRYCjkiMAVhavdXljiWpogtlMVPeKtGa7svlObeATNpV1PJ3suPQSNVGDX0tSh8VwBNjAk5UseOQmpJdZofK0+0Fb161gPAGf9Qh5s+7UaYmnwgbkkTxdIOM5iSEe3VIhUZFV1GzfjI2dAAK7jjCjq7AkyAxdoK2YzdDY2XZH/1cCLH77eWieX0r5YYaX/HJG/aJeM9xgZ/Heitt2UyQcVpKafaMNlZISF+eOkgrwRXhCnvh42e2fB55HOhFXm2OaBj/seLFPVIXva8JkSZOMno7C6SAkBtMZTUIzH+Cmx7E/XLA8NBDacM5J2kDZksn8jqsfO4Q0ddkewnGcy8op/+NEWcWuz+DBPBZAXysH7H5M8qTgbgIcpldRz/+cl9vY+j9GNY5/rBVNyhAOXj4++KKBvFGgA7BwDU9v5PDvFSfw0En5TAUWpBsqDVuABE+j1gWZ+cOewmWOL1lsIg+3JQEROthOKqxfdM95juN4Bn2c/UlIWn33Qooqt/OtW+9WvzZB4CdVbpRdflI1xOi5+wXE7zEgMHpWRqcfXrX4v3AY/Yw=
 addons:
   code_climate:
     repo_token: ee56fb46fc4df8db9ea8012690d87529d1bb03cbe0ee125e0668d7a11446522b
   apt:
     sources:
-      - llvm-toolchain-precise-3.6
-      - ubuntu-toolchain-r-test
+    - llvm-toolchain-precise-3.6
+    - ubuntu-toolchain-r-test
     packages:
-      - clang-3.6
-      - g++-4.8
+    - clang-3.6
+    - g++-4.8
 after_script:
-  - npm install -g codeclimate-test-reporter
-  - codeclimate-test-reporter < coverage/lcov.info
+- npm install -g codeclimate-test-reporter
+- codeclimate-test-reporter < coverage/lcov.info
+after_success:
+- git config --global user.email 'taka84u9@gmail.com'
+- git config --global user.name 'Yuku Takahashi'
+- test "$TRAVIS_BRANCH" == "master" && npm run gh-pages
 notifications:
   email: false
