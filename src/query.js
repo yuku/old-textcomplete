@@ -3,7 +3,7 @@ import SearchResult from './search-result';
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
  */
-export default class Query {
+class Query {
   /**
    * @param {Strategy} strategy
    * @param {string} term
@@ -33,3 +33,5 @@ export default class Query {
     );
   }
 }
+
+export default Query;

@@ -7,17 +7,17 @@
  *                          until the free is invoked. Then the last ignored
  *                          execution will be replayed immediately.
  * @example
- *   var lockedFunc = lock(function (free) {
- *     setTimeout(function { free(); }, 1000); // It will be free in 1 sec.
- *     console.log('Hello, world');
- *   });
- *   lockedFunc();  // => 'Hello, world'
- *   lockedFunc();  // none
- *   lockedFunc();  // none
- *   // 1 sec past then
- *   // => 'Hello, world'
- *   lockedFunc();  // => 'Hello, world'
- *   lockedFunc();  // none
+ * var lockedFunc = lock(function (free) {
+ *   setTimeout(function { free(); }, 1000); // It will be free in 1 sec.
+ *   console.log('Hello, world');
+ * });
+ * lockedFunc();  // => 'Hello, world'
+ * lockedFunc();  // none
+ * lockedFunc();  // none
+ * // 1 sec past then
+ * // => 'Hello, world'
+ * lockedFunc();  // => 'Hello, world'
+ * lockedFunc();  // none
  * @returns {function} A wrapped function.
  */
 export function lock(func) {

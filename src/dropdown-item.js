@@ -7,7 +7,7 @@ const CALLBACK_METHODS = ['onClick'];
 /**
  * Encapsulate an item of dropdown.
  */
-export default class DropdownItem {
+class DropdownItem {
   /**
    * @param {SearchResult} searchResult
    */
@@ -121,3 +121,5 @@ export default class DropdownItem {
     this.dropdown.select(this);
   }
 }
+
+export default DropdownItem;

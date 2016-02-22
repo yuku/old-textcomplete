@@ -13,7 +13,10 @@ const CALLBACK_METHODS = [
   'handleSelect',
 ];
 
-export default class Textcomplete {
+/**
+ * The core of textcomplete. It acts as a mediator.
+ */
+class Textcomplete {
   /**
    * @param {Editor} editor - Where the textcomplete works on.
    */
@@ -39,6 +42,18 @@ export default class Textcomplete {
    * @public
    * @param {Object[]} strategyPropsArray
    * @returns {this}
+   * @example
+   * textcomplete.register([{
+   *   match: /(^|\s)(\w+)$/,
+   *   search: function (term, callback) {
+   *     $.ajax({ ... })
+   *       .done(callback)
+   *       .fail([]);
+   *   },
+   *   replace: function (value) {
+   *     return '$1' + value + ' ';
+   *   }
+   * }]);
    */
   register(strategyPropsArray) {
     strategyPropsArray.forEach((props) => {
@@ -142,3 +157,5 @@ export default class Textcomplete {
     this.completer.on('hit', this.handleHit);
   }
 }
+
+export default Textcomplete;

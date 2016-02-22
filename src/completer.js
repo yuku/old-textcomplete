@@ -2,7 +2,10 @@ import {EventEmitter} from 'events';
 
 const CALLBACK_METHODS = ['handleQueryResult'];
 
-export default class Completer extends EventEmitter {
+/**
+ * @extends EventEmitter
+ */
+class Completer extends EventEmitter {
   constructor() {
     super();
     this.strategies = [];
@@ -70,3 +73,5 @@ export default class Completer extends EventEmitter {
     this.emit('hit', { searchResults });
   }
 }
+
+export default Completer;

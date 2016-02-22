@@ -1,4 +1,4 @@
-export default class SearchResult {
+class SearchResult {
   /**
    * @param {object} data - An element of array callbacked by search function.
    * @param {string} term
@@ -33,3 +33,5 @@ export default class SearchResult {
     return this.strategy.template(this.data, this.term);
   }
 }
+
+export default SearchResult;

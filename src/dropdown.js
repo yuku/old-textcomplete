@@ -7,8 +7,9 @@ import {EventEmitter} from 'events';
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
  * @prop {DropdownItem[]} items - The array of rendered dropdown items.
+ * @extends EventEmitter
  */
-export default class Dropdown extends EventEmitter {
+class Dropdown extends EventEmitter {
   /**
    * @returns {HTMLUListElement}
    */
@@ -215,3 +216,5 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 }
+
+export default Dropdown;

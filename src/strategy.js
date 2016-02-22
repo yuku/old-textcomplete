@@ -5,7 +5,7 @@ import {isFunction} from 'lodash';
 /**
  * Encapsulate a single strategy.
  */
-export default class Strategy {
+class Strategy {
   /**
    * @param {object} props - Attributes of the strategy.
    */
@@ -74,3 +74,5 @@ export default class Strategy {
     return this.props.template;
   }
 }
+
+export default Strategy;

@@ -9,7 +9,7 @@ const CALLBACK_METHODS = ['onBlur', 'onKeydown', 'onKeyup'];
  *
  * @extends Editor
  */
-export default class Textarea extends Editor {
+class Textarea extends Editor {
   /**
    * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
    */
@@ -124,9 +124,6 @@ export default class Textarea extends Editor {
    * @param {FocusEvent} _e
    */
   onBlur(_e) {
-    /**
-     * @event Editor#blur
-     */
     this.emit('blur');
   }
 
@@ -138,12 +135,6 @@ export default class Textarea extends Editor {
   onKeydown(e) {
     var code = this.getCode(e);
     if (code !== null) {
-      /**
-       * @event Editor#move
-       * @type {object}
-       * @prop {number} code
-       * @prop {function} callback
-       */
       this.emit('move', {
         code: code,
         callback: function () {
@@ -160,11 +151,6 @@ export default class Textarea extends Editor {
    */
   onKeyup(e) {
     if (!this.isMoveKeyEvent(e)) {
-      /**
-       * @event Editor#change
-       * @type {object}
-       * @prop {string} beforeCursor
-       */
       this.emit('change', { beforeCursor: this.beforeCursor });
     }
   }
@@ -192,3 +178,5 @@ export default class Textarea extends Editor {
          : null;
   }
 }
+
+export default Textarea;

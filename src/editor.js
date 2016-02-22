@@ -10,7 +10,24 @@ export const DOWN = 2;
  * @abstract
  * @extends EventEmitter
  */
-export default class Editor extends EventEmitter {
+class Editor extends EventEmitter {
+  /**
+   * @event Editor#move
+   * @type {object}
+   * @prop {number} code
+   * @prop {function} callback
+   */
+
+  /**
+   * @event Editor#change
+   * @type {object}
+   * @prop {string} beforeCursor
+   */
+
+  /**
+   * @event Editor#blur
+   */
+
   /**
    * It is called when a search result is selected by a user.
    *
@@ -29,3 +46,5 @@ export default class Editor extends EventEmitter {
     throw new Error('Not implemented.');
   }
 }
+
+export default Editor;
