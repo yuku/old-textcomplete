@@ -1,5 +1,6 @@
 import DropdownItem from './dropdown-item';
-import {extend, uniqueId} from 'lodash';
+import extend from 'lodash.assignin';
+import uniqueId from 'lodash.uniqueid';
 import {EventEmitter} from 'events';
 
 /**

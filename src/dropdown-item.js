@@ -1,4 +1,4 @@
-import {uniqueId} from 'lodash';
+import uniqueId from 'lodash.uniqueid';
 
 const INACTIVE_CLASS_NAME = 'textcomplete-item';
 const ACTIVE_CLASS_NAME = `${INACTIVE_CLASS_NAME} active`;

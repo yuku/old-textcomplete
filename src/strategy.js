@@ -1,6 +1,6 @@
 import Query from './query';
 
-import {isFunction} from 'lodash';
+import isFunction from 'lodash.isfunction';
 
 /**
  * Encapsulate a single strategy.

@@ -2,7 +2,7 @@ import Strategy from '../src/strategy';
 import SearchResult from '../src/search-result';
 import Textarea from '../src/textarea';
 import Query from '../src/query';
-import {extend} from 'lodash';
+import extend from 'lodash.assignin';
 
 /**
  * @returns {HTMLTextAreaElement}

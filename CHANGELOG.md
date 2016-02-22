@@ -10,6 +10,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Add [jsdoc](https://github.com/jsdoc3/jsdoc) to `gh-pages`.
 
+### Changed
+- Use separated lodash npm packages instead of whole lodash code.
+
 ## [0.1.1] - 2016-02-22
 ### Added
 - This CHANGELOG file.

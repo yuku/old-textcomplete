@@ -1,5 +1,5 @@
 import {createSearchResult} from './test-helper';
-import {isUndefined} from 'lodash';
+import isUndefined from 'lodash.isundefined';
 
 const assert = require('power-assert');
 

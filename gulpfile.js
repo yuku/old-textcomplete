@@ -137,7 +137,6 @@ gulp.task('doc:css', () => {
   }
 
   gulp.task('doc:js', () => {
-    var _ = require('lodash');
     var browserify = require('browserify');
 
     b = browserify(commonOpts);
@@ -147,11 +146,11 @@ gulp.task('doc:css', () => {
   });
 
   gulp.task('watch', ['doc:html', 'doc:css'], () => {
-    var _ = require('lodash');
+    var extend = require('lodash.assignin');
     var browserify = require('browserify');
     var watchify = require('watchify');
 
-    b = watchify(browserify(_.extend({}, watchify.args, commonOpts)));
+    b = watchify(browserify(extend({}, watchify.args, commonOpts)));
     b.transform('babelify');
 
     b.on('update', bundleDoc);

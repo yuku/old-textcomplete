@@ -3,7 +3,7 @@ import Dropdown from './dropdown';
 import Strategy from './strategy';
 import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
-import {isFunction} from 'lodash';
+import isFunction from 'lodash.isfunction';
 
 const CALLBACK_METHODS = [
   'handleBlur',
