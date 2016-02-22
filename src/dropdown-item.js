@@ -34,7 +34,8 @@ class DropdownItem {
       a.innerHTML = this.searchResult.render();
       li.appendChild(a);
       this._el = li;
-      li.addEventListener('click', this.onClick);
+      li.addEventListener('mousedown', this.onClick);
+      li.addEventListener('touchstart', this.onClick);
     }
     return this._el;
   }
@@ -45,7 +46,8 @@ class DropdownItem {
    * @public
    */
   finalize() {
-    this._el.removeEventListener('click', this.onClick, false);
+    this._el.removeEventListener('mousedown', this.onClick, false);
+    this._el.removeEventListener('touchstart', this.onClick, false);
     // This element has already been removed by `Dropdown#clear`.
     this._el = null;
   }

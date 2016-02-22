@@ -89,14 +89,29 @@ describe('Integration test', function () {
     assert.equal(textareaEl.selectionEnd, 12);
   });
 
-  it('should work with mouse', function () {
+  it('should work with touch event', function () {
+    input(50, false, false, true, 'Hi, @'); // '@'
+    expectDropdownIsHidden();
+    input(65, false, false, false, 'Hi, @a'); // 'a'
+    expectDropdownIsShown();
+    var dropdownItemEl = document.querySelector('.textcomplete-item');
+    var clickEvent = document.createEvent('TouchEvent');
+    clickEvent.initEvent('touchstart', true, true);
+    dropdownItemEl.dispatchEvent(clickEvent);
+    expectDropdownIsHidden();
+    assert.equal(textareaEl.value, 'Hi, @alice ');
+    assert.equal(textareaEl.selectionStart, 11);
+    assert.equal(textareaEl.selectionEnd, 11);
+  });
+
+  it('should work with mouse event', function () {
     input(50, false, false, true, 'Hi, @'); // '@'
     expectDropdownIsHidden();
     input(65, false, false, false, 'Hi, @a'); // 'a'
     expectDropdownIsShown();
     var dropdownItemEl = document.querySelector('.textcomplete-item');
     var clickEvent = document.createEvent('MouseEvent');
-    clickEvent.initEvent('click', true, true);
+    clickEvent.initEvent('mousedown', true, true);
     dropdownItemEl.dispatchEvent(clickEvent);
     expectDropdownIsHidden();
     assert.equal(textareaEl.value, 'Hi, @alice ');
