@@ -43,6 +43,7 @@
     "gulp-uglify": "^1.5.1",
     "gulp-util": "^3.0.7",
     "isparta": "^4.0.0",
+    "jsdoc": "^3.4.0",
     "jsdom": "^8.0.2",
     "power-assert": "^1.2.0",
     "precss": "^1.4.0",
