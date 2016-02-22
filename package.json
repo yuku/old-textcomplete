@@ -4,10 +4,7 @@
   "description": "Autocomplete for textarea elements",
   "main": "lib/textcomplete.js",
   "scripts": {
-    "clean": "gulp clean",
-    "compile": "gulp compile",
-    "gh-pages": "gulp gh-pages",
-    "prepublish": "test \"$CI\" != \"true\" && npm test && npm run clean && npm run compile || echo skip prepublish",
+    "prepublish": "test \"$CI\" != \"true\" && npm test && gulp clean && gulp compile || echo skip prepublish",
     "start": "gulp server watch",
     "test": "gulp test"
   },
