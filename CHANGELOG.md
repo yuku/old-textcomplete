@@ -13,6 +13,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ### Fixed
 - Enable to require as a npm package.
+- Don't lint js files in `dist/`, `lib/` and `powered-test/`.
 
 ## 0.1.0 - 2016-02-20 [YANKED]
 ### Added
