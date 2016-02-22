@@ -39,8 +39,11 @@ class Editor extends EventEmitter {
 
   /**
    * The input cursor's absolute coordinates from the window's left
-   * top corner. It is intended to be overridden by sub classes and
-   * returns `{top: number, left: number}` object.
+   * top corner. It is intended to be overridden by sub classes.
+   *
+   * @type {object}
+   * @prop {number} top
+   * @prop {number} left
    */
   get cursorOffset() {
     throw new Error('Not implemented.');
