@@ -6,7 +6,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
-## [0.1.2]
+## [Unreleased]
+
+## [0.1.2] - 2016-02-22
 ### Added
 - Add [jsdoc](https://github.com/jsdoc3/jsdoc) to `gh-pages`.
 
@@ -27,5 +29,6 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Initial release.
 
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.1.2...HEAD
 [0.1.2]: https://github.com/yuku-t/textcomplete/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/yuku-t/textcomplete/compare/83a55de...v0.1.1
