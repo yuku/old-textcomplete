@@ -4,6 +4,7 @@
   "description": "Autocomplete for textarea elements",
   "main": "lib/textcomplete.js",
   "scripts": {
+    "postpublish": "npm pack textcomplete && gh-release -a textcomplete-$(cat package.json|jq -r .version).tgz",
     "prepublish": "test \"$CI\" != \"true\" && npm test && gulp clean && gulp compile || echo skip prepublish",
     "start": "gulp server watch",
     "test": "gulp test"
@@ -25,6 +26,7 @@
     "babelify": "^7.2.0",
     "browserify": "^13.0.0",
     "del": "^2.2.0",
+    "gh-release": "^2.0.2",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.2",
     "gulp-connect": "^2.3.1",

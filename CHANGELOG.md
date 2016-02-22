@@ -10,6 +10,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - This CHANGELOG file.
 - Update `gh-pages` automatically when `master` branch is changed.
+- Create a corresponding GitHub release whenever a new npm package is published.
 
 ### Fixed
 - Enable to require as a npm package.
