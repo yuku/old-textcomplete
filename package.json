@@ -1,6 +1,6 @@
 {
   "name": "textcomplete",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Autocomplete for textarea elements",
   "main": "lib/textcomplete.js",
   "scripts": {
