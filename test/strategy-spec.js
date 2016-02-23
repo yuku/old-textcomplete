@@ -53,4 +53,61 @@ describe('Strategy', function () {
       sharedExamples.call(this);
     });
   });
+
+  describe('#search()', function () {
+    var strategy, term, callback, match, results, searchFunc;
+
+    function subject() {
+      strategy.search(term, callback, match);
+    }
+
+    beforeEach(function () {
+      results = [];
+      searchFunc = this.sinon.spy(function (_t, c) { c(results); });
+    });
+
+    context('with cache', function () {
+      beforeEach(function () {
+        strategy = new Strategy({ cache: true, search: searchFunc });
+        [term, callback, match] = ['he', this.sinon.spy(), ['he', '', 'he']];
+      });
+
+      it('should cache the search results', function () {
+        subject();
+        assert(searchFunc.calledOnce);
+        assert(callback.calledOnce);
+        assert(callback.calledWith(results));
+
+        searchFunc.reset();
+        callback.reset();
+
+        subject();
+        assert(!searchFunc.called);
+        assert(callback.calledOnce);
+        assert(callback.calledWith(results));
+      });
+    });
+
+    context('without cache', function () {
+      beforeEach(function () {
+        strategy = new Strategy({ cache: false, search: searchFunc });
+        [term, callback, match] = ['he', this.sinon.spy(), ['he', '', 'he']];
+      });
+
+      it('should not cache the search results', function () {
+        subject();
+        assert(searchFunc.calledOnce);
+        assert(callback.calledOnce);
+        assert(callback.calledWith(results));
+
+        searchFunc.reset();
+        callback.reset();
+
+        subject();
+        assert(searchFunc.calledOnce);
+        assert(callback.calledOnce);
+        assert(callback.calledWith(results));
+      });
+    });
+  });
 });

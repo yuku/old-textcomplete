@@ -12,6 +12,7 @@ class Strategy {
   constructor(props) {
     this.props = props;
     this.props.template || (this.props.template = function (value) { return value; });
+    this.cache = props.cache ? {} : null;
   }
 
   /**
@@ -31,7 +32,11 @@ class Strategy {
    * @param {string[]} match
    */
   search(term, callback, match) {
-    this.props.search(term, callback, match);
+    if (this.cache) {
+      this.searchWithCache(term, callback, match);
+    } else {
+      this.props.search(term, callback, match);
+    }
   }
 
   /**
@@ -40,6 +45,24 @@ class Strategy {
    */
   replace(data) {
     return this.props.replace(data);
+  }
+
+  /**
+   * @private
+   * @param {string} term
+   * @param {function} callback
+   * @param {string[]} match
+   */
+  searchWithCache(term, callback, match) {
+    var cache = this.cache[term];
+    if (cache) {
+      callback(cache);
+    } else {
+      this.props.search(term, results => {
+        this.cache[term] = results;
+        callback(results);
+      }, match);
+    }
   }
 
   /**
