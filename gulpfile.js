@@ -123,6 +123,7 @@ gulp.task('doc:css', () => {
   let commonOpts = { debug: true, entries: [paths.doc.js] };
   let gutil = require('gulp-util');
   let source = require('vinyl-source-stream');
+  let shell = require('gulp-shell');
 
   // Shared bundle task.
   function bundleDoc() {
@@ -133,6 +134,7 @@ gulp.task('doc:css', () => {
       })
       .pipe(source('main.js'))
       .pipe(gulp.dest(paths.doc.dest))
+      .pipe(shell(['./node_modules/.bin/jsdoc -c .jsdoc.json src']))
       .pipe(connect.reload());
   }
 
@@ -162,8 +164,6 @@ gulp.task('doc:css', () => {
     return bundleDoc();
   });
 }
-
-gulp.task('default', ['server', 'watch']);
 
 gulp.task('gh-pages', ['doc:js', 'doc:html', 'doc:css'], () => {
   var ghPages = require('gulp-gh-pages');

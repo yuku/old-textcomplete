@@ -1,0 +1,8 @@
+{
+  "opts": {
+    "destination": "./textcomplete/docs/",
+    "encoding": "utf8",
+    "readme": "./README.md"
+  },
+  "plugins": ["plugins/markdown"]
+}
