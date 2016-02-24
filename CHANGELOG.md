@@ -12,6 +12,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Enable to use markdown in jsdoc.
 - Add `cache` strategy parameter.
 - Add `className` dropdown option.
+- Add `style` dropdown option.
 
 ## [0.1.2] - 2016-02-22
 ### Added
