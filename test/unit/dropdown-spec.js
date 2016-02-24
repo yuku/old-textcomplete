@@ -31,6 +31,14 @@ describe('Dropdown', function () {
         assert.equal(dropdown.el.className, className);
       });
     });
+
+    context('with style option', function () {
+      it('should return a element with custom style attribute', function () {
+        var style = { backgroundColor: '#f0f' };
+        var dropdown = new Dropdown({ style: style });
+        assert.equal(dropdown.el.style.backgroundColor, 'rgb(255, 0, 255)');
+      });
+    });
   });
 
   describe('#render', function () {
