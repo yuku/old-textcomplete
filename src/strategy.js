@@ -10,7 +10,7 @@ function DEFAULT_TEMPLATE(value) {
 }
 
 /**
- * Properties of the strategy.
+ * Properties for a strategy.
  *
  * @typedef {Object} Strategy~Properties
  * @prop {regexp|function} match - If it is a function, it must return a RegExp.

@@ -8,14 +8,16 @@ Autocomplete for textarea elements.
 [![Test Coverage](https://codeclimate.com/github/yuku-t/textcomplete/badges/coverage.svg)](https://codeclimate.com/github/yuku-t/textcomplete/coverage)
 [![Inline docs](http://inch-ci.org/github/yuku-t/textcomplete.svg?branch=master)](http://inch-ci.org/github/yuku-t/textcomplete)
 
-## Install
+## Documents
 
-```
-npm install textcomplete
-```
+- [Getting Started](http://yuku-t.com/textcomplete/docs/tutorial-getting-started.html)
 
 ## Browser Support
 
  Chrome | Firefox | Internet Explorer | Opera  | Safari
 :------:|:-------:|:-----------------:|:------:|:------:
  latest | latest  |        9.0        | latest | latest
+
+## License
+
+The MIT License
