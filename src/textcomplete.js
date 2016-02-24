@@ -19,10 +19,11 @@ const CALLBACK_METHODS = [
 class Textcomplete {
   /**
    * @param {Editor} editor - Where the textcomplete works on.
+   * @param {object} options
    */
-  constructor(editor) {
+  constructor(editor, options = {}) {
     this.completer = new Completer();
-    this.dropdown = new Dropdown();
+    this.dropdown = new Dropdown(options.dropdown || {});
     this.editor = editor;
 
     // Bind callback methods

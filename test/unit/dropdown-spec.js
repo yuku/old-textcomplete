@@ -17,23 +17,31 @@ describe('Dropdown', function () {
     it('should return a object created by Dropdown.createElement()', function () {
       var result = {};
       var stub = this.sinon.stub(Dropdown, 'createElement', () => { return result; });
-      var dropdown = new Dropdown();
+      var dropdown = new Dropdown({});
       assert.strictEqual(dropdown.el, result);
       assert(stub.calledOnce);
       assert.strictEqual(dropdown.el, result);
       assert(stub.calledOnce); // Dropdown.createElement is not called.
     });
+
+    context('with className option', function () {
+      it('should return a element with the class name', function () {
+        var className = 'hello-world';
+        var dropdown = new Dropdown({ className: className });
+        assert.equal(dropdown.el.className, className);
+      });
+    });
   });
 
   describe('#render', function () {
     it('should return itself', function () {
-      var dropdown = new Dropdown();
+      var dropdown = new Dropdown({});
       assert.strictEqual(dropdown.render([createSearchResult()], { top: 0, left: 0 }), dropdown);
     });
 
     context('when it is hidden', function () {
       it('should change #shown from false to true', function () {
-        var dropdown = new Dropdown();
+        var dropdown = new Dropdown({});
         dropdown.shown = false;
         dropdown.render([createSearchResult()], { top: 0, left: 0 });
         assert(dropdown.shown);
@@ -42,7 +50,7 @@ describe('Dropdown', function () {
 
     context('when search results are given', function () {
       beforeEach(function () {
-        this.dropdown = new Dropdown();
+        this.dropdown = new Dropdown({});
         this.searchResult = createSearchResult();
       });
 
@@ -57,12 +65,12 @@ describe('Dropdown', function () {
 
   describe('#deactivate', function () {
     it('should return itself', function () {
-      var dropdown = new Dropdown();
+      var dropdown = new Dropdown({});
       assert.strictEqual(dropdown.deactivate(), dropdown);
     });
 
     it('should empty itself', function () {
-      var dropdown = new Dropdown();
+      var dropdown = new Dropdown({});
       dropdown.append([new DropdownItem(createSearchResult())]);
       assert.equal(dropdown.length, 1);
       dropdown.deactivate();
@@ -71,7 +79,7 @@ describe('Dropdown', function () {
 
     context('when it is shown', function () {
       it('should change #shown from true to false', function () {
-        var dropdown = new Dropdown();
+        var dropdown = new Dropdown({});
         dropdown.shown = true;
         dropdown.deactivate();
         assert(!dropdown.shown);
@@ -81,7 +89,7 @@ describe('Dropdown', function () {
 
   describe('#append', function () {
     it('should call #appended of the appended dropdown item', function () {
-      var dropdown = new Dropdown();
+      var dropdown = new Dropdown({});
       var dropdownItem = new DropdownItem(createSearchResult());
       var stub = this.sinon.stub(dropdownItem, 'appended');
       dropdown.append([dropdownItem]);
@@ -98,7 +106,7 @@ describe('Dropdown', function () {
     }
 
     beforeEach(function () {
-      dropdown = new Dropdown();
+      dropdown = new Dropdown({});
       dropdownItem = new DropdownItem(createSearchResult());
       dropdown.append([dropdownItem]);
     });
@@ -120,7 +128,7 @@ describe('Dropdown', function () {
     }
 
     beforeEach(function () {
-      dropdown = new Dropdown();
+      dropdown = new Dropdown({});
       spy = this.sinon.spy();
     });
 
@@ -182,7 +190,7 @@ describe('Dropdown', function () {
     var dropdown;
 
     beforeEach(function () {
-      dropdown = new Dropdown();
+      dropdown = new Dropdown({});
     });
 
     context('when it is shown', function () {
@@ -236,7 +244,7 @@ describe('Dropdown', function () {
     var dropdown;
 
     beforeEach(function () {
-      dropdown = new Dropdown();
+      dropdown = new Dropdown({});
     });
 
     context('when it is shown', function () {
