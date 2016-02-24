@@ -1,6 +1,6 @@
-import Dropdown from '../src/dropdown';
-import DropdownItem from '../src/dropdown-item';
-import {createSearchResult} from './test-helper';
+import Dropdown from '../../src/dropdown';
+import DropdownItem from '../../src/dropdown-item';
+import {createSearchResult} from '../test-helper';
 
 const assert = require('power-assert');
 

@@ -18,7 +18,7 @@ var paths = {
   lib: 'lib/',
   powered: 'powered-test/',
   src: 'src/*.js',
-  test: 'test/*.js',
+  test: 'test/**/*.js',
   testrunner: 'test-runner.js',
 };
 

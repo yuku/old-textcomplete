@@ -1,5 +1,5 @@
-import Strategy from '../src/strategy';
-import Query from '../src/query';
+import Strategy from '../../src/strategy';
+import Query from '../../src/query';
 
 const assert = require('power-assert');
 

@@ -1,5 +1,5 @@
-import {ENTER, UP, DOWN} from '../src/editor';
-import {createTextarea, createSearchResult} from './test-helper';
+import {ENTER, UP, DOWN} from '../../src/editor';
+import {createTextarea, createSearchResult} from '../test-helper';
 
 const assert = require('power-assert');
 

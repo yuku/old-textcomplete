@@ -1,5 +1,5 @@
-import Editor from '../src/editor';
-import {createSearchResult} from './test-helper';
+import Editor from '../../src/editor';
+import {createSearchResult} from '../test-helper';
 import {EventEmitter} from 'events';
 
 const assert = require('power-assert');

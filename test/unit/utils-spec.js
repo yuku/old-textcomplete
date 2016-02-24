@@ -1,4 +1,4 @@
-import {lock} from '../src/utils';
+import {lock} from '../../src/utils';
 
 const assert = require('power-assert');
 

@@ -1,5 +1,5 @@
-import Textcomplete from '../src/textcomplete';
-import Textarea from '../src/textarea';
+import Textcomplete from '../../src/textcomplete';
+import Textarea from '../../src/textarea';
 
 const assert = require('power-assert');
 

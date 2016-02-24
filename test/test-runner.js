@@ -1,5 +1,7 @@
 /* eslint-env node */
 
+const fs = require('fs');
+const path = require('path');
 const sinon = require('sinon');
 const jsdom = require('jsdom');
 
@@ -13,12 +15,13 @@ afterEach(function () {
   delete global.document;
 });
 
-var fs = require('fs');
-var files = fs.readdirSync(__dirname);
+['unit', 'integration'].forEach(name => {
+  let files = fs.readdirSync(path.join(__dirname, name));
 
-for (var i = 0; i < files.length; i++) { 
-  let file = files[i];
-  if (/-spec.js$/.test(file)) {
-    require(`./${file}`);
+  for (let i = 0; i < files.length; i++) { 
+    let file = files[i];
+    if (/-spec.js$/.test(file)) {
+      require(path.join(__dirname, name, file));
+    }
   }
-}
+});
