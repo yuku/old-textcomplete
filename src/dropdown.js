@@ -28,10 +28,16 @@ class Dropdown extends EventEmitter {
     return el;
   }
 
-  constructor() {
+  /**
+   * @param {?string} className - The class attribute of the el.
+   */
+  constructor({className}) {
     super();
     this.shown = false;
     this.items = [];
+    if (className) {
+      this.el.className = className;
+    }
   }
 
   /**
