@@ -13,6 +13,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add `cache` strategy parameter.
 - Add `className` dropdown option.
 - Add `style` dropdown option.
+- Add `maxCount` option.
 
 ## [0.1.2] - 2016-02-22
 ### Added

@@ -1,7 +1,7 @@
 import uniqueId from 'lodash.uniqueid';
 
-const INACTIVE_CLASS_NAME = 'textcomplete-item';
-const ACTIVE_CLASS_NAME = `${INACTIVE_CLASS_NAME} active`;
+export const CLASS_NAME = 'textcomplete-item';
+const ACTIVE_CLASS_NAME = `${CLASS_NAME} active`;
 const CALLBACK_METHODS = ['onClick'];
 
 /**
@@ -29,7 +29,7 @@ class DropdownItem {
     if (!this._el) {
       let li = document.createElement('li');
       li.id = this.id;
-      li.className = this.active ? ACTIVE_CLASS_NAME : INACTIVE_CLASS_NAME;
+      li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME;
       let a = document.createElement('a');
       a.innerHTML = this.searchResult.render();
       li.appendChild(a);
@@ -87,7 +87,7 @@ class DropdownItem {
   deactivate() {
     if (this.active) {
       this.active = false;
-      this.el.className = INACTIVE_CLASS_NAME;
+      this.el.className = CLASS_NAME;
     }
     return this;
   }
