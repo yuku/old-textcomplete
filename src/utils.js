@@ -54,3 +54,21 @@ export function lock(func) {
     func.apply(this, args);
   };
 }
+
+/**
+ * Create a document fragment by the given HTML string.
+ *
+ * @param {string} tagString
+ * @returns {DocumentFragment}
+ */
+export function createFragment(tagString) {
+  // TODO Imprement with Range#createContextualFragment when it drops IE9 support.
+  var div = document.createElement('div');
+  div.innerHTML = tagString;
+  var childNodes = div.childNodes;
+  var fragment = document.createDocumentFragment();
+  for (let i = 0, l = childNodes.length; i < l; i++) {
+    fragment.appendChild(childNodes[i]);
+  }
+  return fragment;
+}
