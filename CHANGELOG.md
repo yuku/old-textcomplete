@@ -15,6 +15,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add `style` dropdown option.
 - Add `maxCount` option.
 
+### Changed
+- Exclude src/doc from Inch CI.
+
 ## [0.1.2] - 2016-02-22
 ### Added
 - Add [jsdoc](https://github.com/jsdoc3/jsdoc) to `gh-pages`.
