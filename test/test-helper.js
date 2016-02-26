@@ -12,7 +12,7 @@ export function getHTMLTextAreaElement() {
 }
 
 /**
- * @param {?object} props
+ * @param {object} [props]
  * @returns {Strategy}
  */
 export function createStrategy(props) {
@@ -28,17 +28,13 @@ export function createStrategy(props) {
 }
 
 /**
- * @param {?object} data
- * @param {?string} term
- * @param {?object} strategyProps
+ * @param {object} [data]
+ * @param {string} [term]
+ * @param {object} [strategyProps]
  * @returns {Strategy}
  */
-export function createSearchResult(data, term, strategyProps) {
-  return new SearchResult(
-    data || 'hello',
-    term || 'he',
-    createStrategy(strategyProps)
-  );
+export function createSearchResult(data='hello', term='he', strategyProps) {
+  return new SearchResult(data, term, createStrategy(strategyProps));
 }
 
 /**
@@ -49,15 +45,11 @@ export function createTextarea() {
 }
 
 /**
- * @param {Strategy} strategy
- * @param {string} term
- * @param {string[]} match
+ * @param {Strategy} [strategy]
+ * @param {string} [term]
+ * @param {string[]} [match]
  * @returns {Query}
  */
-export function createQuery(strategy, term, match) {
-  return new Query(
-    strategy || createStrategy(),
-    term || 'he',
-    match || ['he', 'he']
-  );
+export function createQuery(strategy=createStrategy(), term='he', match=['he', '', 'he']) {
+  return new Query(strategy, term, match);
 }

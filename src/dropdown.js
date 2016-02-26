@@ -29,8 +29,8 @@ class Dropdown extends EventEmitter {
   }
 
   /**
-   * @param {?string} className - The class attribute of the el.
-   * @param {?object} style - The style of the el.
+   * @param {string} [className] - The class attribute of the el.
+   * @param {Object} [style] - The style of the el.
    */
   constructor({className, style}) {
     super();
