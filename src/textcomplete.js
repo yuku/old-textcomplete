@@ -99,7 +99,7 @@ class Textcomplete {
    */
   handleHit({searchResults}) {
     if (searchResults.length) {
-      this.dropdown.render(searchResults.slice(0, this.maxCount), this.editor.cursorOffset);
+      this.dropdown.render(searchResults, this.editor.cursorOffset);
     } else {
       this.dropdown.deactivate();
     }
@@ -157,14 +157,6 @@ class Textcomplete {
                .on('blur', this.handleBlur);
     this.dropdown.on('select', this.handleSelect);
     this.completer.on('hit', this.handleHit);
-  }
-
-  /**
-   * @private
-   * @returns {number}
-   */
-  get maxCount() {
-    return this.options.maxCount || 10;
   }
 }
 

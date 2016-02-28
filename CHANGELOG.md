@@ -11,8 +11,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Enable to select dropdown in touch devices.
 - Enable to use markdown in jsdoc.
 - Add `cache` strategy parameter.
-- Add `className`, `style`, `header` and `footer` dropdown options.
-- Add `maxCount` option.
+- Add `className`, `style`, `maxCount`, `header` and `footer` dropdown options.
 
 ### Changed
 - Exclude src/doc from Inch CI.
