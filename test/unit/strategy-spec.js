@@ -13,12 +13,14 @@ describe('Strategy', function () {
   });
 
   describe('#buildQuery()', function () {
+    var strategy;
+
     function sharedExamples() {
       context("and given text matches to the function's result", function () {
         it('should return a Query object', function () {
-          var result = this.strategy.buildQuery('@hello');
+          var result = strategy.buildQuery('@hello');
           assert.ok(result instanceof Query);
-          assert.strictEqual(result.strategy, this.strategy);
+          assert.strictEqual(result.strategy, strategy);
           assert.strictEqual(result.term, 'hello');
           assert.ok(Array.isArray(result.match));
         });
@@ -26,31 +28,25 @@ describe('Strategy', function () {
 
       context("and given text does not match to the function's result", function () {
         it('should return null', function () {
-          assert.equal(this.strategy.buildQuery('hello'), null);
+          assert.equal(strategy.buildQuery('hello'), null);
         });
       });
     }
 
     context('when match param is a function' , function () {
       beforeEach(function () {
-        var object = {
-          match: function () { return /(^|\s)@(\w+)$/; },
-        };
-        this.strategy = new Strategy(object);
+        strategy = new Strategy({ match: function () { return /(^|\s)@(\w+)$/; } });
       });
 
-      sharedExamples.call(this);
+      sharedExamples();
     });
 
     context('when match param is a regexp', function () {
       beforeEach(function () {
-        var object = {
-          match: /(^|\s)@(\w+)$/,
-        };
-        this.strategy = new Strategy(object);
+        strategy = new Strategy({ match: /(^|\s)@(\w+)$/ });
       });
 
-      sharedExamples.call(this);
+      sharedExamples();
     });
   });
 

@@ -2,16 +2,35 @@ import Query from './query';
 
 import isFunction from 'lodash.isfunction';
 
+const DEFAULT_INDEX = 2;
+
+function DEFAULT_TEMPLATE(value) {
+  return value;
+}
+
+/**
+ * Properties of the strategy.
+ *
+ * @typedef {Object} Strategy~Properties
+ * @prop {regexp|function} match - If it is a function, it must return a RegExp.
+ * @prop {function} search
+ * @prop {function} replace
+ * @prop {function} [template]
+ * @prop {boolean} [cache]
+ * @prop {number} [index=2]
+ */
+
 /**
  * Encapsulate a single strategy.
+ *
+ * @prop {Strategy~Properties} props - Its properties.
  */
 class Strategy {
   /**
-   * @param {object} props - Attributes of the strategy.
+   * @param {Strategy~Properties} props
    */
   constructor(props) {
     this.props = props;
-    this.props.template || (this.props.template = function (value) { return value; });
     this.cache = props.cache ? {} : null;
   }
 
@@ -87,14 +106,14 @@ class Strategy {
    * @returns {Number}
    */
   get index() {
-    return this.props.index || 2;
+    return this.props.index || DEFAULT_INDEX;
   }
 
   /**
    * @returns {function}
    */
   get template() {
-    return this.props.template;
+    return this.props.template || DEFAULT_TEMPLATE;
   }
 }
 

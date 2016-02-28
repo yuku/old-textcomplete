@@ -51,7 +51,7 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @public
-   * @param {Object[]} strategyPropsArray
+   * @param {Strategy~Properties[]} strategyPropsArray
    * @returns {this}
    * @example
    * textcomplete.register([{
