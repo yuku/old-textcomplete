@@ -36,14 +36,16 @@ class Dropdown extends EventEmitter {
    * @param {string} [className=DEFAULT_CLASS_NAME] - The class attribute of the el.
    * @param {function|string} [footer]
    * @param {function|string} [header]
+   * @param {number} [maxCount=10]
    * @param {Object} [style] - The style of the el.
    */
-  constructor({className=DEFAULT_CLASS_NAME, footer, header, style}) {
+  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style}) {
     super();
     this.shown = false;
     this.items = [];
     this.footer = footer;
     this.header = header;
+    this.maxCount = maxCount;
     this.el.className = className;
     if (style) {
       extend(this.el.style, style);
@@ -77,7 +79,9 @@ class Dropdown extends EventEmitter {
     var rawResults = [], dropdownItems = [];
     searchResults.forEach(searchResult => {
       rawResults.push(searchResult.data);
-      dropdownItems.push(new DropdownItem(searchResult));
+      if (dropdownItems.length < this.maxCount) {
+        dropdownItems.push(new DropdownItem(searchResult));
+      }
     });
     this.clear()
         .renderEdge(rawResults, 'header')
