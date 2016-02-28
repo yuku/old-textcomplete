@@ -1,7 +1,12 @@
 import DropdownItem from './dropdown-item';
+import {createFragment} from './utils';
+
 import extend from 'lodash.assignin';
 import uniqueId from 'lodash.uniqueid';
+import isFunction from 'lodash.isfunction';
 import {EventEmitter} from 'events';
+
+const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
 /**
  * Encapsulate a dropdown view.
@@ -16,7 +21,6 @@ class Dropdown extends EventEmitter {
    */
   static createElement() {
     var el = document.createElement('ul');
-    el.className = 'dropdown-menu textcomplete-dropdown';
     el.id = uniqueId('textcomplete-dropdown-');
     extend(el.style, {
       display: 'none',
@@ -29,16 +33,18 @@ class Dropdown extends EventEmitter {
   }
 
   /**
-   * @param {?string} className - The class attribute of the el.
-   * @param {?object} style - The style of the el.
+   * @param {string} [className=DEFAULT_CLASS_NAME] - The class attribute of the el.
+   * @param {function|string} [footer]
+   * @param {function|string} [header]
+   * @param {Object} [style] - The style of the el.
    */
-  constructor({className, style}) {
+  constructor({className=DEFAULT_CLASS_NAME, footer, header, style}) {
     super();
     this.shown = false;
     this.items = [];
-    if (className) {
-      this.el.className = className;
-    }
+    this.footer = footer;
+    this.header = header;
+    this.el.className = className;
     if (style) {
       extend(this.el.style, style);
     }
@@ -68,9 +74,15 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   render(searchResults, cursorOffset) {
-    this.clear().append(searchResults.map((searchResult) => {
-      return new DropdownItem(searchResult);
-    }));
+    var rawResults = [], dropdownItems = [];
+    searchResults.forEach(searchResult => {
+      rawResults.push(searchResult.data);
+      dropdownItems.push(new DropdownItem(searchResult));
+    });
+    this.clear()
+        .renderEdge(rawResults, 'header')
+        .append(dropdownItems)
+        .renderEdge(rawResults, 'footer');
     return this.items.length > 0 ? this.setOffset(cursorOffset).show() : this.hide();
   }
 
@@ -223,6 +235,22 @@ class Dropdown extends EventEmitter {
         activeItem.deactivate();
         callback(activeItem[name].activate());
       }
+    }
+    return this;
+  }
+
+  /**
+   * @private
+   * @param {object[]} rawResults - What callbacked by search function.
+   * @param {string} type - 'header' or 'footer'.
+   * @returns {this}
+   */
+  renderEdge(rawResults, type) {
+    var source = this[type];
+    if (source) {
+      let content = isFunction(source) ? source(rawResults) : source;
+      let fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
+      this.el.appendChild(fragment);
     }
     return this;
   }

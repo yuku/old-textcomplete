@@ -42,31 +42,106 @@ describe('Dropdown', function () {
   });
 
   describe('#render', function () {
+    var dropdown, searchResult;
+
+    function subject() {
+      return dropdown.render([searchResult], { top: 0, left: 0 });
+    }
+
+    beforeEach(function () {
+      searchResult = createSearchResult();
+    });
+
     it('should return itself', function () {
-      var dropdown = new Dropdown({});
-      assert.strictEqual(dropdown.render([createSearchResult()], { top: 0, left: 0 }), dropdown);
+      dropdown = new Dropdown({});
+      assert.strictEqual(subject(), dropdown);
     });
 
-    context('when it is hidden', function () {
-      it('should change #shown from false to true', function () {
-        var dropdown = new Dropdown({});
-        dropdown.shown = false;
-        dropdown.render([createSearchResult()], { top: 0, left: 0 });
-        assert(dropdown.shown);
+    it('should change #shown from false to true', function () {
+      dropdown = new Dropdown({});
+      dropdown.shown = false;
+      subject();
+      assert(dropdown.shown);
+    });
+
+    it('should append dropdown items with the search results', function () {
+      dropdown = new Dropdown({});
+      subject();
+      assert.equal(dropdown.items.length, 1);
+      assert(dropdown.items[0] instanceof DropdownItem);
+      assert.equal(dropdown.items[0].searchResult, searchResult);
+    });
+
+    context('when header option is given', function () {
+      var header;
+
+      function sharedExample() {
+        it('should show .textcomplete-header', function () {
+          subject();
+          var el = dropdown.el.childNodes[0];
+          assert.equal(el.className, 'textcomplete-header');
+        });
+      }
+
+      context('and it is a string', function () {
+        beforeEach(function () {
+          header = 'header';
+          dropdown = new Dropdown({ header });
+        });
+
+        sharedExample();
+      });
+
+      context('and it is a function', function () {
+        beforeEach(function () {
+          header = this.sinon.spy();
+          dropdown = new Dropdown({ header });
+        });
+
+        sharedExample();
+
+        it('should call the function with raw search results', function () {
+          subject();
+          assert(header.calledOnce);
+          assert(header.calledWith([searchResult.data]));
+        });
       });
     });
 
-    context('when search results are given', function () {
-      beforeEach(function () {
-        this.dropdown = new Dropdown({});
-        this.searchResult = createSearchResult();
+    context('when footer option is given', function () {
+      var footer;
+
+      function sharedExample() {
+        it('should show .textcomplete-footer', function () {
+          subject();
+          var nodes = dropdown.el.childNodes;
+          var el = nodes[nodes.length - 1];
+          assert.equal(el.className, 'textcomplete-footer');
+        });
+      }
+
+      context('and it is a string', function () {
+        beforeEach(function () {
+          footer = 'footer';
+          dropdown = new Dropdown({ footer });
+        });
+
+        sharedExample();
       });
 
-      it('should append dropdown items with the search results', function () {
-        this.dropdown.render([this.searchResult], { top: 0, left: 0 });
-        assert.equal(this.dropdown.items.length, 1);
-        assert(this.dropdown.items[0] instanceof DropdownItem);
-        assert.equal(this.dropdown.items[0].searchResult, this.searchResult);
+      context('and it is a function', function () {
+        beforeEach(function () {
+          footer = this.sinon.spy();
+          dropdown = new Dropdown({ footer });
+        });
+
+        sharedExample();
+
+        it('should call the function with raw search results', function () {
+          subject();
+          assert(footer.calledOnce);
+          assert(footer.calledWith([searchResult.data]));
+        });
       });
     });
   });
