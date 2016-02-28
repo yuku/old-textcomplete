@@ -106,10 +106,10 @@ class Dropdown extends EventEmitter {
    */
   select(dropdownItem) {
     /**
-      * @event Dropdown#select
-      * @type {object}
-      * @prop {SearchResult} searchResult
-      */
+     * @event Dropdown#select
+     * @type {object}
+     * @prop {SearchResult} searchResult
+     */
     this.emit('select', { searchResult: dropdownItem.searchResult });
     return this.deactivate();
   }
@@ -180,12 +180,21 @@ class Dropdown extends EventEmitter {
    *
    * @private
    * @returns {this}
+   * @fires Dropdown#show
+   * @fires Dropdown#shown
+   * @fires Dropdown#rendered
    */
   show() {
     if (!this.shown) {
+      /** @event Dropdown#show */
+      this.emit('show');
       this.el.style.display = 'block';
       this.shown = true;
+      /** @event Dropdown#shown */
+      this.emit('shown');
     }
+    /** @event Dropdown#rendered */
+    this.emit('rendered');
     return this;
   }
 
@@ -194,11 +203,17 @@ class Dropdown extends EventEmitter {
    *
    * @private
    * @returns {this}
+   * @fires Dropdown#hide
+   * @fires Dropdown#hidden
    */
   hide() {
     if (this.shown) {
+      /** @event Dropdown#hide */
+      this.emit('hide');
       this.el.style.display = 'none';
       this.shown = false;
+      /** @event Dropdown#hidden */
+      this.emit('hidden');
     }
     return this;
   }

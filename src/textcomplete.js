@@ -3,7 +3,9 @@ import Dropdown from './dropdown';
 import Strategy from './strategy';
 import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
+
 import isFunction from 'lodash.isfunction';
+import {EventEmitter} from 'events';
 
 const CALLBACK_METHODS = [
   'handleBlur',
@@ -15,13 +17,20 @@ const CALLBACK_METHODS = [
 
 /**
  * The core of textcomplete. It acts as a mediator.
+ *
+ * @prop {Completer} completer
+ * @prop {Dropdown} dropdown
+ * @prop {Editor} editor
+ * @extends EventEmitter
  */
-class Textcomplete {
+class Textcomplete extends EventEmitter {
   /**
    * @param {Editor} editor - Where the textcomplete works on.
    * @param {object} options
    */
   constructor(editor, options = {}) {
+    super();
+
     this.completer = new Completer();
     this.dropdown = new Dropdown(options.dropdown || {});
     this.editor = editor;
@@ -148,6 +157,21 @@ class Textcomplete {
     this.editor.applySearchResult(searchResult);
   }
 
+  /** @event Textcomplete#show */
+  /** @event Textcomplete#shown */
+  /** @event Textcomplete#rendered */
+  /** @event Textcomplete#hide */
+  /** @event Textcomplete#hidden */
+
+  /**
+   * @private
+   * @param {string} eventName
+   * @returns {function}
+   */
+  buildHandler(eventName) {
+    return () => { this.emit(eventName); };
+  }
+
   /**
    * @private
    */
@@ -155,7 +179,12 @@ class Textcomplete {
     this.editor.on('move', this.handleMove)
                .on('change', this.handleChange)
                .on('blur', this.handleBlur);
-    this.dropdown.on('select', this.handleSelect);
+    this.dropdown.on('select', this.handleSelect)
+                 .on('show', this.buildHandler('show'))
+                 .on('shown', this.buildHandler('shown'))
+                 .on('rendered', this.buildHandler('rendered'))
+                 .on('hide', this.buildHandler('hide'))
+                 .on('hidden', this.buildHandler('hidden'));
     this.completer.on('hit', this.handleHit);
   }
 }
