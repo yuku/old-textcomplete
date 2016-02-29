@@ -9,6 +9,12 @@ import {EventEmitter} from 'events';
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
 /**
+ * @typedef {Object} Dropdown~Offset
+ * @prop {number} top
+ * @prop {number} left
+ */
+
+/**
  * Encapsulate a dropdown view.
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
@@ -72,7 +78,7 @@ class Dropdown extends EventEmitter {
    * Render the given data as dropdown items.
    *
    * @param {SearchResult[]} searchResults
-   * @param {{top: number, left: number}} cursorOffset
+   * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
    */
   render(searchResults, cursorOffset) {
@@ -166,7 +172,7 @@ class Dropdown extends EventEmitter {
 
   /**
    * @private
-   * @param {{top: number, left: number}} cursorOffset
+   * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
    */
   setOffset(cursorOffset) {

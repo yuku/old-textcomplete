@@ -40,10 +40,6 @@ class Textarea extends Editor {
     this.el.focus(); // Clicking a dropdown item removes focus from the element.
   }
 
-  /**
-   * @override
-   * @returns {{top: number, left: number}}
-   */
   get cursorOffset() {
     var elOffset = this.getElOffset();
     var elScroll = this.getElScroll();
