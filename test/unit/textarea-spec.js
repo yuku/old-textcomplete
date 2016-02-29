@@ -1,5 +1,6 @@
 import {ENTER, UP, DOWN} from '../../src/editor';
 import {createTextarea, createSearchResult} from '../test-helper';
+import isNumber from 'lodash.isnumber';
 
 const assert = require('power-assert');
 
@@ -147,6 +148,46 @@ describe('Textarea', function () {
         textarea.applySearchResult(searchResult);
         assert.equal(textarea.el.selectionStart, 'before'.length);
         assert.equal(textarea.el.selectionEnd, 'before'.length);
+      });
+    });
+  });
+
+  describe('#cursorOffset', function () {
+    var textareaEl;
+
+    beforeEach(function () {
+      textareaEl = textarea.el;
+    });
+
+    function subject() {
+      return textarea.cursorOffset;
+    }
+
+    context('when dir attribute of the element is "ltr"', function () {
+      beforeEach(function () {
+        textareaEl.dir = 'ltr';
+      });
+
+      it('should return an object with top and left properties', function () {
+        var result = subject();
+        ['top', 'left'].forEach(name => {
+          assert(isNumber(result[name]));
+        });
+        assert(!result.hasOwnProperty('right'));
+      });
+    });
+
+    context('when dir attribute of the element is "rtl"', function () {
+      beforeEach(function () {
+        textareaEl.dir = 'rtl';
+      });
+
+      it('should return an object with top and right properties', function () {
+        var result = subject();
+        ['top', 'right'].forEach(name => {
+          assert(isNumber(result[name]));
+        });
+        assert(!result.hasOwnProperty('left'));
       });
     });
   });

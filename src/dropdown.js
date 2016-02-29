@@ -9,6 +9,13 @@ import {EventEmitter} from 'events';
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
 /**
+ * @typedef {Object} Dropdown~Offset
+ * @prop {number} [top]
+ * @prop {number} [left]
+ * @prop {number} [right]
+ */
+
+/**
  * Encapsulate a dropdown view.
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
@@ -24,7 +31,6 @@ class Dropdown extends EventEmitter {
     el.id = uniqueId('textcomplete-dropdown-');
     extend(el.style, {
       display: 'none',
-      left: 0,
       position: 'absolute',
       zIndex: 10000,
     });
@@ -72,7 +78,7 @@ class Dropdown extends EventEmitter {
    * Render the given data as dropdown items.
    *
    * @param {SearchResult[]} searchResults
-   * @param {{top: number, left: number}} cursorOffset
+   * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
    */
   render(searchResults, cursorOffset) {
@@ -166,12 +172,15 @@ class Dropdown extends EventEmitter {
 
   /**
    * @private
-   * @param {{top: number, left: number}} cursorOffset
+   * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
    */
   setOffset(cursorOffset) {
-    this.el.style.top = `${cursorOffset.top}px`;
-    this.el.style.left = `${cursorOffset.left}px`;
+    ['top', 'right', 'bottom', 'left'].forEach(name => {
+      if (cursorOffset.hasOwnProperty(name)) {
+        this.el.style[name] = `${cursorOffset[name]}px`;
+      }
+    });
     return this;
   }
 
