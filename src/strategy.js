@@ -1,6 +1,7 @@
 import Query from './query';
 
 import isFunction from 'lodash.isfunction';
+import isString from 'lodash.isstring';
 
 const DEFAULT_INDEX = 2;
 
@@ -15,6 +16,7 @@ function DEFAULT_TEMPLATE(value) {
  * @prop {regexp|function} match - If it is a function, it must return a RegExp.
  * @prop {function} search
  * @prop {function} replace
+ * @prop {function} [context]
  * @prop {function} [template]
  * @prop {boolean} [cache]
  * @prop {number} [index=2]
@@ -41,6 +43,14 @@ class Strategy {
    * @returns {?Query}
    */
   buildQuery(text) {
+    if (isFunction(this.props.context)) {
+      let context = this.props.context(text);
+      if (isString(context)) {
+        text = context;
+      } else if (!context) {
+        return null;
+      }
+    }
     var match = text.match(this.getMatchRegexp(text));
     return match ? new Query(this, match[this.index], match) : null;
   }

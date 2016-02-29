@@ -48,6 +48,51 @@ describe('Strategy', function () {
 
       sharedExamples();
     });
+
+    context('when context prop is given', function () {
+      var props;
+
+      beforeEach(function () {
+        props = { match: /(^|\s)@(\w+)$/ };
+        strategy = new Strategy(props);
+      });
+
+      it('should call the function', function () {
+        var spy = props.context = this.sinon.spy();
+        var text = '@hello';
+        strategy.buildQuery(text);
+        assert(spy.calledOnce);
+        assert(spy.calledWith(text));
+      });
+
+      context('and it returns false', function () {
+        beforeEach(function () {
+          props.context = this.sinon.spy(function () {
+            return false;
+          });
+        });
+
+        it('should return null even if the text matches', function () {
+          assert.equal(strategy.buildQuery('@hello'), null);
+        });
+      });
+
+      context('and it returns a string', function () {
+        var returnedString;
+        beforeEach(function () {
+          returnedString = '@world';
+          props.context = this.sinon.spy(function () {
+            return returnedString;
+          });
+        });
+
+        it('should test match with the returned string', function () {
+          var text = '@hello';
+          var result = strategy.buildQuery(text);
+          assert.strictEqual(result.term, 'world');
+        });
+      });
+    });
   });
 
   describe('#search()', function () {
