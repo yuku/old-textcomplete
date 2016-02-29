@@ -10,7 +10,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Enable to select dropdown in touch devices.
 - Enable to use markdown in jsdoc.
-- Add `cache` strategy parameter.
+- Add `cache`, `context` strategy parameters.
 - Add `className`, `style`, `maxCount`, `header` and `footer` dropdown options.
 - Add `show`, `shown`, `rendered`, `hide` and `hidden` events to `Textcomplete`.
 
