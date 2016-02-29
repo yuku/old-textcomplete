@@ -6,7 +6,8 @@ engines:
     - test
     config:
       languages:
-      - javascript
+        javascript:
+          mass_threshold: 60 # Defualt: 40
   eslint:
     enabled: true
   fixme:
