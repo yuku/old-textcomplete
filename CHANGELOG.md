@@ -13,6 +13,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add `cache`, `context` strategy parameters.
 - Add `className`, `style`, `maxCount`, `header` and `footer` dropdown options.
 - Add `show`, `shown`, `rendered`, `hide` and `hidden` events to `Textcomplete`.
+- Support "rtl" textarea.
 
 ### Changed
 - Exclude src/doc from Inch CI.

@@ -8,10 +8,11 @@ const CALLBACK_METHODS = ['onBlur', 'onKeydown', 'onKeyup'];
  * Encapsulate the target textarea element.
  *
  * @extends Editor
+ * @prop {HTMLTextAreaElement} el - Where the textcomplete works on.
  */
 class Textarea extends Editor {
   /**
-   * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
+   * @param {HTMLTextAreaElement} el
    */
   constructor(el) {
     super();
@@ -44,10 +45,13 @@ class Textarea extends Editor {
     var elOffset = this.getElOffset();
     var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
-    return {
-      top: elOffset.top - elScroll.top + cursorPosition.top + this.getElLineHeight(),
-      left: elOffset.left - elScroll.left + cursorPosition.left,
-    };
+    var top = elOffset.top - elScroll.top + cursorPosition.top + this.getElLineHeight();
+    var left = elOffset.left - elScroll.left + cursorPosition.left;
+    if (this.el.dir !== 'rtl') {
+      return { top, left };
+    } else {
+      return { top: top, right: document.documentElement.clientWidth - left };
+    }
   }
 
   /**
