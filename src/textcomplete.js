@@ -16,17 +16,25 @@ const CALLBACK_METHODS = [
 ];
 
 /**
+ * Options for a textcomplete.
+ *
+ * @typedef {Object} Textcomplete~Options
+ * @prop {Dropdown~Options} dropdown
+ */
+
+/**
  * The core of textcomplete. It acts as a mediator.
  *
  * @prop {Completer} completer
  * @prop {Dropdown} dropdown
  * @prop {Editor} editor
  * @extends EventEmitter
+ * @tutorial getting-started
  */
 class Textcomplete extends EventEmitter {
   /**
    * @param {Editor} editor - Where the textcomplete works on.
-   * @param {object} options
+   * @param {Textcomplete~Options} options
    */
   constructor(editor, options = {}) {
     super();

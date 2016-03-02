@@ -16,6 +16,15 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
  */
 
 /**
+ * @typedef {Object} Dropdown~Options
+ * @prop {string} [className]
+ * @prop {function|string} [footer]
+ * @prop {function|string} [header]
+ * @prop {number} [maxCount]
+ * @prop {Object} [style]
+ */
+
+/**
  * Encapsulate a dropdown view.
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
