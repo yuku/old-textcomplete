@@ -9,6 +9,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## [Unreleased]
 ### Added
 - Add "Getting Started" and "Development" documents.
+- Add a contributing guide.
 
 ## [0.2.0] - 2016-02-29
 ### Added
