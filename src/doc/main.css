@@ -1,33 +1,55 @@
-/* Sample */
+@import "../../node_modules/getbase/dist/style.css";
+@import "../../node_modules/highlight.js/styles/solarized-dark.css";
 
-.dropdown-menu {
-    border: 1px solid #ddd;
-    background-color: white;
+:root {
+  --height: 18px;
 }
 
-.dropdown-menu li {
+textarea {
+  font-size: var(--height);
+}
+
+.dropdown-menu {
+  background-color: white;
+  border: 1px solid #ddd;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  & li {
     border-top: 1px solid #ddd;
     padding: 2px 5px;
-}
-
-.dropdown-menu li:first-child {
-    border-top: none;
-}
-
-.dropdown-menu li:hover,
-.dropdown-menu .active {
-    background-color: rgb(110, 183, 219);
-}
-
-
-/* SHOULD not modify */
-
-.dropdown-menu {
-    list-style: none;
-    padding: 0;
     margin: 0;
+  }
+
+  & li:first-child {
+    border-top: none;
+  }
+
+  & li:hover,
+  & .active {
+    background-color: rgb(110, 183, 219);
+  }
+
+  & a {
+    height: var(--height);
+    text-decoration: none;
+    color: #555;
+  }
+
+  & a:hover {
+    cursor: pointer;
+  }
+
+  & img {
+    vertical-align: text-top;
+    height: var(--height);
+  }
 }
 
-.dropdown-menu a:hover {
-    cursor: pointer;
+.editor {
+  margin: 1em 0 1em;
+}
+
+textarea {
+  width: 100%;
 }
