@@ -68,8 +68,7 @@ class Dropdown extends EventEmitter {
   }
 
   /**
-   * @private
-   * @returns {HTMLUListElement}
+   * @returns {HTMLUListElement} the dropdown element.
    */
   get el() {
     this._el || (this._el = Dropdown.createElement());
@@ -152,6 +151,15 @@ class Dropdown extends EventEmitter {
    */
   down(callback) {
     return this.moveActiveItem('next', callback);
+  }
+
+  /**
+   * Retrieve the active item.
+   *
+   * @returns {DropdownItem|undefined}
+   */
+  getActiveItem() {
+    return this.items.find((item) => { return item.active; });
   }
 
   /**
@@ -240,16 +248,6 @@ class Dropdown extends EventEmitter {
     this.items.forEach((item) => { item.finalize(); });
     this.items = [];
     return this;
-  }
-
-  /**
-   * Retrieve the active item.
-   *
-   * @private
-   * @returns {DropdownItem|undefined}
-   */
-  getActiveItem() {
-    return this.items.find((item) => { return item.active; });
   }
 
   /**

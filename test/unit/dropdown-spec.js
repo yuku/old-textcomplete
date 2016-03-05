@@ -1,6 +1,7 @@
 import Dropdown from '../../src/dropdown';
 import DropdownItem from '../../src/dropdown-item';
 import {createSearchResult} from '../test-helper';
+import isUndefined from 'lodash.isundefined';
 
 const assert = require('power-assert');
 
@@ -489,6 +490,41 @@ describe('Dropdown', function () {
         var spy = this.sinon.spy();
         dropdown.down(spy);
         assert(!spy.called);
+      });
+    });
+  });
+
+  describe('#getActiveItem', function () {
+    var dropdown;
+
+    beforeEach(function () {
+      dropdown = new Dropdown({});
+      dropdown.render([
+        createSearchResult(),
+        createSearchResult(),
+        createSearchResult(),
+      ], { top: 0, left: 0 });
+    });
+
+    function subject() {
+      return dropdown.getActiveItem();
+    }
+
+    context('without active item', function () {
+      it('should return undefined', function () {
+        assert(isUndefined(subject()));
+      });
+    });
+
+    context('with active item', function () {
+      var activeItem;
+
+      beforeEach(function () {
+        activeItem = dropdown.items[1].activate();
+      });
+
+      it('should return the active item', function () {
+        assert.strictEqual(subject(), activeItem);
       });
     });
   });
