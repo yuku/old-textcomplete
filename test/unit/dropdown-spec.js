@@ -253,9 +253,9 @@ describe('Dropdown', function () {
     it('should empty itself', function () {
       var dropdown = new Dropdown({});
       dropdown.append([new DropdownItem(createSearchResult())]);
-      assert.equal(dropdown.length, 1);
+      assert.equal(dropdown.items.length, 1);
       dropdown.deactivate();
-      assert.equal(dropdown.length, 0);
+      assert.equal(dropdown.items.length, 0);
     });
 
     context('when it is shown', function () {

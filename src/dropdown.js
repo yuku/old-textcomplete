@@ -77,13 +77,6 @@ class Dropdown extends EventEmitter {
   }
 
   /**
-   * @returns {number}
-   */
-  get length() {
-    return this.items.length;
-  }
-
-  /**
    * Render the given data as dropdown items.
    *
    * @param {SearchResult[]} searchResults
