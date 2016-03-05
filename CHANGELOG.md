@@ -10,9 +10,14 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Add "Getting Started" and "Development" documents.
 - Add a contributing guide.
+- Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
 
 ### Changed
 - Don't hide dropdown on blur event by default.
+- Don't activate the first dropdown item by default.
+
+### Removed
+- Remove `Dropdown#length`
 
 ## [0.2.0] - 2016-02-29
 ### Added
