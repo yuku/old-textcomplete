@@ -8,7 +8,6 @@ import isFunction from 'lodash.isfunction';
 import {EventEmitter} from 'events';
 
 const CALLBACK_METHODS = [
-  'handleBlur',
   'handleChange',
   'handleHit',
   'handleMove',
@@ -150,14 +149,6 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @listens Editor#blur
-   */
-  handleBlur() {
-    this.dropdown.deactivate();
-  }
-
-  /**
-   * @private
    * @param {SearchResult} searchResult
    * @listens Dropdown#select
    */
@@ -185,8 +176,7 @@ class Textcomplete extends EventEmitter {
    */
   startListening() {
     this.editor.on('move', this.handleMove)
-               .on('change', this.handleChange)
-               .on('blur', this.handleBlur);
+               .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect)
                  .on('show', this.buildHandler('show'))
                  .on('shown', this.buildHandler('shown'))

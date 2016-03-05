@@ -118,15 +118,4 @@ describe('Integration test', function () {
     assert.equal(textareaEl.selectionStart, 11);
     assert.equal(textareaEl.selectionEnd, 11);
   });
-
-  it('should work when blur', function () {
-    input(50, false, false, true, 'Hi, @'); // '@'
-    expectDropdownIsHidden();
-    input(65, false, false, false, 'Hi, @a'); // 'a'
-    expectDropdownIsShown();
-    var blurEvent = document.createEvent('UIEvents');
-    blurEvent.initEvent('blur', true, true);
-    textareaEl.dispatchEvent(blurEvent);
-    expectDropdownIsHidden();
-  });
 });

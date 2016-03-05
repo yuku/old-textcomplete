@@ -11,6 +11,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add "Getting Started" and "Development" documents.
 - Add a contributing guide.
 
+### Changed
+- Don't hide dropdown on blur event by default.
+
 ## [0.2.0] - 2016-02-29
 ### Added
 - Enable to select dropdown in touch devices.

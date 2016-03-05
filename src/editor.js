@@ -25,10 +25,6 @@ class Editor extends EventEmitter {
    */
 
   /**
-   * @event Editor#blur
-   */
-
-  /**
    * It is called when a search result is selected by a user.
    *
    * @param {SearchResult} _searchResult

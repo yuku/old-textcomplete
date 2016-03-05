@@ -2,7 +2,7 @@ import Editor, {ENTER, UP, DOWN} from './editor';
 
 const getCaretCoordinates = require('textarea-caret');
 
-const CALLBACK_METHODS = ['onBlur', 'onKeydown', 'onKeyup'];
+const CALLBACK_METHODS = ['onKeydown', 'onKeyup'];
 
 /**
  * Encapsulate the target textarea element.
@@ -23,7 +23,6 @@ class Textarea extends Editor {
       this[name] = this[name].bind(this);
     });
 
-    this.el.addEventListener('blur', this.onBlur);
     this.el.addEventListener('keydown', this.onKeydown);
     this.el.addEventListener('keyup', this.onKeyup);
   }
@@ -116,15 +115,6 @@ class Textarea extends Editor {
     var computed = document.defaultView.getComputedStyle(this.el);
     var lineHeight = parseInt(computed.lineHeight, 10);
     return isNaN(lineHeight) ? parseInt(computed.fontSize, 10) : lineHeight;
-  }
-
-  /**
-   * @private
-   * @fires Editor#blur
-   * @param {FocusEvent} _e
-   */
-  onBlur(_e) {
-    this.emit('blur');
   }
 
   /**
