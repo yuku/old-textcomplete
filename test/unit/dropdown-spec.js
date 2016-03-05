@@ -323,7 +323,7 @@ describe('Dropdown', function () {
 
         beforeEach(function () {
           dropdown.render([createSearchResult()], { top: 0, left: 0 });
-          activeItem = dropdown.getActiveItem();
+          activeItem = dropdown.items[0].activate();
         });
 
         it('should callback with the active DropdownItem', function () {
@@ -386,9 +386,10 @@ describe('Dropdown', function () {
             createSearchResult(),
             createSearchResult(),
           ], { top: 0, left: 0 });
-          assert(dropdown.items[0].active);
+          assert(!dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(!dropdown.items[2].active);
+
           var spy = this.sinon.spy();
           dropdown.up(spy);
           assert(!dropdown.items[0].active);
@@ -396,6 +397,14 @@ describe('Dropdown', function () {
           assert(dropdown.items[2].active);
           assert(spy.calledOnce);
           assert(spy.calledWith(dropdown.items[2]));
+
+          spy.reset();
+          dropdown.up(spy);
+          assert(!dropdown.items[0].active);
+          assert(dropdown.items[1].active);
+          assert(!dropdown.items[2].active);
+          assert(spy.calledOnce);
+          assert(spy.calledWith(dropdown.items[1]));
         });
       });
 
@@ -440,10 +449,19 @@ describe('Dropdown', function () {
             createSearchResult(),
             createSearchResult(),
           ], { top: 0, left: 0 });
+          assert(!dropdown.items[0].active);
+          assert(!dropdown.items[1].active);
+          assert(!dropdown.items[2].active);
+
+          var spy = this.sinon.spy();
+          dropdown.down(spy);
           assert(dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(!dropdown.items[2].active);
-          var spy = this.sinon.spy();
+          assert(spy.calledOnce);
+          assert(spy.calledWith(dropdown.items[0]));
+
+          spy.reset();
           dropdown.down(spy);
           assert(!dropdown.items[0].active);
           assert(dropdown.items[1].active);

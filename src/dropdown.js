@@ -261,16 +261,22 @@ class Dropdown extends EventEmitter {
 
   /**
    * @private
-   * @param {string} name
+   * @param {string} name - "next" or "prev".
    * @param {function} callback
    * @returns {this}
    */
   moveActiveItem(name, callback) {
     if (this.shown) {
       let activeItem = this.getActiveItem();
+      let nextActiveItem;
       if (activeItem) {
         activeItem.deactivate();
-        callback(activeItem[name].activate());
+        nextActiveItem = activeItem[name];
+      } else {
+        nextActiveItem = name === 'next' ? this.items[0] : this.items[this.items.length - 1];
+      }
+      if (nextActiveItem) {
+        callback(nextActiveItem.activate());
       }
     }
     return this;

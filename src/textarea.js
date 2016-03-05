@@ -151,7 +151,8 @@ class Textarea extends Editor {
    * @returns {boolean}
    */
   isMoveKeyEvent(e) {
-    return this.getCode(e) !== null;
+    var code = this.getCode(e);
+    return code !== ENTER && code !== null;
   }
 
   /**

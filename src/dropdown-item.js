@@ -63,9 +63,6 @@ class DropdownItem {
     this.dropdown = dropdown;
     this.siblings = dropdown.items;
     this.index = this.siblings.length - 1;
-    if (this.index === 0) {
-      this.activate();
-    }
   }
 
   /**

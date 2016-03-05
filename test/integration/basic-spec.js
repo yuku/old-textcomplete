@@ -82,6 +82,8 @@ describe('Integration test', function () {
     expectDropdownIsShown();
     input(40, false, false, false, 'Hi, @a'); // down
     expectDropdownIsShown();
+    input(40, false, false, false, 'Hi, @a'); // down
+    expectDropdownIsShown();
     input(13, false, false, false); // enter
     expectDropdownIsHidden();
     assert.equal(textareaEl.value, 'Hi, @amanda ');
