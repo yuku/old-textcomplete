@@ -81,6 +81,7 @@ class Dropdown extends EventEmitter {
    * @param {SearchResult[]} searchResults
    * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
+   * @fires Dropdown#rendered
    */
   render(searchResults, cursorOffset) {
     var rawResults = [], dropdownItems = [];
@@ -93,8 +94,12 @@ class Dropdown extends EventEmitter {
     this.clear()
         .renderEdge(rawResults, 'header')
         .append(dropdownItems)
-        .renderEdge(rawResults, 'footer');
-    return this.items.length > 0 ? this.setOffset(cursorOffset).show() : this.hide();
+        .renderEdge(rawResults, 'footer')
+        .setOffset(cursorOffset)
+        .show();
+    /** @event Dropdown#rendered */
+    this.emit('rendered');
+    return this;
   }
 
   /**
@@ -201,7 +206,6 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    * @fires Dropdown#show
    * @fires Dropdown#shown
-   * @fires Dropdown#rendered
    */
   show() {
     if (!this.shown) {
@@ -212,8 +216,6 @@ class Dropdown extends EventEmitter {
       /** @event Dropdown#shown */
       this.emit('shown');
     }
-    /** @event Dropdown#rendered */
-    this.emit('rendered');
     return this;
   }
 

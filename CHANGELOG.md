@@ -15,6 +15,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Changed
 - Don't hide dropdown on blur event by default.
 - Don't activate the first dropdown item by default.
+- Emit `rendered` event whenever dropdown is rendered.
 
 ### Removed
 - Remove `Dropdown#length`

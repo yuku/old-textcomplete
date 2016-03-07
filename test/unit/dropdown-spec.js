@@ -58,6 +58,14 @@ describe('Dropdown', function () {
       assert.strictEqual(subject(), dropdown);
     });
 
+    it('should emit rendered event', function () {
+      var spy = this.sinon.spy();
+      dropdown = new Dropdown({});
+      dropdown.on('rendered', spy);
+      subject();
+      assert(spy.calledOnce);
+    });
+
     context('when search results are given', function () {
       it('should append dropdown items with the search results', function () {
         dropdown = new Dropdown({});
@@ -68,47 +76,33 @@ describe('Dropdown', function () {
       });
 
       context('and it has not been shown', function () {
-        it('should change #shown from false to true', function () {
+        beforeEach(function () {
           dropdown = new Dropdown({});
           dropdown.shown = false;
+        });
+
+        it('should change #shown from false to true', function () {
           subject();
           assert(dropdown.shown);
         });
 
-        ['show', 'shown', 'rendered'].forEach(eventName => {
+        ['show', 'shown'].forEach(eventName => {
           it(`should emit ${eventName} event`, function () {
             var spy = this.sinon.spy();
-            dropdown = new Dropdown({});
-            dropdown.shown = false;
             dropdown.on(eventName, spy);
             subject();
             assert(spy.calledOnce);
           });
         });
-
-        ['hide', 'hidden'].forEach(eventName => {
-          it(`should not emit ${eventName} event`, function () {
-            var spy = this.sinon.spy();
-            dropdown = new Dropdown({});
-            dropdown.shown = true;
-            dropdown.on(eventName, spy);
-            subject();
-            assert(!spy.called);
-          });
-        });
       });
 
       context('and it has been shown', function () {
-        it('should emit rendered event', function () {
-          var spy = this.sinon.spy();
+        beforeEach(function () {
           dropdown = new Dropdown({});
-          dropdown.shown = false;
-          dropdown.on('rendered', spy);
-          subject();
-          assert(spy.calledOnce);
+          dropdown.shown = true;
         });
 
-        ['show', 'shown', 'hide', 'hidden'].forEach(eventName => {
+        ['show', 'shown'].forEach(eventName => {
           it(`should not emit ${eventName} event`, function () {
             var spy = this.sinon.spy();
             dropdown = new Dropdown({});
@@ -127,29 +121,14 @@ describe('Dropdown', function () {
       }
 
       context('and it has been shown', function () {
-        it('should change #shown from true to false', function () {
+        beforeEach(function () {
           dropdown = new Dropdown({});
           dropdown.shown = true;
-          subject_();
-          assert(!dropdown.shown);
         });
 
-        ['hide', 'hidden'].forEach(eventName => {
-          it(`should emit ${eventName} event`, function () {
-            var spy = this.sinon.spy();
-            dropdown = new Dropdown({});
-            dropdown.shown = true;
-            dropdown.on(eventName, spy);
-            subject_();
-            assert(spy.calledOnce);
-          });
-        });
-
-        ['show', 'shown', 'rendered'].forEach(eventName => {
+        ['show', 'shown'].forEach(eventName => {
           it(`should not emit ${eventName} event`, function () {
             var spy = this.sinon.spy();
-            dropdown = new Dropdown({});
-            dropdown.shown = true;
             dropdown.on(eventName, spy);
             subject_();
             assert(!spy.called);
@@ -158,14 +137,17 @@ describe('Dropdown', function () {
       });
 
       context('and it has not been shown', function () {
-        ['show', 'shown', 'rendered', 'hide', 'hidden'].forEach(eventName => {
-          it(`should not emit ${eventName} event`, function () {
+        beforeEach(function () {
+          dropdown = new Dropdown({});
+          dropdown.shown = false;
+        });
+
+        ['show', 'shown'].forEach(eventName => {
+          it(`should emit ${eventName} event`, function () {
             var spy = this.sinon.spy();
-            dropdown = new Dropdown({});
-            dropdown.shown = false;
             dropdown.on(eventName, spy);
-            subject_();
-            assert(!spy.called);
+            subject();
+            assert(spy.calledOnce);
           });
         });
       });
