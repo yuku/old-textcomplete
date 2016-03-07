@@ -69,7 +69,7 @@ describe('Textcomplete', function () {
   });
 
   describe('events', function () {
-    ['show', 'shown', 'rendered', 'hide', 'hidden'].forEach(eventName => {
+    ['show', 'shown', 'render', 'rendered', 'hide', 'hidden'].forEach(eventName => {
       context(`when Dropdown#${eventName} occurs`, function () {
         function subject() {
           textcomplete.dropdown.emit(eventName);
