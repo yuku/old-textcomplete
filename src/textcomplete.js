@@ -177,12 +177,10 @@ class Textcomplete extends EventEmitter {
   startListening() {
     this.editor.on('move', this.handleMove)
                .on('change', this.handleChange);
-    this.dropdown.on('select', this.handleSelect)
-                 .on('show', this.buildHandler('show'))
-                 .on('shown', this.buildHandler('shown'))
-                 .on('rendered', this.buildHandler('rendered'))
-                 .on('hide', this.buildHandler('hide'))
-                 .on('hidden', this.buildHandler('hidden'));
+    this.dropdown.on('select', this.handleSelect);
+    ['show', 'shown', 'render', 'rendered', 'hide', 'hidden'].forEach(eventName => {
+      this.dropdown.on(eventName, this.buildHandler(eventName));
+    });
     this.completer.on('hit', this.handleHit);
   }
 }

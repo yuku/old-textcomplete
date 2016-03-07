@@ -11,6 +11,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add "Getting Started" and "Development" documents.
 - Add a contributing guide.
 - Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
+- Add `render` event to `Textcomplete`.
 
 ### Changed
 - Don't hide dropdown on blur event by default.

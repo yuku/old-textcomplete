@@ -81,10 +81,13 @@ class Dropdown extends EventEmitter {
    * @param {SearchResult[]} searchResults
    * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
+   * @fires Dropdown#render
    * @fires Dropdown#rendered
    */
   render(searchResults, cursorOffset) {
-    var rawResults = [], dropdownItems = [];
+    /** @event Dropdown#render */
+    this.emit('render');
+    let rawResults = [], dropdownItems = [];
     searchResults.forEach(searchResult => {
       rawResults.push(searchResult.data);
       if (dropdownItems.length < this.maxCount) {

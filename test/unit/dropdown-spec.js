@@ -58,12 +58,14 @@ describe('Dropdown', function () {
       assert.strictEqual(subject(), dropdown);
     });
 
-    it('should emit rendered event', function () {
-      var spy = this.sinon.spy();
-      dropdown = new Dropdown({});
-      dropdown.on('rendered', spy);
-      subject();
-      assert(spy.calledOnce);
+    ['render', 'rendered'].forEach(name => {
+      it(`should emit ${name} event`, function () {
+        var spy = this.sinon.spy();
+        dropdown = new Dropdown({});
+        dropdown.on(name, spy);
+        subject();
+        assert(spy.calledOnce);
+      });
     });
 
     context('when search results are given', function () {
