@@ -1,3 +1,5 @@
+import extend from 'lodash.assignin';
+
 /**
  * Exclusive execution control utility.
  *
@@ -71,4 +73,18 @@ export function createFragment(tagString) {
     fragment.appendChild(childNodes[i]);
   }
   return fragment;
+}
+
+/**
+ * @param {string} type
+ * @param {Object} [options]
+ * @param {Object} [options.detail=undefined]
+ * @param {Boolean} [options.cancelable=false]
+ * @returns {CustomEvent}
+ */
+export function createCustomEvent(type, options) {
+  return new document.defaultView.CustomEvent(type, extend({
+    cancelable: false,
+    detail: undefined,
+  }, options));
 }
