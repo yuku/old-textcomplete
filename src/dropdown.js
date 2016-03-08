@@ -1,5 +1,5 @@
 import DropdownItem from './dropdown-item';
-import {createFragment} from './utils';
+import {createFragment, createCustomEvent} from './utils';
 
 import extend from 'lodash.assignin';
 import uniqueId from 'lodash.uniqueid';
@@ -85,8 +85,16 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#rendered
    */
   render(searchResults, cursorOffset) {
-    /** @event Dropdown#render */
-    this.emit('render');
+    /**
+     * @event Dropdown#render
+     * @type {CustomEvent}
+     * @prop {function} preventDefault
+     */
+    let renderEvent = createCustomEvent('render', { cancelable: true });
+    this.emit('render', renderEvent);
+    if (renderEvent.defaultPrevented) {
+      return this;
+    }
     let rawResults = [], dropdownItems = [];
     searchResults.forEach(searchResult => {
       rawResults.push(searchResult.data);
@@ -100,8 +108,11 @@ class Dropdown extends EventEmitter {
         .renderEdge(rawResults, 'footer')
         .setOffset(cursorOffset)
         .show();
-    /** @event Dropdown#rendered */
-    this.emit('rendered');
+    /**
+     * @event Dropdown#rendered
+     * @type {CustomEvent}
+     */
+    this.emit('rendered', createCustomEvent('rendered'));
     return this;
   }
 
@@ -212,12 +223,23 @@ class Dropdown extends EventEmitter {
    */
   show() {
     if (!this.shown) {
-      /** @event Dropdown#show */
-      this.emit('show');
+      /**
+       * @event Dropdown#show
+       * @type {CustomEvent}
+       * @prop {function} preventDefault
+       */
+      let showEvent = createCustomEvent('show', { cancelable: true });
+      this.emit('show', showEvent);
+      if (showEvent.defaultPrevented) {
+        return this;
+      }
       this.el.style.display = 'block';
       this.shown = true;
-      /** @event Dropdown#shown */
-      this.emit('shown');
+      /**
+       * @event Dropdown#shown
+       * @type {CustomEvent}
+       */
+      this.emit('shown', createCustomEvent('shown'));
     }
     return this;
   }
@@ -232,12 +254,23 @@ class Dropdown extends EventEmitter {
    */
   hide() {
     if (this.shown) {
-      /** @event Dropdown#hide */
-      this.emit('hide');
+      /**
+       * @event Dropdown#hide
+       * @type {CustomEvent}
+       * @prop {function} preventDefault
+       */
+      let hideEvent = createCustomEvent('hide', { cancelable: true });
+      this.emit('hide', hideEvent);
+      if (hideEvent.defaultPrevented) {
+        return this;
+      }
       this.el.style.display = 'none';
       this.shown = false;
-      /** @event Dropdown#hidden */
-      this.emit('hidden');
+      /**
+       * @event Dropdown#hidden
+       * @type {CustomEvent}
+       */
+      this.emit('hidden', createCustomEvent('hidden'));
     }
     return this;
   }
