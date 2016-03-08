@@ -131,13 +131,28 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#select
    */
   select(dropdownItem) {
+    let detail = { searchResult: dropdownItem.searchResult };
     /**
      * @event Dropdown#select
-     * @type {object}
-     * @prop {SearchResult} searchResult
+     * @type {CustomEvent}
+     * @prop {function} preventDefault
+     * @prop {object} detail
+     * @prop {SearchResult} detail.searchResult
      */
-    this.emit('select', { searchResult: dropdownItem.searchResult });
-    return this.deactivate();
+    let selectEvent = createCustomEvent('select', { cancelable: true, detail: detail });
+    this.emit('select', selectEvent);
+    if (selectEvent.defaultPrevented) {
+      return this;
+    }
+    this.deactivate();
+    /**
+     * @event Dropdown#selected
+     * @type {CustomEvent}
+     * @prop {object} detail
+     * @prop {SearchResult} detail.searchResult
+     */
+    this.emit('selected', createCustomEvent('selected', {detail}));
+    return this;
   }
 
   /**

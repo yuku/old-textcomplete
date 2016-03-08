@@ -1,6 +1,7 @@
 import Textcomplete from '../../src/textcomplete';
 import Strategy from '../../src/strategy';
-import {createTextarea} from '../test-helper';
+import {createCustomEvent} from '../../src/utils';
+import {createTextarea, createSearchResult} from '../test-helper';
 
 const assert = require('power-assert');
 
@@ -69,18 +70,37 @@ describe('Textcomplete', function () {
   });
 
   describe('events', function () {
-    ['show', 'shown', 'render', 'rendered', 'hide', 'hidden'].forEach(eventName => {
+    [
+      'show',
+      'shown',
+      'render',
+      'rendered',
+      'selected',
+      'hide',
+      'hidden',
+    ].forEach(eventName => {
       context(`when Dropdown#${eventName} occurs`, function () {
         function subject() {
           textcomplete.dropdown.emit(eventName);
         }
 
-        it(`should emit Textcomplete#${eventName}`, function () {
+        it('should emit a same event on Textcomplete', function () {
           var spy = this.sinon.spy();
           textcomplete.on(eventName, spy);
           subject();
           assert(spy.calledOnce);
         });
+      });
+    });
+
+    context('when Dropdown#select occurs', function () {
+      it('should emit a same event on Textcomplete', function () {
+        var searchResult = createSearchResult();
+        var event = createCustomEvent('select', { detail: {searchResult} });
+        var spy = this.sinon.spy();
+        textcomplete.on('select', spy);
+        textcomplete.dropdown.emit('select', event);
+        assert(spy.calledOnce);
       });
     });
   });

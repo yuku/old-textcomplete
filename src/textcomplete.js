@@ -157,11 +157,14 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {SearchResult} searchResult
+   * @param {Dropdown#select} selectEvent
    * @listens Dropdown#select
    */
-  handleSelect({searchResult}) {
-    this.editor.applySearchResult(searchResult);
+  handleSelect(selectEvent) {
+    this.emit('select', selectEvent);
+    if (!selectEvent.defaultPrevented) {
+      this.editor.applySearchResult(selectEvent.detail.searchResult);
+    }
   }
 
   /**
@@ -180,7 +183,7 @@ class Textcomplete extends EventEmitter {
     this.editor.on('move', this.handleMove)
                .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect);
-    ['show', 'shown', 'render', 'rendered', 'hide', 'hidden'].forEach(eventName => {
+    ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide'].forEach(eventName => {
       this.dropdown.on(eventName, this.buildHandler(eventName));
     });
     this.completer.on('hit', this.handleHit);

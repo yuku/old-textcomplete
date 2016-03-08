@@ -327,12 +327,39 @@ describe('Dropdown', function () {
       dropdown.append([dropdownItem]);
     });
 
-    it('should emit a select event', function () {
-      var spy = this.sinon.spy();
-      dropdown.on('select', spy);
+    it('should deactivate itself', function () {
+      var stub = this.sinon.stub(dropdown, 'deactivate');
       subject();
-      assert(spy.calledOnce);
-      assert(spy.calledWith({ searchResult: dropdownItem.searchResult }));
+      assert(stub.calledOnce);
+    });
+
+    ['select', 'selected'].forEach(name => {
+      it(`should emit a ${name} event`, function () {
+        var spy = this.sinon.spy();
+        dropdown.on(name, spy);
+        subject();
+        assert(spy.calledOnce);
+        assert(spy.calledWith({ detail: { searchResult: dropdownItem.searchResult } }));
+      });
+    });
+
+    context('when select event default is prevented', function () {
+      beforeEach(function () {
+        dropdown.on('select', e => { e.preventDefault(); });
+      });
+
+      it('should not emit a selected event', function () {
+        var spy = this.sinon.spy();
+        dropdown.on('selected', spy);
+        subject();
+        assert(!spy.called);
+      });
+
+      it('should not deactivate itself', function () {
+        var stub = this.sinon.stub(dropdown, 'deactivate');
+        subject();
+        assert(!stub.called);
+      });
     });
   });
 
