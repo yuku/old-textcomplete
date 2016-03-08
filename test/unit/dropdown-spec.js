@@ -68,6 +68,17 @@ describe('Dropdown', function () {
       });
     });
 
+    context('when render event default is prevented', function () {
+      it('should not emit rendered event', function () {
+        var spy = this.sinon.spy();
+        dropdown = new Dropdown({});
+        dropdown.on('render', e => { e.preventDefault(); });
+        dropdown.on('rendered', spy);
+        subject();
+        assert(!spy.called);
+      });
+    });
+
     context('when search results are given', function () {
       it('should append dropdown items with the search results', function () {
         dropdown = new Dropdown({});
@@ -94,6 +105,16 @@ describe('Dropdown', function () {
             dropdown.on(eventName, spy);
             subject();
             assert(spy.calledOnce);
+          });
+        });
+
+        context('and show event default is prevent', function () {
+          it('should not emit shown event', function () {
+            var spy = this.sinon.spy();
+            dropdown.on('show', e => { e.preventDefault(); });
+            dropdown.on('shown', spy);
+            subject();
+            assert(!spy.called);
           });
         });
       });
@@ -230,25 +251,54 @@ describe('Dropdown', function () {
   });
 
   describe('#deactivate', function () {
+    var dropdown;
+
+    beforeEach(function () {
+      dropdown = new Dropdown({});
+    });
+
+    function subject() {
+      return dropdown.deactivate();
+    }
+
     it('should return itself', function () {
-      var dropdown = new Dropdown({});
-      assert.strictEqual(dropdown.deactivate(), dropdown);
+      assert.strictEqual(subject(), dropdown);
     });
 
     it('should empty itself', function () {
-      var dropdown = new Dropdown({});
       dropdown.append([new DropdownItem(createSearchResult())]);
       assert.equal(dropdown.items.length, 1);
-      dropdown.deactivate();
+      subject();
       assert.equal(dropdown.items.length, 0);
     });
 
     context('when it is shown', function () {
-      it('should change #shown from true to false', function () {
-        var dropdown = new Dropdown({});
+      beforeEach(function () {
         dropdown.shown = true;
-        dropdown.deactivate();
+      });
+
+      it('should change #shown from true to false', function () {
+        subject();
         assert(!dropdown.shown);
+      });
+
+      ['hide', 'hidden'].forEach(eventName => {
+        it(`should emit ${eventName} event`, function () {
+          var spy = this.sinon.spy();
+          dropdown.on(eventName, spy);
+          subject();
+          assert(spy.calledOnce);
+        });
+      });
+
+      context('when hide event default is prevented', function () {
+        it('should not emit hidden event', function () {
+          var spy = this.sinon.spy();
+          dropdown.on('hide', e => { e.preventDefault(); });
+          dropdown.on('hidden', spy);
+          subject();
+          assert(!spy.called);
+        });
       });
     });
   });
