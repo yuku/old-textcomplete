@@ -143,22 +143,6 @@ class Dropdown extends EventEmitter {
   /**
    * @param {function} callback
    * @returns {this}
-   * @fires Dropdown#select
-   */
-  selectActiveItem(callback) {
-    if (this.shown) {
-      var activeItem = this.getActiveItem();
-      if (activeItem) {
-        this.select(activeItem);
-        callback(activeItem);
-      }
-    }
-    return this;
-  }
-
-  /**
-   * @param {function} callback
-   * @returns {this}
    */
   up(callback) {
     return this.moveActiveItem('prev', callback);

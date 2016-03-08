@@ -21,6 +21,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ### Removed
 - Remove `Dropdown#length`
+- Remove `Dropdown#selectActiveItem()`
 
 ## [0.2.0] - 2016-02-29
 ### Added
