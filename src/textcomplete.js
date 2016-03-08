@@ -156,12 +156,6 @@ class Textcomplete extends EventEmitter {
     this.editor.applySearchResult(searchResult);
   }
 
-  /** @event Textcomplete#show */
-  /** @event Textcomplete#shown */
-  /** @event Textcomplete#rendered */
-  /** @event Textcomplete#hide */
-  /** @event Textcomplete#hidden */
-
   /**
    * @private
    * @param {string} eventName
