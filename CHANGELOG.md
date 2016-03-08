@@ -11,7 +11,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add "Getting Started" and "Development" documents.
 - Add a contributing guide.
 - Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
-- Add `render` event to `Textcomplete`.
+- Add `render`, `select` and `selected` events to `Textcomplete`.
 - Add `preventDefault` functionality to infinitive events.
 
 ### Changed
@@ -21,6 +21,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ### Removed
 - Remove `Dropdown#length`
+- Remove `Dropdown#selectActiveItem()`
 
 ## [0.2.0] - 2016-02-29
 ### Added

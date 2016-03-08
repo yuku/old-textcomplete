@@ -129,12 +129,20 @@ class Textcomplete extends EventEmitter {
    * @listens Editor#move
    */
   handleMove({code, callback}) {
-    var method = code === ENTER ? 'selectActiveItem'
-               : code === UP ? 'up'
-               : code === DOWN ? 'down'
-               : null;
-    if (code !== null) {
-      this.dropdown[method](callback);
+    switch (code) {
+    case ENTER:
+      let activeItem = this.dropdown.getActiveItem();
+      if (activeItem) {
+        this.dropdown.select(activeItem);
+        callback(activeItem);
+      }
+      break;
+    case UP:
+      this.dropdown.up(callback);
+      break;
+    case DOWN:
+      this.dropdown.down(callback);
+      break;
     }
   }
 
@@ -149,18 +157,15 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {SearchResult} searchResult
+   * @param {Dropdown#select} selectEvent
    * @listens Dropdown#select
    */
-  handleSelect({searchResult}) {
-    this.editor.applySearchResult(searchResult);
+  handleSelect(selectEvent) {
+    this.emit('select', selectEvent);
+    if (!selectEvent.defaultPrevented) {
+      this.editor.applySearchResult(selectEvent.detail.searchResult);
+    }
   }
-
-  /** @event Textcomplete#show */
-  /** @event Textcomplete#shown */
-  /** @event Textcomplete#rendered */
-  /** @event Textcomplete#hide */
-  /** @event Textcomplete#hidden */
 
   /**
    * @private
@@ -178,7 +183,7 @@ class Textcomplete extends EventEmitter {
     this.editor.on('move', this.handleMove)
                .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect);
-    ['show', 'shown', 'render', 'rendered', 'hide', 'hidden'].forEach(eventName => {
+    ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide'].forEach(eventName => {
       this.dropdown.on(eventName, this.buildHandler(eventName));
     });
     this.completer.on('hit', this.handleHit);

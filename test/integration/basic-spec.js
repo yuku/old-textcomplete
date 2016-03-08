@@ -82,13 +82,15 @@ describe('Integration test', function () {
     expectDropdownIsShown();
     input(40, false, false, false, 'Hi, @a'); // down
     expectDropdownIsShown();
+    input(38, false, false, false, 'Hi, @a'); // up
+    expectDropdownIsShown();
     input(40, false, false, false, 'Hi, @a'); // down
     expectDropdownIsShown();
     input(13, false, false, false); // enter
     expectDropdownIsHidden();
-    assert.equal(textareaEl.value, 'Hi, @amanda ');
-    assert.equal(textareaEl.selectionStart, 12);
-    assert.equal(textareaEl.selectionEnd, 12);
+    assert.equal(textareaEl.value, 'Hi, @alice ');
+    assert.equal(textareaEl.selectionStart, 11);
+    assert.equal(textareaEl.selectionEnd, 11);
   });
 
   it('should work with touch event', function () {

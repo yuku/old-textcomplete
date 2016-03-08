@@ -327,77 +327,38 @@ describe('Dropdown', function () {
       dropdown.append([dropdownItem]);
     });
 
-    it('should emit a select event', function () {
-      var spy = this.sinon.spy();
-      dropdown.on('select', spy);
+    it('should deactivate itself', function () {
+      var stub = this.sinon.stub(dropdown, 'deactivate');
       subject();
-      assert(spy.calledOnce);
-      assert(spy.calledWith({ searchResult: dropdownItem.searchResult }));
-    });
-  });
-
-  describe('#selectActiveItem', function () {
-    var dropdown, spy;
-
-    function subject() {
-      return dropdown.selectActiveItem(spy);
-    }
-
-    beforeEach(function () {
-      dropdown = new Dropdown({});
-      spy = this.sinon.spy();
+      assert(stub.calledOnce);
     });
 
-    context('when it is shown', function () {
+    ['select', 'selected'].forEach(name => {
+      it(`should emit a ${name} event`, function () {
+        var spy = this.sinon.spy();
+        dropdown.on(name, spy);
+        subject();
+        assert(spy.calledOnce);
+        assert(spy.calledWith({ detail: { searchResult: dropdownItem.searchResult } }));
+      });
+    });
+
+    context('when select event default is prevented', function () {
       beforeEach(function () {
-        dropdown.show();
+        dropdown.on('select', e => { e.preventDefault(); });
       });
 
-      context('and there is an active item', function () {
-        var activeItem;
-
-        beforeEach(function () {
-          dropdown.render([createSearchResult()], { top: 0, left: 0 });
-          activeItem = dropdown.items[0].activate();
-        });
-
-        it('should callback with the active DropdownItem', function () {
-          subject();
-          assert(spy.calledOnce);
-          assert(activeItem);
-        });
-
-        it('should be deactivated', function () {
-          var stub = this.sinon.stub(dropdown, 'deactivate', () => { return dropdown; });
-          subject();
-          assert(stub.calledOnce);
-        });
-
-        it('should emit a select event', function () {
-          var listener = this.sinon.spy();
-          dropdown.on('select', listener);
-          subject();
-          assert(listener.calledOnce);
-          assert(listener.calledWith({ searchResult: activeItem.searchResult }));
-        });
-      });
-
-      context('and it does not contain a DropdownItem', function () {
-        it('should not callback', function () {
-          subject();
-          assert(!spy.called);
-        });
-      });
-    });
-
-    context('when it is not shown', function () {
-      beforeEach(function () {
-        dropdown.hide();
-      });
-
-      it('should not callback', function () {
+      it('should not emit a selected event', function () {
+        var spy = this.sinon.spy();
+        dropdown.on('selected', spy);
         subject();
         assert(!spy.called);
+      });
+
+      it('should not deactivate itself', function () {
+        var stub = this.sinon.stub(dropdown, 'deactivate');
+        subject();
+        assert(!stub.called);
       });
     });
   });
