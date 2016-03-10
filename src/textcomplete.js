@@ -58,6 +58,21 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @public
+   * @param {boolean} [finalizeEditor=true]
+   * @returns {this}
+   */
+  finalize(finalizeEditor = true) {
+    this.completer.finalize();
+    this.dropdown.finalize();
+    if (finalizeEditor) {
+      this.editor.finalize();
+    }
+    this.stopListening();
+    return this;
+  }
+
+  /**
+   * @public
    * @param {Strategy~Properties[]} strategyPropsArray
    * @returns {this}
    * @example
@@ -187,6 +202,16 @@ class Textcomplete extends EventEmitter {
       this.dropdown.on(eventName, this.buildHandler(eventName));
     });
     this.completer.on('hit', this.handleHit);
+  }
+
+  /**
+   * @private
+   */
+  stopListening() {
+    this.completer.removeAllListeners();
+    this.dropdown.removeAllListeners();
+    this.editor.removeListener('move', this.handleMove)
+               .removeListener('change', this.handleChange);
   }
 }
 

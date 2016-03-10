@@ -68,6 +68,15 @@ class Dropdown extends EventEmitter {
   }
 
   /**
+   * @returns {this}
+   */
+  finalize() {
+    this.el.parentNode.removeChild(this.el);
+    this.clear()._el = null;
+    return this;
+  }
+
+  /**
    * @returns {HTMLUListElement} the dropdown element.
    */
   get el() {

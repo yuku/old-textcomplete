@@ -23,8 +23,15 @@ class Textarea extends Editor {
       this[name] = this[name].bind(this);
     });
 
-    this.el.addEventListener('keydown', this.onKeydown);
-    this.el.addEventListener('keyup', this.onKeyup);
+    this.startListening();
+  }
+
+  /** @override */
+  finalize() {
+    super.finalize();
+    this.stopListening();
+    this.el = null;
+    return this;
   }
 
   /**
@@ -167,6 +174,22 @@ class Textarea extends Editor {
          : e.keyCode === 78 && e.ctrlKey ? DOWN
          : e.keyCode === 80 && e.ctrlKey ? UP
          : null;
+  }
+
+  /**
+   * @private
+   */
+  startListening() {
+    this.el.addEventListener('keydown', this.onKeydown);
+    this.el.addEventListener('keyup', this.onKeyup);
+  }
+
+  /**
+   * @private
+   */
+  stopListening() {
+    this.el.removeEventListener('keydown', this.onKeydown);
+    this.el.removeEventListener('keyup', this.onKeyup);
   }
 }
 
