@@ -106,13 +106,16 @@ gulp.task('doc:html', () => {
 });
 
 gulp.task('doc:css', () => {
-  var autoprefixer = require('autoprefixer');
+  var cssnext = require('postcss-cssnext');
+  var atImport = require('postcss-import');
   var postcss = require('gulp-postcss');
-  var precss = require('precss');
   var sourcemaps = require('gulp-sourcemaps');
   return gulp.src(paths.doc.css)
     .pipe(sourcemaps.init())
-    .pipe(postcss([autoprefixer, precss]))
+    .pipe(postcss([
+      atImport,  // should use at first
+      cssnext(),
+    ]))
     .pipe(sourcemaps.write('./maps'))
     .pipe(gulp.dest(paths.doc.dest))
     .pipe(connect.reload());

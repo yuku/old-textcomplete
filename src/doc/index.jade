@@ -3,18 +3,104 @@ html(lang='en')
   head
     title Textcomplete
     link(rel='stylesheet' type='text/css' href='./main.css')
-  body
-    h1
-      | Textcomplete
-    p Autocomplete for textarea
-    a(href='https://www.npmjs.com/package/textcomplete')
-      img(src='http://img.shields.io/npm/v/textcomplete.svg')
-    a(href='https://travis-ci.org/yuku-t/textcomplete')
-      img(src='https://travis-ci.org/yuku-t/textcomplete.svg?branch=master')
-    a(href='https://codeclimate.com/github/yuku-t/textcomplete/coverage')
-      img(src='https://codeclimate.com/github/yuku-t/textcomplete/badges/gpa.svg')
-    a(href='http://inch-ci.org/github/yuku-t/textcomplete')
-      img(src='http://inch-ci.org/github/yuku-t/textcomplete.svg?branch=master')
-    textarea#textarea1
-    a(href='docs/') jsdoc
     script(src='./main.js')
+    script.
+      var emojis = {}
+      /**
+        * @callback GitHubEmojiAPICallback
+        * @param {Object} resp
+        * @prop {Object} resp.meta
+        * @prop {Object} resp.data
+        * @see https://developer.github.com/v3/emojis/
+        * @example
+        * callback({
+        *   "meta": {
+        *     "Content-Type": "application/javascript; charset=utf-8",
+        *     ...
+        *   },
+        *   "data": {
+        *     "+1": "https://assets-cdn.github.com/images/icons/emoji/unicode/1f44d.png?v5",
+        *     ...
+        *   }
+        * })
+        */
+      var GitHubEmojiAPICallback = function(resp) {
+        window.emojis = resp.data;
+      };
+    script(src='https://api.github.com/emojis?callback=GitHubEmojiAPICallback')
+  body
+    .banner
+      .container
+        .header.clear
+          h1
+            | Textcomplete
+    .container
+      .clear
+        .col-12
+          a(href='https://github.com/yuku-t/textcomplete') Source code
+          | &nbsp;
+          a(href='docs/') jsdoc
+      .clear
+        .col-5-desktop.col-12-
+          .editor
+            textarea#textarea1.
+              :a
+        .col-7-desktop.col-12
+          pre
+            code.javascript.auto-eval.
+              // Shared strategy for all demos.
+              window.emojiStrategy = {
+                match: /(^|\s):([a-z0-9+\-\_]*)$/,
+                search: function (term, callback) {
+                  callback(Object.keys(emojis).filter(function (name) {
+                    return name.startsWith(term);
+                  }));
+                },
+                template: function (name) {
+                  return '&lt;img src="' + emojis[name] + '"&gt;&lt;/img&gt; ' + name;
+                },
+                replace: function (name) {
+                  return '$1:' + name + ': ';
+                }
+              };
+
+              var editor = new Textarea(document.getElementById('textarea1'));
+
+              var textcomplete = new Textcomplete(editor);
+              textcomplete.register([emojiStrategy]);
+      .clear
+        .col-5-desktop.col-12-
+          .editor
+            textarea#textarea2.
+              :a
+        .col-7-desktop.col-12
+          pre
+            code.javascript.auto-eval.
+              var editor = new Textarea(document.getElementById('textarea2'));
+              var textcomplete = new Textcomplete(editor, {
+                dropdown: {
+                  maxCount: 5
+                }
+              });
+              textcomplete.register([emojiStrategy]);
+      .clear
+        .col-5-desktop.col-12-
+          .editor
+            textarea#textarea3.
+              :a
+        .col-7-desktop.col-12
+          pre
+            code.javascript.auto-eval.
+              var editor = new Textarea(document.getElementById('textarea3'));
+              var textcomplete = new Textcomplete(editor);
+              textcomplete.register([emojiStrategy]);
+
+              textcomplete.on('rendered', function () {
+                if (textcomplete.dropdown.items.length === 1) {
+                  // Automatically select the only item.
+                  textcomplete.dropdown.select(textcomplete.dropdown.items[0]);
+                } else if (textcomplete.dropdown.items.length > 1) {
+                  // Activate the first item by default.
+                  textcomplete.dropdown.items[0].activate();
+                }
+              });

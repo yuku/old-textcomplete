@@ -1,8 +1,11 @@
 {
-  "getting-started": {
-    "title": "Getting Started"
-  },
   "development": {
     "title": "Development"
+  },
+  "events": {
+    "title": "Events"
+  },
+  "getting-started": {
+    "title": "Getting Started"
   }
 }

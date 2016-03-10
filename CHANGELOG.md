@@ -8,7 +8,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 ### Added
-- Add "Getting Started" and "Development" documents.
+- Add "Getting Started", "Development" and "Events" documents.
 - Add a contributing guide.
 - Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
 - Add `render`, `select` and `selected` events to `Textcomplete`.
