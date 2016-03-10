@@ -11,6 +11,8 @@ Autocomplete for textarea elements.
 ## Documents
 
 - [Getting Started](http://yuku-t.com/textcomplete/docs/tutorial-getting-started.html)
+- [Development](http://yuku-t.com/textcomplete/docs/tutorial-development.html)
+- [Events](http://yuku-t.com/textcomplete/docs/tutorial-events.html)
 
 ## Browser Support
 
