@@ -12,6 +12,13 @@ describe('Strategy', function () {
     });
   });
 
+  describe('#finalize', function () {
+    it('should return itself', function () {
+      var strategy = new Strategy({});
+      assert.strictEqual(strategy.finalize(), strategy);
+    });
+  });
+
   describe('#buildQuery()', function () {
     var strategy;
 

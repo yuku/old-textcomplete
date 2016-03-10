@@ -37,6 +37,14 @@ class Strategy {
   }
 
   /**
+   * @returns {this}
+   */
+  finalize() {
+    this.cache = null;
+    return this;
+  }
+
+  /**
    * Build a Query object by the given string if this matches to the string.
    *
    * @param {string} text - Head to input cursor.

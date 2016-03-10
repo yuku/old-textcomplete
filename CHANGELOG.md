@@ -13,6 +13,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
 - Add `render`, `select` and `selected` events to `Textcomplete`.
 - Add `preventDefault` functionality to infinitive events.
+- Enable to finalize `Textcomplete`
 
 ### Changed
 - Don't hide dropdown on blur event by default.

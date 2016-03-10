@@ -13,6 +13,38 @@ describe('Textcomplete', function () {
     textcomplete = new Textcomplete(editor);
   });
 
+  describe('#finalize', function () {
+    it('should return itself', function () {
+      assert.strictEqual(textcomplete.finalize(), textcomplete);
+    });
+
+    context('when true is given', function () {
+      ['editor', 'completer', 'dropdown'].forEach(prop => {
+        it(`should finalize its ${prop}`, function () {
+          var stub = this.sinon.stub(textcomplete[prop], 'finalize');
+          textcomplete.finalize(true);
+          assert(stub.calledOnce);
+        });
+      });
+    });
+
+    context('when false is given', function () {
+      it('should not finalize its editor', function () {
+        var stub = this.sinon.stub(textcomplete.editor, 'finalize');
+        textcomplete.finalize(false);
+        assert(!stub.called);
+      });
+
+      ['completer', 'dropdown'].forEach(prop => {
+        it(`should finalize its ${prop}`, function () {
+          var stub = this.sinon.stub(textcomplete[prop], 'finalize');
+          textcomplete.finalize(false);
+          assert(stub.calledOnce);
+        });
+      });
+    });
+  });
+
   describe('#register', function () {
     var props;
 

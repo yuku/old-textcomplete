@@ -5,6 +5,19 @@ export const UP = 1;
 export const DOWN = 2;
 
 /**
+ * @event Editor#move
+ * @type {object}
+ * @prop {number} code
+ * @prop {function} callback
+ */
+
+/**
+ * @event Editor#change
+ * @type {object}
+ * @prop {string} beforeCursor
+ */
+
+/**
  * Abstract class representing a editor target.
  *
  * @abstract
@@ -12,17 +25,11 @@ export const DOWN = 2;
  */
 class Editor extends EventEmitter {
   /**
-   * @event Editor#move
-   * @type {object}
-   * @prop {number} code
-   * @prop {function} callback
+   * @returns {this}
    */
-
-  /**
-   * @event Editor#change
-   * @type {object}
-   * @prop {string} beforeCursor
-   */
+  finalize() {
+    return this;
+  }
 
   /**
    * It is called when a search result is selected by a user.
