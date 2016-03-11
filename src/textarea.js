@@ -1,4 +1,5 @@
 import Editor, {ENTER, UP, DOWN} from './editor';
+import {calculateElementOffset} from './utils';
 
 const getCaretCoordinates = require('textarea-caret');
 
@@ -48,7 +49,7 @@ class Textarea extends Editor {
   }
 
   get cursorOffset() {
-    var elOffset = this.getElOffset();
+    var elOffset = calculateElementOffset(this.el);
     var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
     var top = elOffset.top - elScroll.top + cursorPosition.top + this.getElLineHeight();
@@ -76,21 +77,6 @@ class Textarea extends Editor {
    */
   get afterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
-  }
-
-  /**
-   * Get the current coordinates of the `#el` relative to the document.
-   *
-   * @private
-   * @returns {{top: number, left: number}}
-   */
-  getElOffset() {
-    var rect = this.el.getBoundingClientRect();
-    var documentElement = this.el.ownerDocument.documentElement;
-    return {
-      top: rect.top - documentElement.clientTop,
-      left: rect.left - documentElement.clientLeft,
-    };
   }
 
   /**
