@@ -10,8 +10,6 @@ engines:
           mass_threshold: 100 # Defualt: 40
   eslint:
     enabled: true
-  fixme:
-    enabled: true
 ratings:
   paths:
   - "**.js"
