@@ -88,3 +88,18 @@ export function createCustomEvent(type, options) {
     detail: undefined,
   }, options));
 }
+
+/**
+ * Get the current coordinates of the `el` relative to the document.
+ *
+ * @param {HTMLElement} el
+ * @returns {{top: number, left: number}}
+ */
+export function calculateElementOffset(el) {
+  var rect = el.getBoundingClientRect();
+  var {defaultView, documentElement} = el.ownerDocument;
+  return {
+    top: rect.top + defaultView.pageYOffset - documentElement.clientTop,
+    left: rect.left + defaultView.pageXOffset - documentElement.clientLeft,
+  };
+}

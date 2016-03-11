@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Fix dropdown position when window is scrolled.
 
 ## [0.3.0]
 ### Added
@@ -15,7 +17,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Add `Dropdown#el` and `Dropdown#getActiveItem()` to its public interface.
 - Add `render`, `select` and `selected` events to `Textcomplete`.
 - Add `preventDefault` functionality to infinitive events.
-- Enable to finalize `Textcomplete`
+- Enable to finalize `Textcomplete`.
 
 ### Changed
 - Don't hide dropdown on blur event by default.
@@ -23,8 +25,8 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 - Emit `rendered` event whenever dropdown is rendered.
 
 ### Removed
-- Remove `Dropdown#length`
-- Remove `Dropdown#selectActiveItem()`
+- Remove `Dropdown#length`.
+- Remove `Dropdown#selectActiveItem()`.
 
 ## [0.2.0] - 2016-02-29
 ### Added
