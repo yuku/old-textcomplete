@@ -25,6 +25,54 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
  */
 
 /**
+ * @event Dropdown#render
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ */
+
+/**
+ * @event Dropdown#rendered
+ * @type {CustomEvent}
+ */
+
+/**
+ * @event Dropdown#select
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ * @prop {object} detail
+ * @prop {SearchResult} detail.searchResult
+ */
+
+/**
+ * @event Dropdown#selected
+ * @type {CustomEvent}
+ * @prop {object} detail
+ * @prop {SearchResult} detail.searchResult
+ */
+
+/**
+ * @event Dropdown#show
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ */
+
+/**
+ * @event Dropdown#shown
+ * @type {CustomEvent}
+ */
+
+/**
+ * @event Dropdown#hide
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ */
+
+/**
+ * @event Dropdown#hidden
+ * @type {CustomEvent}
+ */
+
+/**
  * Encapsulate a dropdown view.
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
@@ -94,11 +142,6 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#rendered
    */
   render(searchResults, cursorOffset) {
-    /**
-     * @event Dropdown#render
-     * @type {CustomEvent}
-     * @prop {function} preventDefault
-     */
     let renderEvent = createCustomEvent('render', { cancelable: true });
     this.emit('render', renderEvent);
     if (renderEvent.defaultPrevented) {
@@ -117,10 +160,6 @@ class Dropdown extends EventEmitter {
         .renderEdge(rawResults, 'footer')
         .setOffset(cursorOffset)
         .show();
-    /**
-     * @event Dropdown#rendered
-     * @type {CustomEvent}
-     */
     this.emit('rendered', createCustomEvent('rendered'));
     return this;
   }
@@ -141,25 +180,12 @@ class Dropdown extends EventEmitter {
    */
   select(dropdownItem) {
     let detail = { searchResult: dropdownItem.searchResult };
-    /**
-     * @event Dropdown#select
-     * @type {CustomEvent}
-     * @prop {function} preventDefault
-     * @prop {object} detail
-     * @prop {SearchResult} detail.searchResult
-     */
     let selectEvent = createCustomEvent('select', { cancelable: true, detail: detail });
     this.emit('select', selectEvent);
     if (selectEvent.defaultPrevented) {
       return this;
     }
     this.deactivate();
-    /**
-     * @event Dropdown#selected
-     * @type {CustomEvent}
-     * @prop {object} detail
-     * @prop {SearchResult} detail.searchResult
-     */
     this.emit('selected', createCustomEvent('selected', {detail}));
     return this;
   }
@@ -231,11 +257,6 @@ class Dropdown extends EventEmitter {
    */
   show() {
     if (!this.shown) {
-      /**
-       * @event Dropdown#show
-       * @type {CustomEvent}
-       * @prop {function} preventDefault
-       */
       let showEvent = createCustomEvent('show', { cancelable: true });
       this.emit('show', showEvent);
       if (showEvent.defaultPrevented) {
@@ -243,10 +264,6 @@ class Dropdown extends EventEmitter {
       }
       this.el.style.display = 'block';
       this.shown = true;
-      /**
-       * @event Dropdown#shown
-       * @type {CustomEvent}
-       */
       this.emit('shown', createCustomEvent('shown'));
     }
     return this;
@@ -262,11 +279,6 @@ class Dropdown extends EventEmitter {
    */
   hide() {
     if (this.shown) {
-      /**
-       * @event Dropdown#hide
-       * @type {CustomEvent}
-       * @prop {function} preventDefault
-       */
       let hideEvent = createCustomEvent('hide', { cancelable: true });
       this.emit('hide', hideEvent);
       if (hideEvent.defaultPrevented) {
@@ -274,10 +286,6 @@ class Dropdown extends EventEmitter {
       }
       this.el.style.display = 'none';
       this.shown = false;
-      /**
-       * @event Dropdown#hidden
-       * @type {CustomEvent}
-       */
       this.emit('hidden', createCustomEvent('hidden'));
     }
     return this;
