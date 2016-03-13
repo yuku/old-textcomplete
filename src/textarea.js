@@ -94,9 +94,7 @@ class Textarea extends Editor {
    * @returns {{top: number, left: number}}
    */
   getCursorPosition() {
-    // textarea-caret throws an error if `window` is undefined.
-    return typeof window !== 'undefined' ?
-      getCaretCoordinates(this.el, this.el.selectionEnd) : { top: 0, left: 0 };
+    return getCaretCoordinates(this.el, this.el.selectionEnd);
   }
 
   /**
