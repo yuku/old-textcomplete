@@ -143,19 +143,22 @@ class Textcomplete extends EventEmitter {
    */
   handleMove({code, callback}) {
     switch (code) {
-    case ENTER:
-      let activeItem = this.dropdown.getActiveItem();
-      if (activeItem) {
-        this.dropdown.select(activeItem);
-        callback(activeItem);
+      case ENTER: {
+        let activeItem = this.dropdown.getActiveItem();
+        if (activeItem) {
+          this.dropdown.select(activeItem);
+          callback(activeItem);
+        }
+        break;
       }
-      break;
-    case UP:
-      this.dropdown.up(callback);
-      break;
-    case DOWN:
-      this.dropdown.down(callback);
-      break;
+      case UP: {
+        this.dropdown.up(callback);
+        break;
+      }
+      case DOWN: {
+        this.dropdown.down(callback);
+        break;
+      }
     }
   }
 
