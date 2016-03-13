@@ -1,3 +1,4 @@
+import bindAll from 'lodash.bindall';
 import {EventEmitter} from 'events';
 
 const CALLBACK_METHODS = ['handleQueryResult'];
@@ -10,10 +11,7 @@ class Completer extends EventEmitter {
     super();
     this.strategies = [];
 
-    // Bind callback methods
-    CALLBACK_METHODS.forEach(name => {
-      this[name] = this[name].bind(this);
-    });
+    bindAll(this, CALLBACK_METHODS);
   }
 
   /**

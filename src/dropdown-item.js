@@ -1,4 +1,5 @@
 import uniqueId from 'lodash.uniqueid';
+import bindAll from 'lodash.bindall';
 
 export const CLASS_NAME = 'textcomplete-item';
 const ACTIVE_CLASS_NAME = `${CLASS_NAME} active`;
@@ -16,9 +17,7 @@ class DropdownItem {
     this.id = uniqueId('dropdown-item-');
     this.active = false;
 
-    CALLBACK_METHODS.forEach(name => {
-      this[name] = this[name].bind(this);
-    });
+    bindAll(this, CALLBACK_METHODS);
   }
 
   /**

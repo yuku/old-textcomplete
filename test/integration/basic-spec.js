@@ -4,10 +4,9 @@ import Textarea from '../../src/textarea';
 const assert = require('power-assert');
 
 describe('Integration test', function () {
-  var window, textareaEl, textarea, textcomplete;
+  var textareaEl, textarea, textcomplete;
 
   beforeEach(function () {
-    window = document.defaultView;
     textareaEl = document.createElement('textarea');
     document.body.appendChild(textareaEl);
     textarea = new Textarea(textareaEl);

@@ -4,6 +4,7 @@ import Strategy from './strategy';
 import {ENTER, UP, DOWN} from './editor';
 import {lock} from './utils';
 
+import bindAll from 'lodash.bindall';
 import isFunction from 'lodash.isfunction';
 import {EventEmitter} from 'events';
 
@@ -43,10 +44,7 @@ class Textcomplete extends EventEmitter {
     this.editor = editor;
     this.options = options;
 
-    // Bind callback methods
-    CALLBACK_METHODS.forEach(name => {
-      this[name] = this[name].bind(this);
-    });
+    bindAll(this, CALLBACK_METHODS);
 
     this.lockableTrigger = lock(function (free, text) {
       this.free = free;
