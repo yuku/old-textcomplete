@@ -1,6 +1,8 @@
 import Editor, {ENTER, UP, DOWN} from './editor';
 import {calculateElementOffset} from './utils';
 
+import bindAll from 'lodash.bindall';
+
 const getCaretCoordinates = require('textarea-caret');
 
 const CALLBACK_METHODS = ['onKeydown', 'onKeyup'];
@@ -19,10 +21,7 @@ class Textarea extends Editor {
     super();
     this.el = el;
 
-    // Bind callback methods
-    CALLBACK_METHODS.forEach(name => {
-      this[name] = this[name].bind(this);
-    });
+    bindAll(this, CALLBACK_METHODS);
 
     this.startListening();
   }
