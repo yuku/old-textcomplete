@@ -1,6 +1,6 @@
 import Strategy from '../../src/strategy';
-import SearchResult from '../../src/search-result';
-import {createQuery} from '../test-helper';
+import SearchResult from '../../src/search_result';
+import {createQuery} from '../test_helper';
 
 const assert = require('power-assert');
 

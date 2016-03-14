@@ -19,7 +19,7 @@ var paths = {
   powered: 'powered-test/',
   src: 'src/*.js',
   test: 'test/**/*.js',
-  testrunner: 'test-runner.js',
+  testrunner: 'test_runner.js',
 };
 
 gulp.task('clean', () => {
