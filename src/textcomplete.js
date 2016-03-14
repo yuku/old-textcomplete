@@ -164,11 +164,11 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {string} beforeCursor
+   * @param {Editor#change} e
    * @listens Editor#change
    */
-  handleChange({beforeCursor}) {
-    this.trigger(beforeCursor);
+  handleChange(e) {
+    this.trigger(e.detail.beforeCursor);
   }
 
   /**

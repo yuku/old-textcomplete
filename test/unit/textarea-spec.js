@@ -90,13 +90,13 @@ describe('Textarea', function () {
         textarea.on('change', spy);
         subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith({ beforeCursor: '' }));
+        assert(spy.calledWith({ detail: { beforeCursor: '' } }));
 
         spy.reset();
         textarea.el.selectionStart = textarea.el.selectionEnd = 3;
         subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith({ beforeCursor: 'abc' }));
+        assert(spy.calledWith({ detail: { beforeCursor: 'abc' } }));
       });
     });
   });

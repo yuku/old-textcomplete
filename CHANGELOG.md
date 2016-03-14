@@ -12,6 +12,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ### Changed
 - Use methods instead of getter properties to define `Editor` class.
+- Emit a custom event on Editor#change event.
 
 ### Fixed
 - Fix dropdown position when window is scrolled.

@@ -123,7 +123,7 @@ class Textarea extends Editor {
    */
   onKeyup(e) {
     if (!this.isMoveKeyEvent(e)) {
-      this.emit('change', { beforeCursor: this.getBeforeCursor() });
+      this.emitChangeEvent();
     }
   }
 

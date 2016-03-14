@@ -1,3 +1,5 @@
+import {createCustomEvent} from './utils';
+
 import {EventEmitter} from 'events';
 
 export const ENTER = 0;
@@ -13,8 +15,9 @@ export const DOWN = 2;
 
 /**
  * @event Editor#change
- * @type {object}
- * @prop {string} beforeCursor
+ * @type {CustomEvent}
+ * @prop {object} detail
+ * @prop {string} detail.beforeCursor
  */
 
 /**
@@ -69,6 +72,21 @@ class Editor extends EventEmitter {
    */
   getAfterCursor() {
     throw new Error('Not implemented.');
+  }
+
+  /**
+   * @private
+   * @fires Editor#change
+   * @returns {Editor#change}
+   */
+  emitChangeEvent() {
+    var changeEvent = createCustomEvent('change', {
+      detail: {
+        beforeCursor: this.getBeforeCursor(),
+      },
+    });
+    this.emit('change', changeEvent);
+    return changeEvent;
   }
 }
 
