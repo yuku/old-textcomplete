@@ -152,7 +152,7 @@ describe('Textarea', function () {
     });
   });
 
-  describe('#cursorOffset', function () {
+  describe('#getCursorOffset', function () {
     var textareaEl;
 
     beforeEach(function () {
@@ -160,7 +160,7 @@ describe('Textarea', function () {
     });
 
     function subject() {
-      return textarea.cursorOffset;
+      return textarea.getCursorOffset();
     }
 
     context('when dir attribute of the element is "ltr"', function () {

@@ -39,7 +39,7 @@ class Textarea extends Editor {
    * @param {SearchResult} searchResult
    */
   applySearchResult(searchResult) {
-    var replace = searchResult.replace(this.beforeCursor, this.afterCursor);
+    var replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
     if (Array.isArray(replace)) {
       this.el.value = replace[0] + replace[1];
       this.el.selectionStart = this.el.selectionEnd = replace[0].length;
@@ -47,7 +47,7 @@ class Textarea extends Editor {
     this.el.focus(); // Clicking a dropdown item removes focus from the element.
   }
 
-  get cursorOffset() {
+  getCursorOffset() {
     var elOffset = calculateElementOffset(this.el);
     var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
@@ -60,21 +60,13 @@ class Textarea extends Editor {
     }
   }
 
-  /**
-   * The string from head to current input cursor position.
-   *
-   * @private
-   * @returns {string}
-   */
-  get beforeCursor() {
+  /** @override */
+  getBeforeCursor() {
     return this.el.value.substring(0, this.el.selectionEnd);
   }
 
-  /**
-   * @private
-   * @returns {string}
-   */
-  get afterCursor() {
+  /** @override */
+  getAfterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
   }
 
@@ -131,7 +123,7 @@ class Textarea extends Editor {
    */
   onKeyup(e) {
     if (!this.isMoveKeyEvent(e)) {
-      this.emit('change', { beforeCursor: this.beforeCursor });
+      this.emit('change', { beforeCursor: this.getBeforeCursor() });
     }
   }
 

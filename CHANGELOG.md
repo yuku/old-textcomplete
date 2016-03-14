@@ -10,6 +10,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Enable to preload third party editor classes via `Textcomplete.editors`.
 
+### Changed
+- Use methods instead of getter properties to define `Editor` class.
+
 ### Fixed
 - Fix dropdown position when window is scrolled.
 

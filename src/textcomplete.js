@@ -128,7 +128,7 @@ class Textcomplete extends EventEmitter {
    */
   handleHit({searchResults}) {
     if (searchResults.length) {
-      this.dropdown.render(searchResults, this.editor.cursorOffset);
+      this.dropdown.render(searchResults, this.editor.getCursorOffset());
     } else {
       this.dropdown.deactivate();
     }

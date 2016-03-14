@@ -20,6 +20,9 @@ export const DOWN = 2;
 /**
  * Abstract class representing a editor target.
  *
+ * Editor classes must implement `#applySearchResult`, `#getCursorOffset`,
+ * `#getBeforeCursor` and `#getAfterCursor` methods.
+ *
  * @abstract
  * @extends EventEmitter
  */
@@ -46,7 +49,25 @@ class Editor extends EventEmitter {
    *
    * @type {Dropdown~Offset}
    */
-  get cursorOffset() {
+  getCursorOffset() {
+    throw new Error('Not implemented.');
+  }
+
+  /**
+   * Editor string value from head to cursor.
+   *
+   * @private
+   */
+  getBeforeCursor() {
+    throw new Error('Not implemented.');
+  }
+
+  /**
+   * Editor string value from cursor to tail.
+   *
+   * @private
+   */
+  getAfterCursor() {
     throw new Error('Not implemented.');
   }
 }
