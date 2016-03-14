@@ -137,26 +137,25 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {ENTER|UP|DOWN} code
-   * @param {funcion} callback
+   * @param {Editor#move} e
    * @listens Editor#move
    */
-  handleMove({code, callback}) {
-    switch (code) {
+  handleMove(e) {
+    switch (e.detail.code) {
       case ENTER: {
         let activeItem = this.dropdown.getActiveItem();
         if (activeItem) {
           this.dropdown.select(activeItem);
-          callback(activeItem);
+          e.preventDefault();
         }
         break;
       }
       case UP: {
-        this.dropdown.up(callback);
+        this.dropdown.up(e);
         break;
       }
       case DOWN: {
-        this.dropdown.down(callback);
+        this.dropdown.down(e);
         break;
       }
     }

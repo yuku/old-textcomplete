@@ -8,9 +8,10 @@ export const DOWN = 2;
 
 /**
  * @event Editor#move
- * @type {object}
- * @prop {number} code
- * @prop {function} callback
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ * @prop {object} detail
+ * @prop {number} detail.code
  */
 
 /**
@@ -72,6 +73,23 @@ class Editor extends EventEmitter {
    */
   getAfterCursor() {
     throw new Error('Not implemented.');
+  }
+
+  /**
+   * @private
+   * @fires Editor#move
+   * @param {number} code - ENTER, UP, DOWN or null.
+   * @returns {Editor#move}
+   */
+  emitMoveEvent(code) {
+    var moveEvent = createCustomEvent('move', {
+      cancelable: true,
+      detail: {
+        code: code,
+      },
+    });
+    this.emit('move', moveEvent);
+    return moveEvent;
   }
 
   /**

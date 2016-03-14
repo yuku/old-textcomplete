@@ -34,7 +34,7 @@ describe('Textarea', function () {
           textarea.on('move', spy);
           subject();
           assert(spy.calledOnce);
-          assert(spy.calledWith({ code: code, callback: this.sinon.match.func }));
+          assert(spy.calledWith({ detail: { code: code } }));
         });
       });
     });

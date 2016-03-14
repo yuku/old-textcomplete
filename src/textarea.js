@@ -106,13 +106,10 @@ class Textarea extends Editor {
    */
   onKeydown(e) {
     var code = this.getCode(e);
-    if (code !== null) {
-      this.emit('move', {
-        code: code,
-        callback: function () {
-          e.preventDefault();
-        },
-      });
+    if (code === null) { return; }
+    var moveEvent = this.emitMoveEvent(code);
+    if (moveEvent.defaultPrevented) {
+      e.preventDefault();
     }
   }
 

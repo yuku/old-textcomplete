@@ -191,19 +191,19 @@ class Dropdown extends EventEmitter {
   }
 
   /**
-   * @param {function} callback
+   * @param {Editor#move} e
    * @returns {this}
    */
-  up(callback) {
-    return this.moveActiveItem('prev', callback);
+  up(e) {
+    return this.shown ? this.moveActiveItem('prev', e) : this;
   }
 
   /**
-   * @param {function} callback
+   * @param {Editor#move} e
    * @returns {this}
    */
-  down(callback) {
-    return this.moveActiveItem('next', callback);
+  down(e) {
+    return this.shown ? this.moveActiveItem('next', e) : this;
   }
 
   /**
@@ -307,22 +307,21 @@ class Dropdown extends EventEmitter {
   /**
    * @private
    * @param {string} name - "next" or "prev".
-   * @param {function} callback
+   * @param {Editor#move} e
    * @returns {this}
    */
-  moveActiveItem(name, callback) {
-    if (this.shown) {
-      let activeItem = this.getActiveItem();
-      let nextActiveItem;
-      if (activeItem) {
-        activeItem.deactivate();
-        nextActiveItem = activeItem[name];
-      } else {
-        nextActiveItem = name === 'next' ? this.items[0] : this.items[this.items.length - 1];
-      }
-      if (nextActiveItem) {
-        callback(nextActiveItem.activate());
-      }
+  moveActiveItem(name, e) {
+    let activeItem = this.getActiveItem();
+    let nextActiveItem;
+    if (activeItem) {
+      activeItem.deactivate();
+      nextActiveItem = activeItem[name];
+    } else {
+      nextActiveItem = name === 'next' ? this.items[0] : this.items[this.items.length - 1];
+    }
+    if (nextActiveItem) {
+      nextActiveItem.activate();
+      e.preventDefault();
     }
     return this;
   }
