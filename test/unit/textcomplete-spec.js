@@ -76,7 +76,7 @@ describe('Textcomplete', function () {
 
     it('should listen Editor#change', function () {
       var stub = this.sinon.stub(textcomplete, 'trigger');
-      editor.emit('change', { beforeCursor: '' });
+      editor.emit('change', { detail: { beforeCursor: '' } });
       assert(stub.calledOnce);
     });
 

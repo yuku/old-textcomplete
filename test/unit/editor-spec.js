@@ -21,9 +21,11 @@ describe('Editor', function () {
     });
   });
 
-  describe('#cursorOffset', function () {
-    it('should throw an error', function () {
-      assert.throws(function () { editor.cursorOffset; });
+  ['getCursorOffset', 'getBeforeCursor', 'getAfterCursor'].forEach(name => {
+    describe(`#${name}`, function () {
+      it('should throw an error', function () {
+        assert.throws(function () { editor[name](); });
+      });
     });
   });
 });

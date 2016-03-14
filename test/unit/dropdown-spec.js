@@ -376,7 +376,7 @@ describe('Dropdown', function () {
       });
 
       context('and it contains DropdownItems', function () {
-        it('should activate the previous DropdownItem and callback it', function () {
+        it('should activate the previous DropdownItem and prevent default', function () {
           dropdown.render([
             createSearchResult(),
             createSearchResult(),
@@ -387,27 +387,25 @@ describe('Dropdown', function () {
           assert(!dropdown.items[2].active);
 
           var spy = this.sinon.spy();
-          dropdown.up(spy);
+          dropdown.up({ preventDefault: spy });
           assert(!dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(dropdown.items[2].active);
           assert(spy.calledOnce);
-          assert(spy.calledWith(dropdown.items[2]));
 
           spy.reset();
-          dropdown.up(spy);
+          dropdown.up({ preventDefault: spy });
           assert(!dropdown.items[0].active);
           assert(dropdown.items[1].active);
           assert(!dropdown.items[2].active);
           assert(spy.calledOnce);
-          assert(spy.calledWith(dropdown.items[1]));
         });
       });
 
       context('and it does not contain a DropdownItem', function () {
-        it('should not callback', function () {
+        it('should not prevent default', function () {
           var spy = this.sinon.spy();
-          dropdown.up(spy);
+          dropdown.up({ preventDefault: spy });
           assert(!spy.called);
         });
       });
@@ -418,9 +416,9 @@ describe('Dropdown', function () {
         dropdown.hide();
       });
 
-      it('should not callback', function () {
+      it('should not prevent default', function () {
         var spy = this.sinon.spy();
-        dropdown.up(spy);
+        dropdown.up({ preventDefault: spy });
         assert(!spy.called);
       });
     });
@@ -450,27 +448,25 @@ describe('Dropdown', function () {
           assert(!dropdown.items[2].active);
 
           var spy = this.sinon.spy();
-          dropdown.down(spy);
+          dropdown.down({ preventDefault: spy });
           assert(dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(!dropdown.items[2].active);
           assert(spy.calledOnce);
-          assert(spy.calledWith(dropdown.items[0]));
 
           spy.reset();
-          dropdown.down(spy);
+          dropdown.down({ preventDefault: spy });
           assert(!dropdown.items[0].active);
           assert(dropdown.items[1].active);
           assert(!dropdown.items[2].active);
           assert(spy.calledOnce);
-          assert(spy.calledWith(dropdown.items[1]));
         });
       });
 
       context('and it does not contain a DropdownItem', function () {
-        it('should not callback', function () {
+        it('should not prevent default', function () {
           var spy = this.sinon.spy();
-          dropdown.down(spy);
+          dropdown.down({ preventDefault: spy });
           assert(!spy.called);
         });
       });
@@ -483,7 +479,7 @@ describe('Dropdown', function () {
 
       it('should not callback', function () {
         var spy = this.sinon.spy();
-        dropdown.down(spy);
+        dropdown.down({ preventDefault: spy });
         assert(!spy.called);
       });
     });

@@ -128,7 +128,7 @@ class Textcomplete extends EventEmitter {
    */
   handleHit({searchResults}) {
     if (searchResults.length) {
-      this.dropdown.render(searchResults, this.editor.cursorOffset);
+      this.dropdown.render(searchResults, this.editor.getCursorOffset());
     } else {
       this.dropdown.deactivate();
     }
@@ -137,26 +137,25 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {ENTER|UP|DOWN} code
-   * @param {funcion} callback
+   * @param {Editor#move} e
    * @listens Editor#move
    */
-  handleMove({code, callback}) {
-    switch (code) {
+  handleMove(e) {
+    switch (e.detail.code) {
       case ENTER: {
         let activeItem = this.dropdown.getActiveItem();
         if (activeItem) {
           this.dropdown.select(activeItem);
-          callback(activeItem);
+          e.preventDefault();
         }
         break;
       }
       case UP: {
-        this.dropdown.up(callback);
+        this.dropdown.up(e);
         break;
       }
       case DOWN: {
-        this.dropdown.down(callback);
+        this.dropdown.down(e);
         break;
       }
     }
@@ -164,11 +163,11 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {string} beforeCursor
+   * @param {Editor#change} e
    * @listens Editor#change
    */
-  handleChange({beforeCursor}) {
-    this.trigger(beforeCursor);
+  handleChange(e) {
+    this.trigger(e.detail.beforeCursor);
   }
 
   /**

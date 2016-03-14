@@ -1,4 +1,4 @@
-import Editor, {ENTER, UP, DOWN} from './editor';
+import Editor, {ENTER, OTHER} from './editor';
 import {calculateElementOffset} from './utils';
 
 import bindAll from 'lodash.bindall';
@@ -39,7 +39,7 @@ class Textarea extends Editor {
    * @param {SearchResult} searchResult
    */
   applySearchResult(searchResult) {
-    var replace = searchResult.replace(this.beforeCursor, this.afterCursor);
+    var replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
     if (Array.isArray(replace)) {
       this.el.value = replace[0] + replace[1];
       this.el.selectionStart = this.el.selectionEnd = replace[0].length;
@@ -47,7 +47,7 @@ class Textarea extends Editor {
     this.el.focus(); // Clicking a dropdown item removes focus from the element.
   }
 
-  get cursorOffset() {
+  getCursorOffset() {
     var elOffset = calculateElementOffset(this.el);
     var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
@@ -60,21 +60,13 @@ class Textarea extends Editor {
     }
   }
 
-  /**
-   * The string from head to current input cursor position.
-   *
-   * @private
-   * @returns {string}
-   */
-  get beforeCursor() {
+  /** @override */
+  getBeforeCursor() {
     return this.el.value.substring(0, this.el.selectionEnd);
   }
 
-  /**
-   * @private
-   * @returns {string}
-   */
-  get afterCursor() {
+  /** @override */
+  getAfterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
   }
 
@@ -114,13 +106,10 @@ class Textarea extends Editor {
    */
   onKeydown(e) {
     var code = this.getCode(e);
-    if (code !== null) {
-      this.emit('move', {
-        code: code,
-        callback: function () {
-          e.preventDefault();
-        },
-      });
+    if (code === OTHER) { return; }
+    var moveEvent = this.emitMoveEvent(code);
+    if (moveEvent.defaultPrevented) {
+      e.preventDefault();
     }
   }
 
@@ -131,7 +120,7 @@ class Textarea extends Editor {
    */
   onKeyup(e) {
     if (!this.isMoveKeyEvent(e)) {
-      this.emit('change', { beforeCursor: this.beforeCursor });
+      this.emitChangeEvent();
     }
   }
 
@@ -142,21 +131,7 @@ class Textarea extends Editor {
    */
   isMoveKeyEvent(e) {
     var code = this.getCode(e);
-    return code !== ENTER && code !== null;
-  }
-
-  /**
-   * @private
-   * @param {KeyboardEvent} e
-   * @returns {ENTER|UP|DOWN|null}
-   */
-  getCode(e) {
-    return e.keyCode === 13 ? ENTER
-         : e.keyCode === 38 ? UP
-         : e.keyCode === 40 ? DOWN
-         : e.keyCode === 78 && e.ctrlKey ? DOWN
-         : e.keyCode === 80 && e.ctrlKey ? UP
-         : null;
+    return code !== ENTER && code !== OTHER;
   }
 
   /**

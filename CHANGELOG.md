@@ -9,6 +9,11 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## [Unreleased]
 ### Added
 - Enable to preload third party editor classes via `Textcomplete.editors`.
+- Enable to select dropdown by tab key.
+
+### Changed
+- Use methods instead of getter properties to define `Editor` class.
+- Emit a custom event on Editor#change and Editor#move event.
 
 ### Fixed
 - Fix dropdown position when window is scrolled.

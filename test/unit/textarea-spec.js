@@ -23,25 +23,33 @@ describe('Textarea', function () {
       event.initEvent('keydown', true, true);
     });
 
-    [ENTER, DOWN, UP].forEach(function (code) {
-      context(`and it is a ${code} key`, function () {
+    [
+      [9, ENTER, false],
+      [13, ENTER, false],
+      [38, UP, false],
+      [40, DOWN, false],
+      [78, DOWN, true],
+      [80, UP, true],
+    ].forEach(([keyCode, code, ctrlKey]) => {
+      context(`and it is a ${keyCode} key`, function () {
         beforeEach(function () {
-          this.sinon.stub(textarea, 'getCode', () => { return code; });
+          event.keyCode = keyCode;
+          event.ctrlKey = ctrlKey;
         });
 
-        it('should emit a move event', function () {
+        it(`should emit a ${code} move event`, function () {
           var spy = this.sinon.spy();
           textarea.on('move', spy);
           subject();
           assert(spy.calledOnce);
-          assert(spy.calledWith({ code: code, callback: this.sinon.match.func }));
+          assert(spy.calledWith({ detail: { code: code } }));
         });
       });
     });
 
     context('and it is a normal key', function () {
       beforeEach(function () {
-        this.sinon.stub(textarea, 'getCode', () => { return null; });
+        event.keyCode = 65;
       });
 
       it('should not emit a move event', function () {
@@ -90,13 +98,13 @@ describe('Textarea', function () {
         textarea.on('change', spy);
         subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith({ beforeCursor: '' }));
+        assert(spy.calledWith({ detail: { beforeCursor: '' } }));
 
         spy.reset();
         textarea.el.selectionStart = textarea.el.selectionEnd = 3;
         subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith({ beforeCursor: 'abc' }));
+        assert(spy.calledWith({ detail: { beforeCursor: 'abc' } }));
       });
     });
   });
@@ -152,7 +160,7 @@ describe('Textarea', function () {
     });
   });
 
-  describe('#cursorOffset', function () {
+  describe('#getCursorOffset', function () {
     var textareaEl;
 
     beforeEach(function () {
@@ -160,7 +168,7 @@ describe('Textarea', function () {
     });
 
     function subject() {
-      return textarea.cursorOffset;
+      return textarea.getCursorOffset();
     }
 
     context('when dir attribute of the element is "ltr"', function () {
