@@ -24,6 +24,7 @@ describe('Textarea', function () {
     });
 
     [
+      [9, ENTER, false],
       [13, ENTER, false],
       [38, UP, false],
       [40, DOWN, false],

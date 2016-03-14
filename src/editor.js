@@ -114,9 +114,10 @@ class Editor extends EventEmitter {
    * @returns {ENTER|UP|DOWN|OTHER}
    */
   getCode(e) {
-    return e.keyCode === 13 ? ENTER
-         : e.keyCode === 38 ? UP
-         : e.keyCode === 40 ? DOWN
+    return e.keyCode === 9 ? ENTER // tab
+         : e.keyCode === 13 ? ENTER // enter
+         : e.keyCode === 38 ? UP // up
+         : e.keyCode === 40 ? DOWN // down
          : e.keyCode === 78 && e.ctrlKey ? DOWN // ctrl-n
          : e.keyCode === 80 && e.ctrlKey ? UP // ctrl-p
          : OTHER;
