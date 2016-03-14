@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+
+## [0.4.0]
 ### Added
 - Enable to preload third party editor classes via `Textcomplete.editors`.
 - Enable to select dropdown by tab key.
@@ -69,7 +71,8 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/yuku-t/textcomplete/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/yuku-t/textcomplete/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/yuku-t/textcomplete/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/yuku-t/textcomplete/compare/v0.1.1...v0.1.2
