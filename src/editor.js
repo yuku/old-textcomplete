@@ -5,6 +5,7 @@ import {EventEmitter} from 'events';
 export const ENTER = 0;
 export const UP = 1;
 export const DOWN = 2;
+export const OTHER = 3;
 
 /**
  * @event Editor#move
@@ -78,7 +79,7 @@ class Editor extends EventEmitter {
   /**
    * @private
    * @fires Editor#move
-   * @param {number} code - ENTER, UP, DOWN or null.
+   * @param {ENTER|UP|DOWN|OTHER} code
    * @returns {Editor#move}
    */
   emitMoveEvent(code) {
@@ -105,6 +106,20 @@ class Editor extends EventEmitter {
     });
     this.emit('change', changeEvent);
     return changeEvent;
+  }
+
+  /**
+   * @private
+   * @param {KeyboardEvent} e
+   * @returns {ENTER|UP|DOWN|OTHER}
+   */
+  getCode(e) {
+    return e.keyCode === 13 ? ENTER
+         : e.keyCode === 38 ? UP
+         : e.keyCode === 40 ? DOWN
+         : e.keyCode === 78 && e.ctrlKey ? DOWN // ctrl-n
+         : e.keyCode === 80 && e.ctrlKey ? UP // ctrl-p
+         : OTHER;
   }
 }
 

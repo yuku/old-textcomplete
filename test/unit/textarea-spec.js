@@ -23,13 +23,20 @@ describe('Textarea', function () {
       event.initEvent('keydown', true, true);
     });
 
-    [ENTER, DOWN, UP].forEach(function (code) {
-      context(`and it is a ${code} key`, function () {
+    [
+      [13, ENTER, false],
+      [38, UP, false],
+      [40, DOWN, false],
+      [78, DOWN, true],
+      [80, UP, true],
+    ].forEach(([keyCode, code, ctrlKey]) => {
+      context(`and it is a ${keyCode} key`, function () {
         beforeEach(function () {
-          this.sinon.stub(textarea, 'getCode', () => { return code; });
+          event.keyCode = keyCode;
+          event.ctrlKey = ctrlKey;
         });
 
-        it('should emit a move event', function () {
+        it(`should emit a ${code} move event`, function () {
           var spy = this.sinon.spy();
           textarea.on('move', spy);
           subject();
@@ -41,7 +48,7 @@ describe('Textarea', function () {
 
     context('and it is a normal key', function () {
       beforeEach(function () {
-        this.sinon.stub(textarea, 'getCode', () => { return null; });
+        event.keyCode = 65;
       });
 
       it('should not emit a move event', function () {
