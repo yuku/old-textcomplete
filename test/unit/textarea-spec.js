@@ -1,4 +1,4 @@
-import {ENTER, UP, DOWN} from '../../src/editor';
+import {UP, DOWN} from '../../src/editor';
 import {createTextarea, createSearchResult} from '../test-helper';
 import isNumber from 'lodash.isnumber';
 
@@ -24,14 +24,12 @@ describe('Textarea', function () {
     });
 
     [
-      [9, ENTER, false],
-      [13, ENTER, false],
-      [38, UP, false],
-      [40, DOWN, false],
-      [78, DOWN, true],
-      [80, UP, true],
-    ].forEach(([keyCode, code, ctrlKey]) => {
-      context(`and it is a ${keyCode} key`, function () {
+      [38, UP, false, 'up'],
+      [40, DOWN, false, 'down'],
+      [78, DOWN, true, 'ctrl-n'],
+      [80, UP, true, 'ctrl-p'],
+    ].forEach(([keyCode, code, ctrlKey, name]) => {
+      context(`and it is a ${name} key`, function () {
         beforeEach(function () {
           event.keyCode = keyCode;
           event.ctrlKey = ctrlKey;
@@ -43,6 +41,21 @@ describe('Textarea', function () {
           subject();
           assert(spy.calledOnce);
           assert(spy.calledWith({ detail: { code: code } }));
+        });
+      });
+    });
+
+    [[9, 'tab'], [13, 'enter']].forEach(([keyCode, name]) => {
+      context(`and it is a ${name} key`, function () {
+        beforeEach(function () {
+          event.keyCode = keyCode;
+        });
+
+        it('should emit a enter event', function () {
+          var spy = this.sinon.spy();
+          textarea.on('enter', spy);
+          subject();
+          assert(spy.calledOnce);
         });
       });
     });

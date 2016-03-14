@@ -16,6 +16,12 @@ export const OTHER = 3;
  */
 
 /**
+ * @event Editor#enter
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ */
+
+/**
  * @event Editor#change
  * @type {CustomEvent}
  * @prop {object} detail
@@ -79,7 +85,7 @@ class Editor extends EventEmitter {
   /**
    * @private
    * @fires Editor#move
-   * @param {ENTER|UP|DOWN|OTHER} code
+   * @param {UP|DOWN} code
    * @returns {Editor#move}
    */
   emitMoveEvent(code) {
@@ -91,6 +97,17 @@ class Editor extends EventEmitter {
     });
     this.emit('move', moveEvent);
     return moveEvent;
+  }
+
+  /**
+   * @private
+   * @fires Editor#enter
+   * @returns {Editor#enter}
+   */
+  emitEnterEvent() {
+    var enterEvent = createCustomEvent('enter', { cancelable: true });
+    this.emit('enter', enterEvent);
+    return enterEvent;
   }
 
   /**
