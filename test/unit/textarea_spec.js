@@ -1,5 +1,5 @@
 import {UP, DOWN} from '../../src/editor';
-import {createTextarea, createSearchResult} from '../test-helper';
+import {createTextarea, createSearchResult} from '../test_helper';
 import isNumber from 'lodash.isnumber';
 
 const assert = require('power-assert');

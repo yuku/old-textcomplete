@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 const fs = require('fs');
 const path = require('path');
 const sinon = require('sinon');
@@ -29,7 +27,7 @@ afterEach(function () {
 
   for (let i = 0; i < files.length; i++) { 
     let file = files[i];
-    if (/-spec.js$/.test(file)) {
+    if (/_spec.js$/.test(file)) {
       require(path.join(__dirname, name, file));
     }
   }

@@ -1,6 +1,6 @@
 import Dropdown from '../../src/dropdown';
-import DropdownItem from '../../src/dropdown-item';
-import {createSearchResult} from '../test-helper';
+import DropdownItem from '../../src/dropdown_item';
+import {createSearchResult} from '../test_helper';
 import isUndefined from 'lodash.isundefined';
 
 const assert = require('power-assert');

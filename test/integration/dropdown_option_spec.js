@@ -1,6 +1,6 @@
 import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
-import {CLASS_NAME} from '../../src/dropdown-item';
+import {CLASS_NAME} from '../../src/dropdown_item';
 
 const assert = require('power-assert');
 

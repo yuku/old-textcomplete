@@ -1,5 +1,5 @@
 import Strategy from '../src/strategy';
-import SearchResult from '../src/search-result';
+import SearchResult from '../src/search_result';
 import Textarea from '../src/textarea';
 import Query from '../src/query';
 import extend from 'lodash.assignin';

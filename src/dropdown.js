@@ -1,4 +1,4 @@
-import DropdownItem from './dropdown-item';
+import DropdownItem from './dropdown_item';
 import {createFragment, createCustomEvent} from './utils';
 
 import extend from 'lodash.assignin';

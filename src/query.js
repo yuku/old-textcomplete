@@ -1,4 +1,4 @@
-import SearchResult from './search-result';
+import SearchResult from './search_result';
 
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.

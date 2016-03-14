@@ -1,5 +1,5 @@
 import Completer from '../../src/completer';
-import {createStrategy, createQuery} from '../test-helper';
+import {createStrategy, createQuery} from '../test_helper';
 
 const assert = require('power-assert');
 
