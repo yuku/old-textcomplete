@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Changed
+- Divide Editor#move event into Editor#move and Editor#enter events.
 
 ## [0.4.0]
 ### Added

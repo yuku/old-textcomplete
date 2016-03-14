@@ -1,7 +1,7 @@
 import Completer from './completer';
 import Dropdown from './dropdown';
 import Strategy from './strategy';
-import {ENTER, UP, DOWN} from './editor';
+import {UP} from './editor';
 import {lock} from './utils';
 
 import bindAll from 'lodash.bindall';
@@ -10,6 +10,7 @@ import {EventEmitter} from 'events';
 
 const CALLBACK_METHODS = [
   'handleChange',
+  'handleEnter',
   'handleHit',
   'handleMove',
   'handleSelect',
@@ -141,23 +142,20 @@ class Textcomplete extends EventEmitter {
    * @listens Editor#move
    */
   handleMove(e) {
-    switch (e.detail.code) {
-      case ENTER: {
-        let activeItem = this.dropdown.getActiveItem();
-        if (activeItem) {
-          this.dropdown.select(activeItem);
-          e.preventDefault();
-        }
-        break;
-      }
-      case UP: {
-        this.dropdown.up(e);
-        break;
-      }
-      case DOWN: {
-        this.dropdown.down(e);
-        break;
-      }
+    var action = e.detail.code === UP ? 'up' : 'down';
+    this.dropdown[action](e);
+  }
+
+  /**
+   * @private
+   * @param {Editor#enter} e
+   * @listens Editor#enter
+   */
+  handleEnter(e) {
+    var activeItem = this.dropdown.getActiveItem();
+    if (activeItem) {
+      this.dropdown.select(activeItem);
+      e.preventDefault();
     }
   }
 
@@ -196,6 +194,7 @@ class Textcomplete extends EventEmitter {
    */
   startListening() {
     this.editor.on('move', this.handleMove)
+               .on('enter', this.handleEnter)
                .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect);
     ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide'].forEach(eventName => {
@@ -211,6 +210,7 @@ class Textcomplete extends EventEmitter {
     this.completer.removeAllListeners();
     this.dropdown.removeAllListeners();
     this.editor.removeListener('move', this.handleMove)
+               .removeListener('enter', this.handleEnter)
                .removeListener('change', this.handleChange);
   }
 }
