@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Update `gh-pages` automatically when actually `master` branch is changed.
 
 ## [0.5.0] - 2016-03-14
 ### Changed

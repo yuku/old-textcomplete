@@ -23,6 +23,6 @@ after_script:
 after_success:
 - git config --global user.email 'taka84u9@gmail.com'
 - git config --global user.name 'Yuku Takahashi'
-- test "$TRAVIS_BRANCH" == "master" && ./node_modules/.bin/gulp gh-pages
+- test "$(git rev-list HEAD...origin/master)" == "" && ./node_modules/.bin/gulp gh-pages
 notifications:
   email: false
