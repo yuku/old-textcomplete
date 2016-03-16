@@ -11,7 +11,7 @@ function initializeTextcompletes() {
   let els = document.getElementsByClassName('auto-eval');
   for (let i = 0, l = els.length; i < l; i++) {
     let el = els[i];
-    eval(`(function () {${el.innerText}})()`);
+    eval(`(function () {${el.innerText || el.textContent}})()`);
   }
 }
 

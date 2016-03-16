@@ -9,6 +9,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## [Unreleased]
 ### Fixed
 - Update `gh-pages` automatically when actually `master` branch is changed.
+- Make demo page possible to run on Firefox.
 
 ## [0.5.0] - 2016-03-14
 ### Changed
