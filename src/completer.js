@@ -18,7 +18,7 @@ class Completer extends EventEmitter {
    * @returns {this}
    */
   finalize() {
-    this.strategies.forEach(strategy => { strategy.finalize(); });
+    this.strategies.forEach(strategy => strategy.finalize());
     return this;
   }
 

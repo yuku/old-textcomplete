@@ -212,7 +212,7 @@ class Dropdown extends EventEmitter {
    * @returns {DropdownItem|undefined}
    */
   getActiveItem() {
-    return this.items.find((item) => { return item.active; });
+    return this.items.find(item => item.active);
   }
 
   /**
@@ -224,7 +224,7 @@ class Dropdown extends EventEmitter {
    */
   append(items) {
     var fragment = document.createDocumentFragment();
-    items.forEach((item) => {
+    items.forEach(item => {
       this.items.push(item);
       item.appended(this);
       fragment.appendChild(item.el);
@@ -299,7 +299,7 @@ class Dropdown extends EventEmitter {
    */
   clear() {
     this.el.innerHTML = '';
-    this.items.forEach((item) => { item.finalize(); });
+    this.items.forEach(item => item.finalize());
     this.items = [];
     return this;
   }

@@ -49,9 +49,7 @@ describe('Completer', function () {
     }
 
     beforeEach(function () {
-      this.sinon.stub(completer, 'extractQuery', () => {
-        return query;
-      });
+      this.sinon.stub(completer, 'extractQuery', () => query);
     });
 
     context('when a query is extracted', function () {

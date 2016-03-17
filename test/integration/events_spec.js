@@ -15,9 +15,7 @@ describe('Textcomplete events', function () {
       usernames: ['aby'],
       match: /(\s|^)@(\w+)$/,
       search: function (term, callback) {
-        callback(this.usernames.filter((username) => {
-          return username.startsWith(term);
-        }));
+        callback(this.usernames.filter(username => username.startsWith(term)));
       },
       replace: function (username) {
         return `$1@${username} `;
@@ -64,9 +62,7 @@ describe('Textcomplete events', function () {
                 .on('hidden', hiddenSpy);
 
     function reset() {
-      [showSpy, shownSpy, renderedSpy, hideSpy, hiddenSpy].forEach(spy => {
-        spy.reset();
-      });
+      [showSpy, shownSpy, renderedSpy, hideSpy, hiddenSpy].forEach(spy => spy.reset());
     }
 
     input(50, false, false, true, 'Hi, @'); // '@'

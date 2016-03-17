@@ -26,9 +26,7 @@ describe('Dropdown options integration test', function () {
         usernames: ['alice'],
         match: /(\w+)$/,
         search: function (term, callback) {
-          callback(this.usernames.filter((username) => {
-            return username.startsWith(term);
-          }));
+          callback(this.usernames.filter(username => username.startsWith(term)));
         },
         replace: function (username) {
           return `$1@${username} `;
@@ -51,9 +49,7 @@ describe('Dropdown options integration test', function () {
         usernames: ['alice'],
         match: /(\w+)$/,
         search: function (term, callback) {
-          callback(this.usernames.filter((username) => {
-            return username.startsWith(term);
-          }));
+          callback(this.usernames.filter(username => username.startsWith(term)));
         },
         replace: function (username) {
           return `$1@${username} `;

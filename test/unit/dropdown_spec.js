@@ -17,7 +17,7 @@ describe('Dropdown', function () {
   describe('#el', function () {
     it('should return a object created by Dropdown.createElement()', function () {
       var result = {};
-      var stub = this.sinon.stub(Dropdown, 'createElement', () => { return result; });
+      var stub = this.sinon.stub(Dropdown, 'createElement', () => result);
       var dropdown = new Dropdown({});
       assert.strictEqual(dropdown.el, result);
       assert(stub.calledOnce);
@@ -72,7 +72,7 @@ describe('Dropdown', function () {
       it('should not emit rendered event', function () {
         var spy = this.sinon.spy();
         dropdown = new Dropdown({});
-        dropdown.on('render', e => { e.preventDefault(); });
+        dropdown.on('render', e => e.preventDefault());
         dropdown.on('rendered', spy);
         subject();
         assert(!spy.called);
@@ -111,7 +111,7 @@ describe('Dropdown', function () {
         context('and show event default is prevent', function () {
           it('should not emit shown event', function () {
             var spy = this.sinon.spy();
-            dropdown.on('show', e => { e.preventDefault(); });
+            dropdown.on('show', e => e.preventDefault());
             dropdown.on('shown', spy);
             subject();
             assert(!spy.called);
@@ -345,7 +345,7 @@ describe('Dropdown', function () {
 
     context('when select event default is prevented', function () {
       beforeEach(function () {
-        dropdown.on('select', e => { e.preventDefault(); });
+        dropdown.on('select', e => e.preventDefault());
       });
 
       it('should not emit a selected event', function () {
