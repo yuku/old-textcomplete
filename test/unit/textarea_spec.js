@@ -88,7 +88,7 @@ describe('Textarea', function () {
 
     context('and it is a move key', function () {
       beforeEach(function () {
-        this.sinon.stub(textarea, 'isMoveKeyEvent', () => { return true; });
+        this.sinon.stub(textarea, 'isMoveKeyEvent', () => true);
       });
 
       it('should not emit a change event', function () {
@@ -101,7 +101,7 @@ describe('Textarea', function () {
 
     context('and it is not a move key', function () {
       beforeEach(function () {
-        this.sinon.stub(textarea, 'isMoveKeyEvent', () => { return false; });
+        this.sinon.stub(textarea, 'isMoveKeyEvent', () => false);
       });
 
       it('should emit a change event', function () {

@@ -88,7 +88,7 @@ class Textcomplete extends EventEmitter {
    * }]);
    */
   register(strategyPropsArray) {
-    strategyPropsArray.forEach((props) => {
+    strategyPropsArray.forEach(props => {
       this.completer.registerStrategy(new Strategy(props));
     });
     return this;
@@ -186,7 +186,7 @@ class Textcomplete extends EventEmitter {
    * @returns {function}
    */
   buildHandler(eventName) {
-    return () => { this.emit(eventName); };
+    return () => this.emit(eventName);
   }
 
   /**

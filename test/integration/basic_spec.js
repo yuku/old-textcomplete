@@ -16,9 +16,7 @@ describe('Integration test', function () {
         usernames: ['alice', 'amanda', 'bob', 'carol', 'dave'],
         match: /(^|\s)@(\w+)$/,
         search: function (term, callback) {
-          callback(this.usernames.filter((username) => {
-            return username.startsWith(term);
-          }));
+          callback(this.usernames.filter(username => username.startsWith(term)));
         },
         replace: function (username) {
           return `$1@${username} `;
