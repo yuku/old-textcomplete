@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+
+## [0.5.1] - 2016-03-20
 ### Fixed
 - Update `gh-pages` automatically when actually `master` branch is changed.
 - Make demo page possible to run on Firefox.
@@ -79,7 +81,8 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/yuku-t/textcomplete/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/yuku-t/textcomplete/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/yuku-t/textcomplete/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/yuku-t/textcomplete/compare/v0.2.0...v0.3.0
