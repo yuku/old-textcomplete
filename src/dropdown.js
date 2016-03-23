@@ -155,6 +155,7 @@ class Dropdown extends EventEmitter {
       }
     });
     this.clear()
+        .setStrategyId(searchResults[0])
         .renderEdge(rawResults, 'header')
         .append(dropdownItems)
         .renderEdge(rawResults, 'footer')
@@ -322,6 +323,21 @@ class Dropdown extends EventEmitter {
     if (nextActiveItem) {
       nextActiveItem.activate();
       e.preventDefault();
+    }
+    return this;
+  }
+
+  /**
+   * @private
+   * @param {?SearchResult} searchResult
+   * @returns {this}
+   */
+  setStrategyId(searchResult) {
+    var strategyId = searchResult && searchResult.strategy.props.id;
+    if (strategyId) {
+      this.el.setAttribute('data-strategy', strategyId);
+    } else {
+      this.el.removeAttribute('data-strategy');
     }
     return this;
   }
