@@ -50,6 +50,7 @@ html(lang='en')
             code.javascript.auto-eval.
               // Shared strategy for all demos.
               window.emojiStrategy = {
+                id: 'emoji',
                 match: /(^|\s):([a-z0-9+\-\_]*)$/,
                 search: function (term, callback) {
                   callback(Object.keys(emojis).filter(function (name) {

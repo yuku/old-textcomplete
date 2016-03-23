@@ -16,10 +16,11 @@ function DEFAULT_TEMPLATE(value) {
  * @prop {regexp|function} match - If it is a function, it must return a RegExp.
  * @prop {function} search
  * @prop {function} replace
+ * @prop {boolean} [cache]
  * @prop {function} [context]
  * @prop {function} [template]
- * @prop {boolean} [cache]
  * @prop {number} [index=2]
+ * @prop {string} [id]
  */
 
 /**
