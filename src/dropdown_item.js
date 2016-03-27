@@ -3,7 +3,7 @@ import bindAll from 'lodash.bindall';
 
 export const CLASS_NAME = 'textcomplete-item';
 const ACTIVE_CLASS_NAME = `${CLASS_NAME} active`;
-const CALLBACK_METHODS = ['onClick'];
+const CALLBACK_METHODS = ['onClick', 'onMouseover'];
 
 /**
  * Encapsulate an item of dropdown.
@@ -34,6 +34,7 @@ class DropdownItem {
       li.appendChild(a);
       this._el = li;
       li.addEventListener('mousedown', this.onClick);
+      li.addEventListener('mouseover', this.onMouseover);
       li.addEventListener('touchstart', this.onClick);
     }
     return this._el;
@@ -45,8 +46,9 @@ class DropdownItem {
    * @public
    */
   finalize() {
-    this._el.removeEventListener('mousedown', this.onClick, false);
-    this._el.removeEventListener('touchstart', this.onClick, false);
+    this.el.removeEventListener('mousedown', this.onClick, false);
+    this.el.removeEventListener('mouseover', this.onMouseover, false);
+    this.el.removeEventListener('touchstart', this.onClick, false);
     // This element has already been removed by `Dropdown#clear`.
     this._el = null;
   }
@@ -123,6 +125,14 @@ class DropdownItem {
   onClick(e) {
     e.preventDefault(); // Prevent blur event
     this.dropdown.select(this);
+  }
+
+  /**
+   * @private
+   * @param {MouseEvent} _e
+   */
+  onMouseover(_e) {
+    this.activate();
   }
 }
 

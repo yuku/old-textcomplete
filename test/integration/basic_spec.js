@@ -105,7 +105,7 @@ describe('Integration test', function () {
     assert.equal(textareaEl.selectionEnd, 11);
   });
 
-  it('should work with mouse event', function () {
+  it('should work with mousedown event', function () {
     input(50, false, false, true, 'Hi, @'); // '@'
     expectDropdownIsHidden();
     input(65, false, false, false, 'Hi, @a'); // 'a'
@@ -118,5 +118,18 @@ describe('Integration test', function () {
     assert.equal(textareaEl.value, 'Hi, @alice ');
     assert.equal(textareaEl.selectionStart, 11);
     assert.equal(textareaEl.selectionEnd, 11);
+  });
+
+  it('should work with mouseover event', function () {
+    input(50, false, false, true, 'Hi, @'); // '@'
+    expectDropdownIsHidden();
+    input(65, false, false, false, 'Hi, @a'); // 'a'
+    expectDropdownIsShown();
+    var dropdownItemEl = document.querySelector('.textcomplete-item:last-child');
+    var mouseEvent = document.createEvent('MouseEvent');
+    mouseEvent.initEvent('mouseover', true, true);
+    assert(dropdownItemEl.getAttribute('class').indexOf('active') === -1);
+    dropdownItemEl.dispatchEvent(mouseEvent);
+    assert(dropdownItemEl.getAttribute('class').indexOf('active') !== -1);
   });
 });
