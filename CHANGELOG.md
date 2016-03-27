@@ -10,6 +10,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Add `id` strategy parameter.
 
+### Fixed
+- Use [line-height](https://github.com/twolfson/line-height) package to fix a minor dropdown position problem.
+
 ## [0.5.1] - 2016-03-20
 ### Fixed
 - Update `gh-pages` automatically when actually `master` branch is changed.
