@@ -86,38 +86,28 @@ describe('Textarea', function () {
       event.initEvent('keyup', true, true);
     });
 
-    context('and it is a move key', function () {
-      beforeEach(function () {
-        this.sinon.stub(textarea, 'isMoveKeyEvent', () => true);
-      });
+    [
+      [16, false, 'shift'],
+      [17, false, 'ctrl'],
+      [18, false, 'alt'],
+      [38, false, 'up'],
+      [40, false, 'down'],
+      [78, true, 'ctrl-n'],
+      [80, true, 'ctrl-p'],
+      [91, false, 'command'],
+    ].forEach(([keyCode, ctrlKey, name]) => {
+      context(`and it is a ${name} key`, function () {
+        beforeEach(function () {
+          event.keyCode = keyCode;
+          event.ctrlKey = ctrlKey;
+        });
 
-      it('should not emit a change event', function () {
-        var spy = this.sinon.spy();
-        textarea.on('change', spy);
-        subject();
-        assert(!spy.called);
-      });
-    });
-
-    context('and it is not a move key', function () {
-      beforeEach(function () {
-        this.sinon.stub(textarea, 'isMoveKeyEvent', () => false);
-      });
-
-      it('should emit a change event', function () {
-        textarea.el.value = 'abcdefg';
-
-        var spy = this.sinon.spy();
-        textarea.on('change', spy);
-        subject();
-        assert(spy.calledOnce);
-        assert(spy.calledWith({ detail: { beforeCursor: '' } }));
-
-        spy.reset();
-        textarea.el.selectionStart = textarea.el.selectionEnd = 3;
-        subject();
-        assert(spy.calledOnce);
-        assert(spy.calledWith({ detail: { beforeCursor: 'abc' } }));
+        it('should not emit a change event', function () {
+          var spy = this.sinon.spy();
+          textarea.on('change', spy);
+          subject();
+          assert(!spy.called);
+        });
       });
     });
   });

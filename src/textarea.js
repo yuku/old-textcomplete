@@ -1,4 +1,4 @@
-import Editor, {ENTER, DOWN, UP, OTHER} from './editor';
+import Editor, {ENTER, DOWN, UP, META} from './editor';
 import {calculateElementOffset} from './utils';
 
 import bindAll from 'lodash.bindall';
@@ -99,14 +99,13 @@ class Textarea extends Editor {
     var code = this.getCode(e);
     var event;
     switch (code) {
-      case OTHER:
-        return;
+      case UP:
+      case DOWN:
+        event = this.emitMoveEvent(code);
+        break;
       case ENTER: {
         event = this.emitEnterEvent();
         break;
-      }
-      default: {
-        event = this.emitMoveEvent(code);
       }
     }
     if (event.defaultPrevented) {
@@ -120,19 +119,15 @@ class Textarea extends Editor {
    * @param {KeyboardEvent} e
    */
   onKeyup(e) {
-    if (!this.isMoveKeyEvent(e)) {
-      this.emitChangeEvent();
-    }
-  }
-
-  /**
-   * @private
-   * @param {KeyboardEvent} e
-   * @returns {boolean}
-   */
-  isMoveKeyEvent(e) {
     var code = this.getCode(e);
-    return code === DOWN || code === UP;
+    switch (code) {
+      case DOWN:
+      case UP:
+      case META:
+        return;
+      default:
+        this.emitChangeEvent();
+    }
   }
 
   /**

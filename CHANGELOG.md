@@ -13,6 +13,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Changed
 - Deactivate an active item by `DropdownItem#activate`.
 
+### Fixed
+- Don't trigger textcomplete by pressing shift, ctrl, alt and command keys.
+
 ## [0.6.0] - 2016-03-27
 ### Added
 - Add `id` strategy parameter.
