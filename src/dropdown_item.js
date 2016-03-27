@@ -88,10 +88,18 @@ class DropdownItem {
    * Get the next sibling.
    *
    * @public
-   * @returns {DropdownItem}
+   * @returns {?DropdownItem}
    */
   get next() {
-    var nextIndex = (this.index === this.siblings.length - 1 ? 0 : this.index + 1);
+    var nextIndex;
+    if (this.index === this.siblings.length - 1) {
+      if (!this.dropdown.rotate) {
+        return null;
+      }
+      nextIndex = 0;
+    } else {
+      nextIndex = this.index + 1;
+    }
     return this.siblings[nextIndex];
   }
 
@@ -102,8 +110,16 @@ class DropdownItem {
    * @returns {DropdownItem}
    */
   get prev() {
-    var prevIndex = (this.index === 0 ? this.siblings.length : this.index) - 1;
-    return this.siblings[prevIndex];
+    var nextIndex;
+    if (this.index === 0) {
+      if (!this.dropdown.rotate) {
+        return null;
+      }
+      nextIndex = this.siblings.length - 1;
+    } else {
+      nextIndex = this.index - 1;
+    }
+    return this.siblings[nextIndex];
   }
 
   /**

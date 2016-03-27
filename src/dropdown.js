@@ -17,11 +17,12 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
 /**
  * @typedef {Object} Dropdown~Options
- * @prop {string} [className]
+ * @prop {boolean} [rotate]
  * @prop {function|string} [footer]
  * @prop {function|string} [header]
  * @prop {number} [maxCount]
- * @prop {Object} [style]
+ * @prop {object} [style]
+ * @prop {string} [className]
  */
 
 /**
@@ -100,9 +101,10 @@ class Dropdown extends EventEmitter {
    * @param {function|string} [footer]
    * @param {function|string} [header]
    * @param {number} [maxCount=10]
-   * @param {Object} [style] - The style of the el.
+   * @param {object} [style] - The style of the el.
+   * @param {boolean} [rotate=true]
    */
-  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style}) {
+  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style, rotate=true}) {
     super();
     this.shown = false;
     this.items = [];
@@ -110,6 +112,7 @@ class Dropdown extends EventEmitter {
     this.header = header;
     this.maxCount = maxCount;
     this.el.className = className;
+    this.rotate = rotate;
     if (style) {
       extend(this.el.style, style);
     }

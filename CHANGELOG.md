@@ -9,6 +9,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## [Unreleased]
 ### Added
 - Activate hovered dropdown item.
+- Add `rotate` dropdown option.
 
 ### Changed
 - Deactivate an active item by `DropdownItem#activate`.
