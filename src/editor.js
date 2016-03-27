@@ -6,6 +6,7 @@ export const ENTER = 0;
 export const UP = 1;
 export const DOWN = 2;
 export const OTHER = 3;
+export const META = 4;
 
 /**
  * @event Editor#move
@@ -133,10 +134,14 @@ class Editor extends EventEmitter {
   getCode(e) {
     return e.keyCode === 9 ? ENTER // tab
          : e.keyCode === 13 ? ENTER // enter
+         : e.keyCode === 16 ? META // shift
+         : e.keyCode === 17 ? META // ctrl
+         : e.keyCode === 18 ? META // alt
          : e.keyCode === 38 ? UP // up
          : e.keyCode === 40 ? DOWN // down
          : e.keyCode === 78 && e.ctrlKey ? DOWN // ctrl-n
          : e.keyCode === 80 && e.ctrlKey ? UP // ctrl-p
+         : e.keyCode === 91 ? META // command
          : OTHER;
   }
 }
