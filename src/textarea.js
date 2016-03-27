@@ -2,6 +2,7 @@ import Editor, {ENTER, DOWN, UP, OTHER} from './editor';
 import {calculateElementOffset} from './utils';
 
 import bindAll from 'lodash.bindall';
+import lineHeight from 'line-height';
 
 const getCaretCoordinates = require('textarea-caret');
 
@@ -51,7 +52,7 @@ class Textarea extends Editor {
     var elOffset = calculateElementOffset(this.el);
     var elScroll = this.getElScroll();
     var cursorPosition = this.getCursorPosition();
-    var top = elOffset.top - elScroll.top + cursorPosition.top + this.getElLineHeight();
+    var top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight(this.el);
     var left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {
       return { top, left };
@@ -87,16 +88,6 @@ class Textarea extends Editor {
    */
   getCursorPosition() {
     return getCaretCoordinates(this.el, this.el.selectionEnd);
-  }
-
-  /**
-   * @private
-   * @returns {number}
-   */
-  getElLineHeight() {
-    var computed = document.defaultView.getComputedStyle(this.el);
-    var lineHeight = parseInt(computed.lineHeight, 10);
-    return isNaN(lineHeight) ? parseInt(computed.fontSize, 10) : lineHeight;
   }
 
   /**
