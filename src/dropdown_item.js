@@ -65,25 +65,19 @@ class DropdownItem {
   }
 
   /**
+   * Deactivate active item then activate itself.
+   *
    * @public
    * @returns {this}
    */
   activate() {
     if (!this.active) {
+      const activeItem = this.dropdown.getActiveItem();
+      if (activeItem) {
+        activeItem.deactivate();
+      }
       this.active = true;
       this.el.className = ACTIVE_CLASS_NAME;
-    }
-    return this;
-  }
-
-  /**
-   * @public
-   * @returns {this}
-   */
-  deactivate() {
-    if (this.active) {
-      this.active = false;
-      this.el.className = CLASS_NAME;
     }
     return this;
   }
@@ -108,6 +102,18 @@ class DropdownItem {
   get prev() {
     var prevIndex = (this.index === 0 ? this.siblings.length : this.index) - 1;
     return this.siblings[prevIndex];
+  }
+
+  /**
+   * @private
+   * @returns {this}
+   */
+  deactivate() {
+    if (this.active) {
+      this.active = false;
+      this.el.className = CLASS_NAME;
+    }
+    return this;
   }
 
   /**
