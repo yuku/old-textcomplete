@@ -86,4 +86,52 @@ describe('Dropdown options integration test', function () {
       assert.equal(items.length, maxCount);
     });
   });
+
+  describe('rotate', function () {
+    context('when it is false', function () {
+      var textcomplete;
+
+      beforeEach(function () {
+        textcomplete = setup({ rotate: false }, {
+          match: /(\s|^)@(\w+)$/,
+          search: function (term, callback) { callback([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]); },
+          replace: function (value) { return value; },
+        });
+
+        textareaEl.value = '@a';
+        textareaEl.selectionStart = textareaEl.selectionEnd = 2;
+        var keyupEvent = document.createEvent('UIEvents');
+        keyupEvent.initEvent('keyup', true, true);
+        keyupEvent.keyCode = 50;
+        textareaEl.dispatchEvent(keyupEvent);
+      });
+
+      it('should not rotate on up key', function () {
+        // Activate the first dropdown item.
+        var firstItem = textcomplete.dropdown.items[0].activate();
+
+        // Press up key
+        var keydownEvent = document.createEvent('UIEvents');
+        keydownEvent.initEvent('keydown', true, true);
+        keydownEvent.keyCode = 38;
+        textareaEl.dispatchEvent(keydownEvent);
+
+        assert(firstItem.active);
+      });
+
+      it('should not rotate on down key', function () {
+        // Activate the last dropdown item.
+        var dropdownItems = textcomplete.dropdown.items;
+        var lastItem = dropdownItems[dropdownItems.length - 1].activate();
+
+        // Press down key
+        var keydownEvent = document.createEvent('UIEvents');
+        keydownEvent.initEvent('keydown', true, true);
+        keydownEvent.keyCode = 40;
+        textareaEl.dispatchEvent(keydownEvent);
+
+        assert(lastItem.active);
+      });
+    });
+  });
 });
