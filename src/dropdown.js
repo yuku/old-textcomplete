@@ -315,7 +315,6 @@ class Dropdown extends EventEmitter {
     let activeItem = this.getActiveItem();
     let nextActiveItem;
     if (activeItem) {
-      activeItem.deactivate();
       nextActiveItem = activeItem[name];
     } else {
       nextActiveItem = name === 'next' ? this.items[0] : this.items[this.items.length - 1];

@@ -7,6 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Activate hovered dropdown item.
+
+### Changed
+- Deactivate an active item by `DropdownItem#activate`.
 
 ## [0.6.0] - 2016-03-27
 ### Added

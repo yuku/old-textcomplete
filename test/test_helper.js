@@ -1,7 +1,9 @@
-import Strategy from '../src/strategy';
-import SearchResult from '../src/search_result';
-import Textarea from '../src/textarea';
+import Dropdown from '../src/dropdown';
+import DropdownItem from '../src/dropdown_item';
 import Query from '../src/query';
+import SearchResult from '../src/search_result';
+import Strategy from '../src/strategy';
+import Textarea from '../src/textarea';
 import extend from 'lodash.assignin';
 
 /**
@@ -52,4 +54,15 @@ export function createTextarea() {
  */
 export function createQuery(strategy=createStrategy(), term='he', match=['he', '', 'he']) {
   return new Query(strategy, term, match);
+}
+
+/**
+ * @param {Dropdown} dropdown
+ * @param {SearchResult} [searchResult]
+ * @returns {DropdownItem}
+ */
+export function createDropdownItem(dropdown=new Dropdown(), searchResult=createSearchResult()) {
+  var dropdownItem = new DropdownItem(searchResult);
+  dropdown.append([dropdownItem]);
+  return dropdownItem;
 }

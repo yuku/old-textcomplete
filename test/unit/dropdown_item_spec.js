@@ -1,13 +1,14 @@
-import DropdownItem from '../../src/dropdown_item';
-import {createSearchResult} from '../test_helper';
+import Dropdown from '../../src/dropdown';
+import {createDropdownItem} from '../test_helper';
 
 const assert = require('power-assert');
 
 describe('DropdownItem', function () {
-  var dropdownItem;
+  var dropdown, dropdownItem;
 
   beforeEach(function () {
-    dropdownItem = new DropdownItem(createSearchResult());
+    dropdown = new Dropdown({});
+    dropdownItem = createDropdownItem(dropdown);
   });
 
   describe('#el', function () {
@@ -30,20 +31,20 @@ describe('DropdownItem', function () {
       dropdownItem.activate();
       assert(dropdownItem.el.className.indexOf('active') !== -1);
     });
-  });
 
-  describe('#deactivate', function () {
-    it('should change #active to false', function () {
-      dropdownItem.active = true;
-      dropdownItem.deactivate();
-      assert.equal(dropdownItem.active, false);
-    });
+    context('when there is active item', function () {
+      var activeItem;
 
-    it('should add "active" to #el.className', function () {
-      dropdownItem.active = true;
-      assert(dropdownItem.el.className.indexOf('active') !== -1);
-      dropdownItem.deactivate();
-      assert(dropdownItem.el.className.indexOf('active') === -1);
+      beforeEach(function () {
+        activeItem = createDropdownItem(dropdown);
+        activeItem.activate();
+      });
+
+      it('should deactivate the active item', function () {
+        assert(activeItem.active);
+        dropdownItem.activate();
+        assert(!activeItem.active);
+      });
     });
   });
 });
