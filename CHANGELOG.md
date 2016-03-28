@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Fix a bug that a typeerror occurs on every normal keydown events.
 
 ## [0.7.0] - 2016-03-28
 ### Added
