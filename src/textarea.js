@@ -108,7 +108,7 @@ class Textarea extends Editor {
         break;
       }
     }
-    if (event.defaultPrevented) {
+    if (event && event.defaultPrevented) {
       e.preventDefault();
     }
   }
