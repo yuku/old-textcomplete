@@ -47,6 +47,7 @@
     "isparta": "^4.0.0",
     "jsdoc": "^3.4.0",
     "jsdom": "^8.0.2",
+    "keysim": "git://github.com/yuku-t/keysim.js.git#input-event",
     "lodash.isnumber": "^3.0.3",
     "lodash.isundefined": "^3.0.1",
     "postcss-cssnext": "^2.4.0",

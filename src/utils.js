@@ -103,3 +103,11 @@ export function calculateElementOffset(el) {
     left: rect.left + defaultView.pageXOffset - documentElement.clientLeft,
   };
 }
+
+/**
+ * @returns {?number} Returns IE version or if not IE return null.
+ */
+export function isIE() {
+  const nav = navigator.userAgent.toLowerCase();
+  return (nav.indexOf('msie') !== -1) ? parseInt(nav.split('msie')[1], 10) : null;
+}

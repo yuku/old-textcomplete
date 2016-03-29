@@ -7,6 +7,9 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Changed
+- Use input event instead of keyup event.
+
 ### Fixed
 - Fix a bug that a typeerror occurs on every normal keydown events.
 

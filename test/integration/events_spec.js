@@ -1,7 +1,10 @@
 import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 
+import Keysim from 'keysim';
+
 const assert = require('power-assert');
+const keyboard = Keysim.Keyboard.US_ENGLISH;
 
 describe('Textcomplete events', function () {
   var textareaEl, textarea, textcomplete;
@@ -22,23 +25,6 @@ describe('Textcomplete events', function () {
       },
     }]);
   });
-
-  function input(keyCode, altKey, ctrlKey, shiftKey, value, position) {
-    var keydownEvent = document.createEvent('UIEvents');
-    var keyupEvent = document.createEvent('UIEvents');
-    keydownEvent.initEvent('keydown', true, true);
-    keyupEvent.initEvent('keyup', true, true);
-    keyupEvent.keyCode = keydownEvent.keyCode = keyCode;
-    keyupEvent.altKey = keydownEvent.altKey = altKey;
-    keyupEvent.ctrlKey = keydownEvent.ctrlKey = ctrlKey;
-    keyupEvent.shiftKey = keydownEvent.shiftKey = shiftKey;
-    textareaEl.dispatchEvent(keydownEvent);
-    if (value) {
-      textareaEl.value = value;
-      textareaEl.selectionStart = textareaEl.selectionEnd = position || value.length;
-    }
-    textareaEl.dispatchEvent(keyupEvent);
-  }
 
   function assertCalled(spy) {
     assert(spy.calledOnce);
@@ -65,26 +51,36 @@ describe('Textcomplete events', function () {
       [showSpy, shownSpy, renderedSpy, hideSpy, hiddenSpy].forEach(spy => spy.reset());
     }
 
-    input(50, false, false, true, 'Hi, @'); // '@'
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForInput('Hi, @', textareaEl);
     [showSpy, shownSpy, renderedSpy, hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
-    input(65, false, false, false, 'Hi, @a'); // 'a'
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForInput('a', textareaEl);
     [showSpy, shownSpy, renderedSpy].forEach(assertCalled);
     [hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
-    input(66, false, false, false, 'Hi, @ab'); // 'b'
+    textareaEl.value = 'Hi, @ab';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 7;
+    keyboard.dispatchEventsForInput('b', textareaEl);
     [renderedSpy].forEach(assertCalled);
     [showSpy, shownSpy, hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
-    input(8, false, false, false, 'Hi, @a'); // backspace
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForAction('backspace', textareaEl);
     [renderedSpy].forEach(assertCalled);
     [showSpy, shownSpy, hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
-    input(8, false, false, false, 'Hi, @'); // backspace
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForAction('backspace', textareaEl);
     [hideSpy, hiddenSpy].forEach(assertCalled);
     [showSpy, shownSpy, renderedSpy].forEach(assertNotCalled);
     reset();
