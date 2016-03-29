@@ -40,7 +40,7 @@ class Completer extends EventEmitter {
    * @fires Completer#hit
    */
   run(text) {
-    var query = this.extractQuery(text);
+    const query = this.extractQuery(text);
     if (query) {
       query.execute(this.handleQueryResult);
     } else {
@@ -56,9 +56,8 @@ class Completer extends EventEmitter {
    * @returns {?Query}
    */
   extractQuery(text) {
-    var i;
-    for (i = 0; i < this.strategies.length; i++) {
-      let query = this.strategies[i].buildQuery(text);
+    for (let i = 0; i < this.strategies.length; i++) {
+      const query = this.strategies[i].buildQuery(text);
       if (query) { return query; }
     }
     return null;

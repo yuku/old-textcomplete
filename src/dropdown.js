@@ -85,7 +85,7 @@ class Dropdown extends EventEmitter {
    * @returns {HTMLUListElement}
    */
   static createElement() {
-    var el = document.createElement('ul');
+    const el = document.createElement('ul');
     el.id = uniqueId('textcomplete-dropdown-');
     extend(el.style, {
       display: 'none',
@@ -145,12 +145,12 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#rendered
    */
   render(searchResults, cursorOffset) {
-    let renderEvent = createCustomEvent('render', { cancelable: true });
+    const renderEvent = createCustomEvent('render', { cancelable: true });
     this.emit('render', renderEvent);
     if (renderEvent.defaultPrevented) {
       return this;
     }
-    let rawResults = [], dropdownItems = [];
+    const rawResults = [], dropdownItems = [];
     searchResults.forEach(searchResult => {
       rawResults.push(searchResult.data);
       if (dropdownItems.length < this.maxCount) {
@@ -183,8 +183,8 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#select
    */
   select(dropdownItem) {
-    let detail = { searchResult: dropdownItem.searchResult };
-    let selectEvent = createCustomEvent('select', { cancelable: true, detail: detail });
+    const detail = { searchResult: dropdownItem.searchResult };
+    const selectEvent = createCustomEvent('select', { cancelable: true, detail: detail });
     this.emit('select', selectEvent);
     if (selectEvent.defaultPrevented) {
       return this;
@@ -227,7 +227,7 @@ class Dropdown extends EventEmitter {
    * @returns {this};
    */
   append(items) {
-    var fragment = document.createDocumentFragment();
+    const fragment = document.createDocumentFragment();
     items.forEach(item => {
       this.items.push(item);
       item.appended(this);
@@ -261,7 +261,7 @@ class Dropdown extends EventEmitter {
    */
   show() {
     if (!this.shown) {
-      let showEvent = createCustomEvent('show', { cancelable: true });
+      const showEvent = createCustomEvent('show', { cancelable: true });
       this.emit('show', showEvent);
       if (showEvent.defaultPrevented) {
         return this;
@@ -283,7 +283,7 @@ class Dropdown extends EventEmitter {
    */
   hide() {
     if (this.shown) {
-      let hideEvent = createCustomEvent('hide', { cancelable: true });
+      const hideEvent = createCustomEvent('hide', { cancelable: true });
       this.emit('hide', hideEvent);
       if (hideEvent.defaultPrevented) {
         return this;
@@ -315,7 +315,7 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   moveActiveItem(name, e) {
-    let activeItem = this.getActiveItem();
+    const activeItem = this.getActiveItem();
     let nextActiveItem;
     if (activeItem) {
       nextActiveItem = activeItem[name];
@@ -335,7 +335,7 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   setStrategyId(searchResult) {
-    var strategyId = searchResult && searchResult.strategy.props.id;
+    const strategyId = searchResult && searchResult.strategy.props.id;
     if (strategyId) {
       this.el.setAttribute('data-strategy', strategyId);
     } else {
@@ -351,10 +351,10 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   renderEdge(rawResults, type) {
-    var source = this[type];
+    const source = this[type];
     if (source) {
-      let content = isFunction(source) ? source(rawResults) : source;
-      let fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
+      const content = isFunction(source) ? source(rawResults) : source;
+      const fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
       this.el.appendChild(fragment);
     }
     return this;
