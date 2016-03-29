@@ -116,7 +116,7 @@ class Textcomplete extends EventEmitter {
   unlock() {
     // Calling free function may assign a new function to `this.free`.
     // It depends on whether extra function call was made or not.
-    var free = this.free;
+    const free = this.free;
     this.free = null;
     if (isFunction(free)) { free(); }
     return this;
@@ -142,7 +142,7 @@ class Textcomplete extends EventEmitter {
    * @listens Editor#move
    */
   handleMove(e) {
-    var action = e.detail.code === UP ? 'up' : 'down';
+    const action = e.detail.code === UP ? 'up' : 'down';
     this.dropdown[action](e);
   }
 
@@ -152,7 +152,7 @@ class Textcomplete extends EventEmitter {
    * @listens Editor#enter
    */
   handleEnter(e) {
-    var activeItem = this.dropdown.getActiveItem();
+    const activeItem = this.dropdown.getActiveItem();
     if (activeItem) {
       this.dropdown.select(activeItem);
       e.preventDefault();

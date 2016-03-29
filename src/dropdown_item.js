@@ -26,10 +26,10 @@ class DropdownItem {
    */
   get el() {
     if (!this._el) {
-      let li = document.createElement('li');
+      const li = document.createElement('li');
       li.id = this.id;
       li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME;
-      let a = document.createElement('a');
+      const a = document.createElement('a');
       a.innerHTML = this.searchResult.render();
       li.appendChild(a);
       this._el = li;
@@ -91,7 +91,7 @@ class DropdownItem {
    * @returns {?DropdownItem}
    */
   get next() {
-    var nextIndex;
+    let nextIndex;
     if (this.index === this.siblings.length - 1) {
       if (!this.dropdown.rotate) {
         return null;
@@ -110,7 +110,7 @@ class DropdownItem {
    * @returns {DropdownItem}
    */
   get prev() {
-    var nextIndex;
+    let nextIndex;
     if (this.index === 0) {
       if (!this.dropdown.rotate) {
         return null;

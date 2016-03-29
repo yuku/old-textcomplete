@@ -27,7 +27,7 @@ export function lock(func) {
 
   return function () {
     // Convert arguments into a real array.
-    var args = Array.prototype.slice.call(arguments);
+    const args = Array.prototype.slice.call(arguments);
     if (locked) {
       // Keep a copy of this argument list to replay later.
       // OK to overwrite a previous value because we only replay
@@ -36,7 +36,7 @@ export function lock(func) {
       return;
     }
     locked = true;
-    var self = this;
+    const self = this;
     function replayOrFree() {
       if (queuedArgsToReplay) {
         // Other request(s) arrived while we were locked.
@@ -44,7 +44,7 @@ export function lock(func) {
         // the latest such request, then call back here to
         // unlock (or replay another request that arrived
         // while this one was in flight).
-        var replayArgs = queuedArgsToReplay;
+        const replayArgs = queuedArgsToReplay;
         queuedArgsToReplay = undefined;
         replayArgs.unshift(replayOrFree);
         func.apply(self, replayArgs);
@@ -65,10 +65,10 @@ export function lock(func) {
  */
 export function createFragment(tagString) {
   // TODO Imprement with Range#createContextualFragment when it drops IE9 support.
-  var div = document.createElement('div');
+  const div = document.createElement('div');
   div.innerHTML = tagString;
-  var childNodes = div.childNodes;
-  var fragment = document.createDocumentFragment();
+  const childNodes = div.childNodes;
+  const fragment = document.createDocumentFragment();
   for (let i = 0, l = childNodes.length; i < l; i++) {
     fragment.appendChild(childNodes[i]);
   }
@@ -96,8 +96,8 @@ export function createCustomEvent(type, options) {
  * @returns {{top: number, left: number}}
  */
 export function calculateElementOffset(el) {
-  var rect = el.getBoundingClientRect();
-  var {defaultView, documentElement} = el.ownerDocument;
+  const rect = el.getBoundingClientRect();
+  const {defaultView, documentElement} = el.ownerDocument;
   return {
     top: rect.top + defaultView.pageYOffset - documentElement.clientTop,
     left: rect.left + defaultView.pageXOffset - documentElement.clientLeft,

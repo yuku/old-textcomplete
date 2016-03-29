@@ -16,7 +16,7 @@ class SearchResult {
    * @returns {string[]|undefined}
    */
   replace(beforeCursor, afterCursor) {
-    var replacement = this.strategy.replace(this.data);
+    let replacement = this.strategy.replace(this.data);
     if (replacement != null) {
       if (Array.isArray(replacement)) {
         afterCursor = replacement[1] + afterCursor;

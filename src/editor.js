@@ -90,7 +90,7 @@ class Editor extends EventEmitter {
    * @returns {Editor#move}
    */
   emitMoveEvent(code) {
-    var moveEvent = createCustomEvent('move', {
+    const moveEvent = createCustomEvent('move', {
       cancelable: true,
       detail: {
         code: code,
@@ -106,7 +106,7 @@ class Editor extends EventEmitter {
    * @returns {Editor#enter}
    */
   emitEnterEvent() {
-    var enterEvent = createCustomEvent('enter', { cancelable: true });
+    const enterEvent = createCustomEvent('enter', { cancelable: true });
     this.emit('enter', enterEvent);
     return enterEvent;
   }
@@ -117,7 +117,7 @@ class Editor extends EventEmitter {
    * @returns {Editor#change}
    */
   emitChangeEvent() {
-    var changeEvent = createCustomEvent('change', {
+    const changeEvent = createCustomEvent('change', {
       detail: {
         beforeCursor: this.getBeforeCursor(),
       },

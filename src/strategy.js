@@ -53,14 +53,14 @@ class Strategy {
    */
   buildQuery(text) {
     if (isFunction(this.props.context)) {
-      let context = this.props.context(text);
+      const context = this.props.context(text);
       if (isString(context)) {
         text = context;
       } else if (!context) {
         return null;
       }
     }
-    var match = text.match(this.getMatchRegexp(text));
+    const match = text.match(this.getMatchRegexp(text));
     return match ? new Query(this, match[this.index], match) : null;
   }
 
@@ -92,7 +92,7 @@ class Strategy {
    * @param {string[]} match
    */
   searchWithCache(term, callback, match) {
-    var cache = this.cache[term];
+    const cache = this.cache[term];
     if (cache) {
       callback(cache);
     } else {

@@ -40,7 +40,7 @@ class Textarea extends Editor {
    * @param {SearchResult} searchResult
    */
   applySearchResult(searchResult) {
-    var replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
+    const replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
     if (Array.isArray(replace)) {
       this.el.value = replace[0] + replace[1];
       this.el.selectionStart = this.el.selectionEnd = replace[0].length;
@@ -49,11 +49,11 @@ class Textarea extends Editor {
   }
 
   getCursorOffset() {
-    var elOffset = calculateElementOffset(this.el);
-    var elScroll = this.getElScroll();
-    var cursorPosition = this.getCursorPosition();
-    var top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight(this.el);
-    var left = elOffset.left - elScroll.left + cursorPosition.left;
+    const elOffset = calculateElementOffset(this.el);
+    const elScroll = this.getElScroll();
+    const cursorPosition = this.getCursorPosition();
+    const top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight(this.el);
+    const left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {
       return { top, left };
     } else {
@@ -96,8 +96,8 @@ class Textarea extends Editor {
    * @param {KeyboardEvent} e
    */
   onKeydown(e) {
-    var code = this.getCode(e);
-    var event;
+    const code = this.getCode(e);
+    let event;
     switch (code) {
       case UP:
       case DOWN:
@@ -119,7 +119,7 @@ class Textarea extends Editor {
    * @param {KeyboardEvent} e
    */
   onKeyup(e) {
-    var code = this.getCode(e);
+    const code = this.getCode(e);
     switch (code) {
       case DOWN:
       case UP:

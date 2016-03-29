@@ -23,10 +23,10 @@ afterEach(function () {
 });
 
 ['unit', 'integration'].forEach(name => {
-  let files = fs.readdirSync(path.join(__dirname, name));
+  const files = fs.readdirSync(path.join(__dirname, name));
 
   for (let i = 0; i < files.length; i++) { 
-    let file = files[i];
+    const file = files[i];
     if (/_spec.js$/.test(file)) {
       require(path.join(__dirname, name, file));
     }

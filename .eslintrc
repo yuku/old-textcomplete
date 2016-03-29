@@ -31,6 +31,8 @@
     no-shadow: 2
     no-unused-vars: [2, { vars: "local", args: "after-used", argsIgnorePattern: "^_" }]
     no-use-before-define: 2
+    prefer-const: 2
+    prefer-template: 2
     quotes: [2, "single", "avoid-escape"]
     radix: 2
     semi: 2
