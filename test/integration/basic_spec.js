@@ -1,7 +1,10 @@
 import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 
+import Keysim from 'keysim';
+
 const assert = require('power-assert');
+const keyboard = Keysim.Keyboard.US_ENGLISH;
 
 describe('Integration test', function () {
   var textareaEl, textarea, textcomplete;
@@ -25,33 +28,6 @@ describe('Integration test', function () {
     ]);
   });
 
-  /**
-   * Emulate inputing a char to the textarea element.
-   *
-   * @param {number} keyCode
-   * @param {boolean} altKey
-   * @param {boolean} ctrlKey
-   * @param {boolean} shiftKey
-   * @param {string} value
-   * @param {?number} position
-   */
-  function input(keyCode, altKey, ctrlKey, shiftKey, value, position) {
-    var keydownEvent = document.createEvent('UIEvents');
-    var keyupEvent = document.createEvent('UIEvents');
-    keydownEvent.initEvent('keydown', true, true);
-    keyupEvent.initEvent('keyup', true, true);
-    keyupEvent.keyCode = keydownEvent.keyCode = keyCode;
-    keyupEvent.altKey = keydownEvent.altKey = altKey;
-    keyupEvent.ctrlKey = keydownEvent.ctrlKey = ctrlKey;
-    keyupEvent.shiftKey = keydownEvent.shiftKey = shiftKey;
-    textareaEl.dispatchEvent(keydownEvent);
-    if (value) {
-      textareaEl.value = value;
-      textareaEl.selectionStart = textareaEl.selectionEnd = position || value.length;
-    }
-    textareaEl.dispatchEvent(keyupEvent);
-  }
-
   function expectDropdownIsShown() {
     var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
     var computed = window.getComputedStyle(dropdownEl);
@@ -65,36 +41,64 @@ describe('Integration test', function () {
   }
 
   it('should work with keyboard', function () {
-    input(50, false, false, true, 'Hi, @'); // '@'
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForInput('Hi, @', textareaEl);
     expectDropdownIsHidden();
-    input(65, false, false, false, 'Hi, @a'); // 'a'
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForInput('a', textareaEl);
     expectDropdownIsShown();
-    input(66, false, false, false, 'Hi, @ab'); // 'b'
+
+    textareaEl.value = 'Hi, @ab';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 7;
+    keyboard.dispatchEventsForInput('b', textareaEl);
     expectDropdownIsHidden();
-    input(8, false, false, false, 'Hi, @a'); // backspace
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForAction('backspace', textareaEl);
     expectDropdownIsShown();
-    input(76, false, false, false, 'Hi, @al'); // 'l'
+
+    textareaEl.value = 'Hi, @al';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 7;
+    keyboard.dispatchEventsForInput('l', textareaEl);
     expectDropdownIsShown();
-    input(8, false, false, false, 'Hi, @a'); // backspace
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForAction('backspace', textareaEl);
     expectDropdownIsShown();
-    input(40, false, false, false, 'Hi, @a'); // down
+
+    keyboard.dispatchEventsForAction('down', textareaEl);
     expectDropdownIsShown();
-    input(38, false, false, false, 'Hi, @a'); // up
+
+    keyboard.dispatchEventsForAction('up', textareaEl);
     expectDropdownIsShown();
-    input(40, false, false, false, 'Hi, @a'); // down
+
+    keyboard.dispatchEventsForAction('down', textareaEl);
     expectDropdownIsShown();
-    input(13, false, false, false); // enter
+
+    keyboard.dispatchEventsForAction('enter', textareaEl);
     expectDropdownIsHidden();
+
     assert.equal(textareaEl.value, 'Hi, @alice ');
     assert.equal(textareaEl.selectionStart, 11);
     assert.equal(textareaEl.selectionEnd, 11);
   });
 
   it('should work with touch event', function () {
-    input(50, false, false, true, 'Hi, @'); // '@'
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForInput('Hi, @', textareaEl);
     expectDropdownIsHidden();
-    input(65, false, false, false, 'Hi, @a'); // 'a'
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForInput('a', textareaEl);
     expectDropdownIsShown();
+
     var dropdownItemEl = document.querySelector('.textcomplete-item');
     var clickEvent = document.createEvent('TouchEvent');
     clickEvent.initEvent('touchstart', true, true);
@@ -106,10 +110,16 @@ describe('Integration test', function () {
   });
 
   it('should work with mousedown event', function () {
-    input(50, false, false, true, 'Hi, @'); // '@'
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForInput('Hi, @', textareaEl);
     expectDropdownIsHidden();
-    input(65, false, false, false, 'Hi, @a'); // 'a'
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForInput('a', textareaEl);
     expectDropdownIsShown();
+
     var dropdownItemEl = document.querySelector('.textcomplete-item');
     var clickEvent = document.createEvent('MouseEvent');
     clickEvent.initEvent('mousedown', true, true);
@@ -121,10 +131,16 @@ describe('Integration test', function () {
   });
 
   it('should work with mouseover event', function () {
-    input(50, false, false, true, 'Hi, @'); // '@'
+    textareaEl.value = 'Hi, @';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 5;
+    keyboard.dispatchEventsForInput('Hi, @', textareaEl);
     expectDropdownIsHidden();
-    input(65, false, false, false, 'Hi, @a'); // 'a'
+
+    textareaEl.value = 'Hi, @a';
+    textareaEl.selectionStart = textareaEl.selectionEnd = 6;
+    keyboard.dispatchEventsForInput('a', textareaEl);
     expectDropdownIsShown();
+
     var dropdownItemEl = document.querySelector('.textcomplete-item:last-child');
     var mouseEvent = document.createEvent('MouseEvent');
     mouseEvent.initEvent('mouseover', true, true);

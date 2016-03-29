@@ -2,7 +2,10 @@ import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 import {CLASS_NAME} from '../../src/dropdown_item';
 
+import Keysim from 'keysim';
+
 const assert = require('power-assert');
+const keyboard = Keysim.Keyboard.US_ENGLISH;
 
 describe('Dropdown options integration test', function () {
   var textareaEl, textarea;
@@ -32,11 +35,10 @@ describe('Dropdown options integration test', function () {
           return `$1@${username} `;
         },
       });
+
       textareaEl.value = '@a';
-      var keyupEvent = document.createEvent('UIEvents');
-      keyupEvent.initEvent('keyup', true, true);
-      keyupEvent.keyCode = 50;
-      textareaEl.dispatchEvent(keyupEvent);
+      textareaEl.selectionStart = textareaEl.selectionEnd = 2;
+      keyboard.dispatchEventsForInput('@a', textareaEl);
 
       var dropdownEl = document.getElementsByClassName(className);
       assert.equal(dropdownEl.length, 1);
@@ -55,11 +57,10 @@ describe('Dropdown options integration test', function () {
           return `$1@${username} `;
         },
       });
+
       textareaEl.value = '@a';
-      var keyupEvent = document.createEvent('UIEvents');
-      keyupEvent.initEvent('keyup', true, true);
-      keyupEvent.keyCode = 50;
-      textareaEl.dispatchEvent(keyupEvent);
+      textareaEl.selectionStart = textareaEl.selectionEnd = 2;
+      keyboard.dispatchEventsForInput('@a', textareaEl);
 
       var dropdownEl = document.getElementsByClassName('textcomplete-dropdown')[0];
       assert.equal(dropdownEl.style.backgroundColor, 'rgb(255, 0, 255)');
@@ -77,10 +78,7 @@ describe('Dropdown options integration test', function () {
 
       textareaEl.value = '@a';
       textareaEl.selectionStart = textareaEl.selectionEnd = 2;
-      var keyupEvent = document.createEvent('UIEvents');
-      keyupEvent.initEvent('keyup', true, true);
-      keyupEvent.keyCode = 50;
-      textareaEl.dispatchEvent(keyupEvent);
+      keyboard.dispatchEventsForInput('@a', textareaEl);
 
       var items = document.getElementsByClassName(CLASS_NAME);
       assert.equal(items.length, maxCount);
@@ -100,22 +98,13 @@ describe('Dropdown options integration test', function () {
 
         textareaEl.value = '@a';
         textareaEl.selectionStart = textareaEl.selectionEnd = 2;
-        var keyupEvent = document.createEvent('UIEvents');
-        keyupEvent.initEvent('keyup', true, true);
-        keyupEvent.keyCode = 50;
-        textareaEl.dispatchEvent(keyupEvent);
+        keyboard.dispatchEventsForInput('@a', textareaEl);
       });
 
       it('should not rotate on up key', function () {
         // Activate the first dropdown item.
         var firstItem = textcomplete.dropdown.items[0].activate();
-
-        // Press up key
-        var keydownEvent = document.createEvent('UIEvents');
-        keydownEvent.initEvent('keydown', true, true);
-        keydownEvent.keyCode = 38;
-        textareaEl.dispatchEvent(keydownEvent);
-
+        keyboard.dispatchEventsForAction('up', textareaEl);
         assert(firstItem.active);
       });
 
@@ -123,13 +112,7 @@ describe('Dropdown options integration test', function () {
         // Activate the last dropdown item.
         var dropdownItems = textcomplete.dropdown.items;
         var lastItem = dropdownItems[dropdownItems.length - 1].activate();
-
-        // Press down key
-        var keydownEvent = document.createEvent('UIEvents');
-        keydownEvent.initEvent('keydown', true, true);
-        keydownEvent.keyCode = 40;
-        textareaEl.dispatchEvent(keydownEvent);
-
+        keyboard.dispatchEventsForAction('down', textareaEl);
         assert(lastItem.active);
       });
     });
