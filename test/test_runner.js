@@ -12,6 +12,7 @@ beforeEach(function () {
   this.sinon = sinon.sandbox.create();
   global.document = jsdom.jsdom();
   global.window = document.defaultView;
+  global.navigator = window.navigator; // required by isIE
   global.getComputedStyle = window.getComputedStyle; // reqiured by textarea-caret
 });
 

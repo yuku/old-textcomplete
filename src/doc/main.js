@@ -19,7 +19,7 @@ function runDemo() {
   ['textarea1', 'textarea2', 'textarea3'].forEach(id => {
     let textarea = document.getElementById(id);
     textarea.selectionStart = textarea.selectionEnd = textarea.value.length;
-    let event = new Event('keyup', {
+    let event = new Event('input', {
       bubbles: true,
       cancelable: true,
     });
