@@ -13,12 +13,13 @@ Autocomplete for textarea elements.
 - [Getting Started](http://yuku-t.com/textcomplete/docs/tutorial-getting-started.html)
 - [Development](http://yuku-t.com/textcomplete/docs/tutorial-development.html)
 - [Events](http://yuku-t.com/textcomplete/docs/tutorial-events.html)
+- [List of editors](https://github.com/yuku-t/textcomplete/wiki/Editors)
 
 ## Browser Support
 
- Chrome | Firefox | Internet Explorer | Opera  | Safari
-:------:|:-------:|:-----------------:|:------:|:------:
- latest | latest  |        9.0        | latest | latest
+ Chrome  | Firefox  | Internet Explorer |  Opera  | Safari
+:-------:|:--------:|:-----------------:|:-------:|:-------:
+ Current | Current  |        9+         | Current | Current
 
 ## License
 
