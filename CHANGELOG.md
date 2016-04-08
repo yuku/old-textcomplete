@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Let textarea editor deactivate a dropdown on esc key.
 
 ## [0.7.1] - 2016-03-30
 ### Changed
