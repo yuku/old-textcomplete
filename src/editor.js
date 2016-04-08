@@ -7,6 +7,7 @@ export const UP = 1;
 export const DOWN = 2;
 export const OTHER = 3;
 export const BS = 4;
+export const ESC = 5;
 
 /**
  * @event Editor#move
@@ -18,6 +19,12 @@ export const BS = 4;
 
 /**
  * @event Editor#enter
+ * @type {CustomEvent}
+ * @prop {function} preventDefault
+ */
+
+/**
+ * @event Editor#esc
  * @type {CustomEvent}
  * @prop {function} preventDefault
  */
@@ -128,6 +135,17 @@ class Editor extends EventEmitter {
 
   /**
    * @private
+   * @fires Editor#esc
+   * @returns {Editor#esc}
+   */
+  emitEscEvent() {
+    var escEvent = createCustomEvent('esc', { cancelable: true });
+    this.emit('esc', escEvent);
+    return escEvent;
+  }
+
+  /**
+   * @private
    * @param {KeyboardEvent} e
    * @returns {ENTER|UP|DOWN|OTHER|BS}
    */
@@ -135,6 +153,7 @@ class Editor extends EventEmitter {
     return e.keyCode === 8 ? BS // backspace
          : e.keyCode === 9 ? ENTER // tab
          : e.keyCode === 13 ? ENTER // enter
+         : e.keyCode === 27 ? ESC // esc
          : e.keyCode === 38 ? UP // up
          : e.keyCode === 40 ? DOWN // down
          : e.keyCode === 78 && e.ctrlKey ? DOWN // ctrl-n

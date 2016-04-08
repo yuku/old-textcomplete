@@ -71,11 +71,16 @@ describe('Textcomplete events', function () {
     [showSpy, shownSpy, hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
+    keyboard.dispatchEventsForAction('escape', textareaEl);
+    [hideSpy, hiddenSpy].forEach(assertCalled);
+    [showSpy, shownSpy, renderedSpy].forEach(assertNotCalled);
+    reset();
+
     textareaEl.value = 'Hi, @a';
     textareaEl.selectionStart = textareaEl.selectionEnd = 6;
     keyboard.dispatchEventsForAction('backspace', textareaEl);
-    [renderedSpy].forEach(assertCalled);
-    [showSpy, shownSpy, hideSpy, hiddenSpy].forEach(assertNotCalled);
+    [showSpy, shownSpy, renderedSpy].forEach(assertCalled);
+    [hideSpy, hiddenSpy].forEach(assertNotCalled);
     reset();
 
     textareaEl.value = 'Hi, @';

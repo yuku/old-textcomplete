@@ -1,4 +1,4 @@
-import Editor, {ENTER, DOWN, UP, BS} from './editor';
+import Editor, {ENTER, DOWN, UP, BS, ESC} from './editor';
 import {calculateElementOffset, isIE} from './utils';
 
 import bindAll from 'lodash.bindall';
@@ -114,6 +114,10 @@ class Textarea extends Editor {
         break;
       case ENTER: {
         event = this.emitEnterEvent();
+        break;
+      }
+      case ESC: {
+        event = this.emitEscEvent();
         break;
       }
     }
