@@ -107,7 +107,7 @@ export function calculateElementOffset(el) {
 /**
  * @returns {?number} Returns IE version or if not IE return null.
  */
-export function isIE() {
+export function getIEVersion() {
   const nav = navigator.userAgent.toLowerCase();
   return (nav.indexOf('msie') !== -1) ? parseInt(nav.split('msie')[1], 10) : null;
 }

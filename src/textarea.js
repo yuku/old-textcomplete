@@ -1,5 +1,5 @@
 import Editor, {ENTER, DOWN, UP, BS, ESC} from './editor';
-import {calculateElementOffset, isIE} from './utils';
+import {calculateElementOffset, getIEVersion} from './utils';
 
 import bindAll from 'lodash.bindall';
 import lineHeight from 'line-height';
@@ -21,6 +21,7 @@ class Textarea extends Editor {
   constructor(el) {
     super();
     this.el = el;
+    this.isIE9 = getIEVersion() === 9;
 
     bindAll(this, CALLBACK_METHODS);
 
@@ -135,7 +136,9 @@ class Textarea extends Editor {
     const code = this.getCode(e);
     // IE 9 does not fire an input event when the user deletes characters from an input.
     // https://developer.mozilla.org/en-US/docs/Web/Events/input#Browser_compatibility
-    if (code === BS && isIE() === 9) { this.emitChangeEvent(); }
+    if (code === BS && this.isIE9) {
+      this.emitChangeEvent();
+    }
   }
 
   /**
