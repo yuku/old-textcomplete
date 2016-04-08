@@ -11,6 +11,7 @@ import {EventEmitter} from 'events';
 const CALLBACK_METHODS = [
   'handleChange',
   'handleEnter',
+  'handleEsc',
   'handleHit',
   'handleMove',
   'handleSelect',
@@ -161,6 +162,18 @@ class Textcomplete extends EventEmitter {
 
   /**
    * @private
+   * @param {Editor#esc} e
+   * @listens Editor#esc
+   */
+  handleEsc(e) {
+    if (this.dropdown.shown) {
+      this.dropdown.deactivate();
+      e.preventDefault();
+    }
+  }
+
+  /**
+   * @private
    * @param {Editor#change} e
    * @listens Editor#change
    */
@@ -195,6 +208,7 @@ class Textcomplete extends EventEmitter {
   startListening() {
     this.editor.on('move', this.handleMove)
                .on('enter', this.handleEnter)
+               .on('esc', this.handleEsc)
                .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect);
     ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide'].forEach(eventName => {
@@ -211,6 +225,7 @@ class Textcomplete extends EventEmitter {
     this.dropdown.removeAllListeners();
     this.editor.removeListener('move', this.handleMove)
                .removeListener('enter', this.handleEnter)
+               .removeListener('esc', this.handleEsc)
                .removeListener('change', this.handleChange);
   }
 }
