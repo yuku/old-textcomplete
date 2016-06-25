@@ -6,6 +6,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
+## [Unreleased]
+
 ## [0.8.0] - 2016-04-25
 ### Added
 - Let textarea editor deactivate a dropdown on esc key.
@@ -108,6 +110,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Initial release.
 
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.8.0...HEAD
 [0.8.0]: https://github.com/yuku-t/textcomplete/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/yuku-t/textcomplete/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/yuku-t/textcomplete/compare/v0.6.0...v0.7.0
