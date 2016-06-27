@@ -8,9 +8,11 @@
 
   extends: eslint:recommended
 
-  ecmaFeatures:
-    module: true
-    modules: true
+  parserOptions:
+    sourceType: module
+    ecmaFeatures:
+      module: true
+      modules: true
 
   rules:
     brace-style: [2, "1tbs", { allowSingleLine: true }]
@@ -22,6 +24,7 @@
     func-style: [2, "declaration"]
     guard-for-in: 2
     indent: [2, 2, {"SwitchCase": 1}]
+    keyword-spacing: 2
     new-cap: 2
     no-alert: 2
     no-caller: 2
@@ -36,7 +39,6 @@
     quotes: [2, "single", "avoid-escape"]
     radix: 2
     semi: 2
-    space-after-keywords: [2, "always"]
     space-before-blocks: 2
     space-before-function-paren: [2, {"anonymous": "always", "named": "never"}]
     spaced-comment: [2, "always"]

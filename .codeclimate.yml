@@ -10,9 +10,11 @@ engines:
           mass_threshold: 100 # Defualt: 40
   eslint:
     enabled: true
+    channel: eslint-2
 ratings:
   paths:
   - "**.js"
 exclude_paths:
+- karma.conf.js
 - gulpfile.js
 - textcomplete
