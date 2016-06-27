@@ -1,26 +1,21 @@
 language: node_js
 node_js:
-- '4.2'
-compiler: clang-3.6
-env:
-  matrix:
-  - CXX=clang-3.6
+- 6.2
 addons:
   code_climate:
     repo_token: ee56fb46fc4df8db9ea8012690d87529d1bb03cbe0ee125e0668d7a11446522b
-  apt:
-    sources:
-    - llvm-toolchain-precise-3.6
-    - ubuntu-toolchain-r-test
-    packages:
-    - clang-3.6
-    - g++-4.8
+before_install:
+- export CHROME_BIN=chromium-browser
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
+script:
+- ./node_modules/.bin/karma start --single-run --browsers Firefox
 after_script:
 - npm install -g codeclimate-test-reporter
-- codeclimate-test-reporter < coverage/lcov.info
+- codeclimate-test-reporter < coverage/*/lcov.info
 after_success:
 - git config --global user.email 'taka84u9@gmail.com'
 - git config --global user.name 'Yuku Takahashi'
-- test "$(git rev-list HEAD...origin/master)" == "" && ./node_modules/.bin/gulp gh-pages
+- test [ "$(git rev-list HEAD...origin/master)" = "" ] && ./node_modules/.bin/gulp gh-pages
 notifications:
   email: false
