@@ -1,3 +1,5 @@
+require('../test_helper');
+
 import {lock, createCustomEvent} from '../../src/utils';
 
 const assert = require('power-assert');

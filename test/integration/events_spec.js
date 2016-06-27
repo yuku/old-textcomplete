@@ -1,3 +1,5 @@
+require('../test_helper');
+
 import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 

@@ -1,6 +1,8 @@
+require('../test_helper');
+
 import Dropdown from '../../src/dropdown';
 import DropdownItem from '../../src/dropdown_item';
-import {createSearchResult} from '../test_helper';
+import {createSearchResult} from '../test_utils';
 import isUndefined from 'lodash.isundefined';
 
 const assert = require('power-assert');
@@ -339,7 +341,7 @@ describe('Dropdown', function () {
         dropdown.on(name, spy);
         subject();
         assert(spy.calledOnce);
-        assert(spy.calledWith({ detail: { searchResult: dropdownItem.searchResult } }));
+        assert.strictEqual(spy.args[0][0].detail.searchResult, dropdownItem.searchResult);
       });
     });
 
