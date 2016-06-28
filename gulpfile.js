@@ -56,43 +56,6 @@ gulp.task('compile', ['browserify'], () => {
     .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('lint', () => {
-  var eslint = require('gulp-eslint');
-  return gulp.src([paths.src, paths.test])
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
-});
-
-gulp.task('istanbul', () => {
-  var isparta = require('isparta');
-  var istanbul = require('gulp-istanbul');
-  return gulp.src(paths.src)
-    .pipe(istanbul({
-      instrumenter: isparta.Instrumenter,
-    }))
-    .pipe(istanbul.hookRequire());
-});
-
-gulp.task('power-assert', () => {
-  require('babel-register');
-  var espower = require('gulp-espower');
-  return gulp.src(paths.test)
-    .pipe(espower())
-    .pipe(gulp.dest(paths.powered));
-});
-
-gulp.task('mocha', ['power-assert', 'istanbul'], () => {
-  var mocha = require('gulp-mocha');
-  var istanbul = require('gulp-istanbul');
-  var path = require('path');
-  return gulp.src(path.join(paths.powered, paths.testrunner))
-    .pipe(mocha())
-    .pipe(istanbul.writeReports());
-});
-
-gulp.task('test', ['lint', 'mocha']);
-
 gulp.task('server', () => {
   return connect.server({ root: './', livereload: true });
 });

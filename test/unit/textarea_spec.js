@@ -1,5 +1,7 @@
+require('../test_helper');
+
 import {UP, DOWN} from '../../src/editor';
-import {createTextarea, createSearchResult} from '../test_helper';
+import {createTextarea, createSearchResult} from '../test_utils';
 import isNumber from 'lodash.isnumber';
 
 const assert = require('power-assert');
@@ -40,7 +42,7 @@ describe('Textarea', function () {
           textarea.on('move', spy);
           subject();
           assert(spy.calledOnce);
-          assert(spy.calledWith({ detail: { code: code } }));
+          assert.strictEqual(spy.args[0][0].detail.code, code);
         });
       });
     });

@@ -1,7 +1,9 @@
+require('../test_helper');
+
 import Textcomplete from '../../src/textcomplete';
 import Strategy from '../../src/strategy';
 import {createCustomEvent} from '../../src/utils';
-import {createTextarea, createSearchResult} from '../test_helper';
+import {createTextarea, createSearchResult} from '../test_utils';
 
 const assert = require('power-assert');
 

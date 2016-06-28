@@ -1,3 +1,5 @@
+require('../test_helper');
+
 import Strategy from '../../src/strategy';
 import Query from '../../src/query';
 
