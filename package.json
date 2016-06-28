@@ -74,17 +74,5 @@
     "lodash.isstring": "^4.0.1",
     "lodash.uniqueid": "^4.0.0",
     "textarea-caret": "^3.0.1"
-  },
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
   }
 }
