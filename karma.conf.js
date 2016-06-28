@@ -7,6 +7,10 @@ module.exports = function(config) {
     frameworks: ['mocha', 'browserify'],
     browserify: {
       transform: [
+        require('browserify-istanbul')({
+          instrumenter: require('isparta'),
+          ignore: ['test/**']
+        }),
         ['babelify', {plugins: ['babel-plugin-espower']}]
       ]
     },
@@ -28,7 +32,7 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/*.js': ['browserify', 'coverage'],
+      'src/*.js': 'browserify',
       'test/**/*_spec.js': 'browserify'
     },
     // test results reporter to use
@@ -37,7 +41,7 @@ module.exports = function(config) {
     reporters: ['mocha', 'coverage'],
     coverageReporter: {
       reporters: [
-        { type: 'lcovonly' },
+        { type: 'lcov' },
         { type: 'text' }
       ]
     },
