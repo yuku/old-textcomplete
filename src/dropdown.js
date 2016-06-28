@@ -10,9 +10,10 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
 /**
  * @typedef {Object} Dropdown~Offset
- * @prop {number} [top]
- * @prop {number} [left]
- * @prop {number} [right]
+ * @prop {number} lineHeight
+ * @prop {number} top
+ * @prop {number} [left] specified if ltr language
+ * @prop {number} [right] specified if rtl language
  */
 
 /**
@@ -23,6 +24,7 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
  * @prop {number} [maxCount]
  * @prop {object} [style]
  * @prop {string} [className]
+ * @prop {string} [placement]
  */
 
 /**
@@ -103,8 +105,9 @@ class Dropdown extends EventEmitter {
    * @param {number} [maxCount=10]
    * @param {object} [style] - The style of the el.
    * @param {boolean} [rotate=true]
+   * @param {string} [placement]
    */
-  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style, rotate=true}) {
+  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style, rotate=true, placement}) {
     super();
     this.shown = false;
     this.items = [];
@@ -113,6 +116,7 @@ class Dropdown extends EventEmitter {
     this.maxCount = maxCount;
     this.el.className = className;
     this.rotate = rotate;
+    this.placement = placement;
     if (style) {
       extend(this.el.style, style);
     }
@@ -243,11 +247,16 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   setOffset(cursorOffset) {
-    ['top', 'right', 'bottom', 'left'].forEach(name => {
-      if (cursorOffset.hasOwnProperty(name)) {
-        this.el.style[name] = `${cursorOffset[name]}px`;
-      }
-    });
+    if (cursorOffset.hasOwnProperty('left')) {
+      this.el.style.left = `${cursorOffset.left}px`;
+    } else {
+      this.el.style.right = `${cursorOffset.right}px`;
+    }
+    if (this.isPlacementTop()) {
+      this.el.style.bottom = `${document.documentElement.clientHeight - cursorOffset.top + cursorOffset.lineHeight}px`;
+    } else {
+      this.el.style.top = `${cursorOffset.top}px`;
+    }
     return this;
   }
 
@@ -358,6 +367,14 @@ class Dropdown extends EventEmitter {
       this.el.appendChild(fragment);
     }
     return this;
+  }
+
+  /**
+   * @private
+   * @returns {boolean}
+   */
+  isPlacementTop() {
+    return this.placement === 'top';
   }
 }
 

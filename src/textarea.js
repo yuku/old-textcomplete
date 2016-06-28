@@ -2,7 +2,7 @@ import Editor, {ENTER, DOWN, UP, BS, ESC} from './editor';
 import {calculateElementOffset, getIEVersion} from './utils';
 
 import bindAll from 'lodash.bindall';
-import lineHeight from 'line-height';
+import getLineHeight from 'line-height';
 
 const getCaretCoordinates = require('textarea-caret');
 
@@ -53,12 +53,14 @@ class Textarea extends Editor {
     const elOffset = calculateElementOffset(this.el);
     const elScroll = this.getElScroll();
     const cursorPosition = this.getCursorPosition();
-    const top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight(this.el);
+    const lineHeight = getLineHeight(this.el);
+    const top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight;
     const left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {
-      return { top, left };
+      return { top, left, lineHeight };
     } else {
-      return { top: top, right: document.documentElement.clientWidth - left };
+      const right = document.documentElement.clientWidth - left;
+      return { top, right, lineHeight };
     }
   }
 

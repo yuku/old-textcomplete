@@ -80,7 +80,8 @@ html(lang='en')
               var editor = new Textarea(document.getElementById('textarea2'));
               var textcomplete = new Textcomplete(editor, {
                 dropdown: {
-                  maxCount: 5
+                  maxCount: 5,
+                  placement: 'top'
                 }
               });
               textcomplete.register([emojiStrategy]);

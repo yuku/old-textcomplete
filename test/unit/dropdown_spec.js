@@ -48,7 +48,7 @@ describe('Dropdown', function () {
     var dropdown, searchResult;
 
     function subject() {
-      return dropdown.render([searchResult], { top: 0, left: 0 });
+      return dropdown.render([searchResult], { top: 0, left: 0, lineHeight: 10 });
     }
 
     beforeEach(function () {
@@ -142,7 +142,7 @@ describe('Dropdown', function () {
 
     context('when search results are empty', function () {
       function subject_() {
-        return dropdown.render([], { top: 0, left: 0 });
+        return dropdown.render([], { top: 0, left: 0, lineHeight: 0 });
       }
 
       context('and it has been shown', function () {
@@ -247,6 +247,21 @@ describe('Dropdown', function () {
           subject();
           assert(footer.calledOnce);
           assert(footer.calledWith([searchResult.data]));
+        });
+      });
+    });
+
+    context('when placement option is given', function () {
+      context('and it is "top"', function () {
+        beforeEach(function () {
+          dropdown = new Dropdown({ placement: 'top' });
+        });
+
+        it('should attach bottom property to the element', function () {
+          subject();
+          const el = dropdown.el;
+          assert.equal(el.style.top, '');
+          assert.notEqual(el.style.bottom, '');
         });
       });
     });
@@ -383,7 +398,7 @@ describe('Dropdown', function () {
             createSearchResult(),
             createSearchResult(),
             createSearchResult(),
-          ], { top: 0, left: 0 });
+          ], { top: 0, left: 0, lineHeight: 0 });
           assert(!dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(!dropdown.items[2].active);
@@ -444,7 +459,7 @@ describe('Dropdown', function () {
             createSearchResult(),
             createSearchResult(),
             createSearchResult(),
-          ], { top: 0, left: 0 });
+          ], { top: 0, left: 0, lineHeight: 0 });
           assert(!dropdown.items[0].active);
           assert(!dropdown.items[1].active);
           assert(!dropdown.items[2].active);
@@ -496,7 +511,7 @@ describe('Dropdown', function () {
         createSearchResult(),
         createSearchResult(),
         createSearchResult(),
-      ], { top: 0, left: 0 });
+      ], { top: 0, left: 0, lineHeight: 0 });
     });
 
     function subject() {
