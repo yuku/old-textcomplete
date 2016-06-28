@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Changed
+- `Dropdown~Offset` must have "lineHeight" property.
 
 ## [0.8.0] - 2016-04-25
 ### Added
