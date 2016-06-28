@@ -8,7 +8,7 @@
     "lint": "eslint src/*.js test/**/*.js",
     "prepare": "git tag v$(jq -r .version package.json) && gulp clean compile",
     "start": "gulp server watch",
-    "test": "karma start"
+    "test": "npm run lint && karma start --single-run"
   },
   "repository": {
     "type": "git",
