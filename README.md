@@ -7,6 +7,7 @@ Autocomplete for textarea elements.
 [![Code Climate](https://codeclimate.com/github/yuku-t/textcomplete/badges/gpa.svg)](https://codeclimate.com/github/yuku-t/textcomplete)
 [![Test Coverage](https://codeclimate.com/github/yuku-t/textcomplete/badges/coverage.svg)](https://codeclimate.com/github/yuku-t/textcomplete/coverage)
 [![Inline docs](http://inch-ci.org/github/yuku-t/textcomplete.svg?branch=master)](http://inch-ci.org/github/yuku-t/textcomplete)
+[![Analytics](https://ga-beacon.appspot.com/UA-4932407-14/textcomplete/readme)](https://github.com/igrigorik/ga-beacon)
 
 ## Requirements
 
