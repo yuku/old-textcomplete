@@ -19,7 +19,7 @@ describe('Dropdown', function () {
   describe('#el', function () {
     it('should return a object created by Dropdown.createElement()', function () {
       var result = {};
-      var stub = this.sinon.stub(Dropdown, 'createElement', () => result);
+      var stub = this.sinon.stub(Dropdown, 'createElement').callsFake(() => result);
       var dropdown = new Dropdown({});
       assert.strictEqual(dropdown.el, result);
       assert(stub.calledOnce);

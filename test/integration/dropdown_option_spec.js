@@ -4,10 +4,10 @@ import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 import {CLASS_NAME} from '../../src/dropdown_item';
 
-import Keysim from 'keysim';
+import {Keyboard} from 'keysim';
 
 const assert = require('power-assert');
-const keyboard = Keysim.Keyboard.US_ENGLISH;
+const keyboard = Keyboard.US_ENGLISH;
 
 describe('Dropdown options integration test', function () {
   var textareaEl, textarea;

@@ -43,7 +43,7 @@ describe('Query', function () {
       var callbackData;
 
       beforeEach(function () {
-        this.sinon.stub(query.strategy, 'search', function (str, callback) {
+        this.sinon.stub(query.strategy, 'search').callsFake(function (str, callback) {
           callbackData = str;
           callback([callbackData]);
         });
