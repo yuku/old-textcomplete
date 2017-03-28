@@ -57,7 +57,6 @@
     "power-assert": "^1.4.1",
     "sinon": "^1.17.4",
     "uglify-js": "^2.8.16",
-    "watchify": "^3.7.0",
     "webpack": "^2.3.2"
   },
   "dependencies": {
