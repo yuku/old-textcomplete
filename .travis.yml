@@ -13,9 +13,5 @@ script:
 after_script:
 - npm install -g codeclimate-test-reporter
 - codeclimate-test-reporter < coverage/*/lcov.info
-after_success:
-- git config --global user.email 'taka84u9@gmail.com'
-- git config --global user.name 'Yuku Takahashi'
-- test "$(git rev-list HEAD...origin/master)" = "" && ./node_modules/.bin/gulp gh-pages
 notifications:
   email: false
