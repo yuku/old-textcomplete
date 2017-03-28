@@ -1,3 +1,5 @@
+// @flow
+
 import extend from 'lodash.assignin';
 
 /**
@@ -20,10 +22,9 @@ import extend from 'lodash.assignin';
  * // => 'Hello, world'
  * lockedFunc();  // => 'Hello, world'
  * lockedFunc();  // none
- * @returns {function} A wrapped function.
  */
-export function lock(func) {
-  var locked, queuedArgsToReplay;
+export function lock(func: (Function, any) => any): Function {
+  let locked: boolean, queuedArgsToReplay: any;
 
   return function () {
     // Convert arguments into a real array.
@@ -59,11 +60,8 @@ export function lock(func) {
 
 /**
  * Create a document fragment by the given HTML string.
- *
- * @param {string} tagString
- * @returns {DocumentFragment}
  */
-export function createFragment(tagString) {
+export function createFragment(tagString: string): DocumentFragment {
   // TODO Imprement with Range#createContextualFragment when it drops IE9 support.
   const div = document.createElement('div');
   div.innerHTML = tagString;
@@ -76,13 +74,9 @@ export function createFragment(tagString) {
 }
 
 /**
- * @param {string} type
- * @param {Object} [options]
- * @param {Object} [options.detail=undefined]
- * @param {Boolean} [options.cancelable=false]
- * @returns {CustomEvent}
+ * Create a custom event
  */
-export function createCustomEvent(type, options) {
+export function createCustomEvent(type: string, options: ?{ detail?: Object; cancelable?: boolean; }): CustomEvent {
   return new document.defaultView.CustomEvent(type, extend({
     cancelable: false,
     detail: undefined,
@@ -91,23 +85,22 @@ export function createCustomEvent(type, options) {
 
 /**
  * Get the current coordinates of the `el` relative to the document.
- *
- * @param {HTMLElement} el
- * @returns {{top: number, left: number}}
  */
-export function calculateElementOffset(el) {
+export function calculateElementOffset(el: HTMLElement): { top: number; left: number; } {
   const rect = el.getBoundingClientRect();
   const {defaultView, documentElement} = el.ownerDocument;
-  return {
-    top: rect.top + defaultView.pageYOffset - documentElement.clientTop,
-    left: rect.left + defaultView.pageXOffset - documentElement.clientLeft,
-  };
+  const offset = { top: rect.top + defaultView.pageYOffset, left: rect.left + defaultView.pageXOffset };
+  if (documentElement) {
+    offset.top -= documentElement.clientTop;
+    offset.left -= documentElement.clientLeft;
+  }
+  return offset;
 }
 
 /**
- * @returns {?number} Returns IE version or if not IE return null.
+ * Returns IE version if it is IE; otherwise null.
  */
-export function getIEVersion() {
+export function getIEVersion(): ?number {
   const nav = navigator.userAgent.toLowerCase();
   return (nav.indexOf('msie') !== -1) ? parseInt(nav.split('msie')[1], 10) : null;
 }
