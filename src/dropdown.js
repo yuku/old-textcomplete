@@ -1,12 +1,31 @@
+// @flow
+
 import DropdownItem from './dropdown_item';
+import SearchResult from './search_result';
 import {createFragment, createCustomEvent} from './utils';
 
 import extend from 'lodash.assignin';
 import uniqueId from 'lodash.uniqueid';
-import isFunction from 'lodash.isfunction';
-import {EventEmitter} from 'events';
+import EventEmitter from 'events';
 
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
+
+type Offset = {
+  lineHeight: number;
+  top: number;
+  left?: number;
+  right?: number;
+};
+
+type Options = {
+  className?: string;
+  footer?: (any) => string | string;
+  header?: (any) => string | string;
+  maxCount?: number;
+  placement?: string;
+  rotate?: boolean;
+  style?: Object;
+};
 
 /**
  * @typedef {Object} Dropdown~Offset
@@ -82,7 +101,16 @@ const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
  * @prop {DropdownItem[]} items - The array of rendered dropdown items.
  * @extends EventEmitter
  */
-class Dropdown extends EventEmitter {
+export default class Dropdown extends EventEmitter {
+  shown: boolean;
+  items: DropdownItem[];
+  footer: $PropertyType<Options, 'footer'>;
+  header: $PropertyType<Options, 'header'>;
+  maxCount: $PropertyType<Options, 'maxCount'>;
+  rotate: $PropertyType<Options, 'rotate'>;
+  placement: $PropertyType<Options, 'placement'>;
+  _el: ?HTMLElement;
+
   /**
    * @returns {HTMLUListElement}
    */
@@ -94,7 +122,10 @@ class Dropdown extends EventEmitter {
       position: 'absolute',
       zIndex: 10000,
     });
-    document.body.appendChild(el);
+    const body = document.body;
+    if (body) {
+      body.appendChild(el);
+    }
     return el;
   }
 
@@ -107,7 +138,7 @@ class Dropdown extends EventEmitter {
    * @param {boolean} [rotate=true]
    * @param {string} [placement]
    */
-  constructor({className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, style, rotate=true, placement}) {
+  constructor({ className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, placement, rotate=true, style }: Options) {
     super();
     this.shown = false;
     this.items = [];
@@ -126,7 +157,10 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    */
   finalize() {
-    this.el.parentNode.removeChild(this.el);
+    const parentNode = this.el.parentNode;
+    if (parentNode) {
+      parentNode.removeChild(this.el);
+    }
     this.clear()._el = null;
     return this;
   }
@@ -134,8 +168,10 @@ class Dropdown extends EventEmitter {
   /**
    * @returns {HTMLUListElement} the dropdown element.
    */
-  get el() {
-    this._el || (this._el = Dropdown.createElement());
+  get el(): HTMLElement {
+    if (!this._el) {
+      this._el = Dropdown.createElement();
+    }
     return this._el;
   }
 
@@ -148,7 +184,7 @@ class Dropdown extends EventEmitter {
    * @fires Dropdown#render
    * @fires Dropdown#rendered
    */
-  render(searchResults, cursorOffset) {
+  render(searchResults: SearchResult[], cursorOffset: Offset) {
     const renderEvent = createCustomEvent('render', { cancelable: true });
     this.emit('render', renderEvent);
     if (renderEvent.defaultPrevented) {
@@ -157,7 +193,7 @@ class Dropdown extends EventEmitter {
     const rawResults = [], dropdownItems = [];
     searchResults.forEach(searchResult => {
       rawResults.push(searchResult.data);
-      if (dropdownItems.length < this.maxCount) {
+      if (typeof this.maxCount === 'number' && dropdownItems.length < this.maxCount) {
         dropdownItems.push(new DropdownItem(searchResult));
       }
     });
@@ -186,7 +222,7 @@ class Dropdown extends EventEmitter {
    * @returns {this}
    * @fires Dropdown#select
    */
-  select(dropdownItem) {
+  select(dropdownItem: DropdownItem) {
     const detail = { searchResult: dropdownItem.searchResult };
     const selectEvent = createCustomEvent('select', { cancelable: true, detail: detail });
     this.emit('select', selectEvent);
@@ -202,7 +238,7 @@ class Dropdown extends EventEmitter {
    * @param {Editor#move} e
    * @returns {this}
    */
-  up(e) {
+  up(e: CustomEvent) {
     return this.shown ? this.moveActiveItem('prev', e) : this;
   }
 
@@ -210,7 +246,7 @@ class Dropdown extends EventEmitter {
    * @param {Editor#move} e
    * @returns {this}
    */
-  down(e) {
+  down(e: CustomEvent) {
     return this.shown ? this.moveActiveItem('next', e) : this;
   }
 
@@ -230,7 +266,7 @@ class Dropdown extends EventEmitter {
    * @param {DropdownItem[]} items
    * @returns {this};
    */
-  append(items) {
+  append(items: DropdownItem[]) {
     const fragment = document.createDocumentFragment();
     items.forEach(item => {
       this.items.push(item);
@@ -246,14 +282,17 @@ class Dropdown extends EventEmitter {
    * @param {Dropdown~Offset} cursorOffset
    * @returns {this}
    */
-  setOffset(cursorOffset) {
-    if (cursorOffset.hasOwnProperty('left')) {
+  setOffset(cursorOffset: Offset) {
+    if (cursorOffset.left) {
       this.el.style.left = `${cursorOffset.left}px`;
-    } else {
+    } else if (cursorOffset.right) {
       this.el.style.right = `${cursorOffset.right}px`;
     }
     if (this.isPlacementTop()) {
-      this.el.style.bottom = `${document.documentElement.clientHeight - cursorOffset.top + cursorOffset.lineHeight}px`;
+      const element = document.documentElement;
+      if (element) {
+        this.el.style.bottom = `${element.clientHeight - cursorOffset.top + cursorOffset.lineHeight}px`;
+      }
     } else {
       this.el.style.top = `${cursorOffset.top}px`;
     }
@@ -323,8 +362,8 @@ class Dropdown extends EventEmitter {
    * @param {Editor#move} e
    * @returns {this}
    */
-  moveActiveItem(name, e) {
-    const activeItem = this.getActiveItem();
+  moveActiveItem(name: string, e: CustomEvent) {
+    const activeItem: any = this.getActiveItem();
     let nextActiveItem;
     if (activeItem) {
       nextActiveItem = activeItem[name];
@@ -343,7 +382,7 @@ class Dropdown extends EventEmitter {
    * @param {?SearchResult} searchResult
    * @returns {this}
    */
-  setStrategyId(searchResult) {
+  setStrategyId(searchResult: ?SearchResult) {
     const strategyId = searchResult && searchResult.strategy.props.id;
     if (strategyId) {
       this.el.setAttribute('data-strategy', strategyId);
@@ -359,13 +398,11 @@ class Dropdown extends EventEmitter {
    * @param {string} type - 'header' or 'footer'.
    * @returns {this}
    */
-  renderEdge(rawResults, type) {
-    const source = this[type];
-    if (source) {
-      const content = isFunction(source) ? source(rawResults) : source;
-      const fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
-      this.el.appendChild(fragment);
-    }
+  renderEdge(rawResults: Object[], type: 'header' | 'footer') {
+    const source = type === 'header' ? this.header : this.footer;
+    const content: any = typeof source === 'function' ? source(rawResults) : source;
+    const fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
+    this.el.appendChild(fragment);
     return this;
   }
 
@@ -377,5 +414,3 @@ class Dropdown extends EventEmitter {
     return this.placement === 'top';
   }
 }
-
-export default Dropdown;
