@@ -1,13 +1,16 @@
+// @flow
+
 import {createCustomEvent} from './utils';
+import SearchResult from './search_result';
 
-import {EventEmitter} from 'events';
+import EventEmitter from 'events';
 
-export const ENTER = 0;
-export const UP = 1;
-export const DOWN = 2;
-export const OTHER = 3;
-export const BS = 4;
-export const ESC = 5;
+export const ENTER = 'ENTER';
+export const UP = 'UP';
+export const DOWN = 'DOWN';
+export const OTHER = 'OTHER';
+export const BS = 'BS';
+export const ESC = 'ESC';
 
 /**
  * @event Editor#move
@@ -45,7 +48,7 @@ export const ESC = 5;
  * @abstract
  * @extends EventEmitter
  */
-class Editor extends EventEmitter {
+export default class Editor extends EventEmitter {
   /**
    * @returns {this}
    */
@@ -55,10 +58,8 @@ class Editor extends EventEmitter {
 
   /**
    * It is called when a search result is selected by a user.
-   *
-   * @param {SearchResult} _searchResult
    */
-  applySearchResult(_searchResult) {
+  applySearchResult(_searchResult: SearchResult) {
     throw new Error('Not implemented.');
   }
 
@@ -96,7 +97,7 @@ class Editor extends EventEmitter {
    * @param {UP|DOWN} code
    * @returns {Editor#move}
    */
-  emitMoveEvent(code) {
+  emitMoveEvent(code: 'UP' | 'DOWN') {
     const moveEvent = createCustomEvent('move', {
       cancelable: true,
       detail: {
@@ -149,7 +150,7 @@ class Editor extends EventEmitter {
    * @param {KeyboardEvent} e
    * @returns {ENTER|UP|DOWN|OTHER|BS}
    */
-  getCode(e) {
+  getCode(e: KeyboardEvent): 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'ESC' | 'BS' {
     return e.keyCode === 8 ? BS // backspace
          : e.keyCode === 9 ? ENTER // tab
          : e.keyCode === 13 ? ENTER // enter
@@ -161,5 +162,3 @@ class Editor extends EventEmitter {
          : OTHER;
   }
 }
-
-export default Editor;
