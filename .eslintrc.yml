@@ -2,11 +2,12 @@
   root: true
 
   env:
-    browser: true
     commonjs: true
     es6: true
 
   extends: eslint:recommended
+
+  parser: babel-eslint
 
   parserOptions:
     sourceType: module
@@ -45,5 +46,3 @@
     strict: [2, "global"]
     valid-jsdoc: [1, { requireParamDescription: false, requireReturn: false, requireReturnDescription: false, prefer: { return: "returns", property: "prop" }}]
     wrap-iife: [2, "inside"]
-
-# vim: filetype=yaml

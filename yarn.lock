@@ -312,6 +312,15 @@ babel-core@^6.1.4, babel-core@^6.18.2, babel-core@^6.24.0:
     slash "^1.0.0"
     source-map "^0.5.0"
 
+babel-eslint@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/babel-eslint/-/babel-eslint-7.2.1.tgz#079422eb73ba811e3ca0865ce87af29327f8c52f"
+  dependencies:
+    babel-code-frame "^6.22.0"
+    babel-traverse "^6.23.1"
+    babel-types "^6.23.0"
+    babylon "^6.16.1"
+
 babel-generator@^6.1.0, babel-generator@^6.24.0:
   version "6.24.0"
   resolved "https://registry.yarnpkg.com/babel-generator/-/babel-generator-6.24.0.tgz#eba270a8cc4ce6e09a61be43465d7c62c1f87c56"
@@ -432,6 +441,10 @@ babel-plugin-espower@^2.3.1:
     espower-location-detector "^1.0.0"
     espurify "^1.6.0"
     estraverse "^4.1.1"
+
+babel-plugin-syntax-flow@^6.18.0:
+  version "6.18.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-syntax-flow/-/babel-plugin-syntax-flow-6.18.0.tgz#4c3ab20a2af26aa20cd25995c398c4eb70310c8d"
 
 babel-plugin-transform-amd-system-wrapper@^0.3.3:
   version "0.3.4"
@@ -613,6 +626,13 @@ babel-plugin-transform-es2015-unicode-regex@^6.22.0:
     babel-runtime "^6.22.0"
     regexpu-core "^2.0.0"
 
+babel-plugin-transform-flow-strip-types@^6.22.0:
+  version "6.22.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-transform-flow-strip-types/-/babel-plugin-transform-flow-strip-types-6.22.0.tgz#84cb672935d43714fdc32bce84568d87441cf7cf"
+  dependencies:
+    babel-plugin-syntax-flow "^6.18.0"
+    babel-runtime "^6.22.0"
+
 babel-plugin-transform-global-system-wrapper@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/babel-plugin-transform-global-system-wrapper/-/babel-plugin-transform-global-system-wrapper-0.3.0.tgz#ddea2a2dc3f802593bdc0d026edb887763a53d6a"
@@ -725,7 +745,7 @@ babel-types@^6.19.0, babel-types@^6.22.0, babel-types@^6.23.0:
     lodash "^4.2.0"
     to-fast-properties "^1.0.1"
 
-babylon@^6.1.0, babylon@^6.11.0, babylon@^6.15.0:
+babylon@^6.1.0, babylon@^6.11.0, babylon@^6.15.0, babylon@^6.16.1:
   version "6.16.1"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.16.1.tgz#30c5a22f481978a9e7f8cdfdf496b11d94b404d3"
 
@@ -1867,6 +1887,12 @@ escope@^3.6.0:
     es6-weak-map "^2.0.1"
     esrecurse "^4.1.0"
     estraverse "^4.1.1"
+
+eslint-plugin-flowtype@^2.30.4:
+  version "2.30.4"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-2.30.4.tgz#771d6bb4578ab8598e9c58018fea2e1a22946249"
+  dependencies:
+    lodash "^4.15.0"
 
 eslint@^2.13.1:
   version "2.13.1"
@@ -3363,7 +3389,7 @@ lodash@^3.3.1, lodash@^3.8.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
 
-lodash@^4.0.0, lodash@^4.11.2, lodash@^4.14.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.5.0:
+lodash@^4.0.0, lodash@^4.11.2, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.5.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
