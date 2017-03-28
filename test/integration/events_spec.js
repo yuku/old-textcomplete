@@ -3,10 +3,10 @@ require('../test_helper');
 import Textcomplete from '../../src/textcomplete';
 import Textarea from '../../src/textarea';
 
-import Keysim from 'keysim';
+import {Keyboard} from 'keysim';
 
 const assert = require('power-assert');
-const keyboard = Keysim.Keyboard.US_ENGLISH;
+const keyboard = Keyboard.US_ENGLISH;
 
 describe('Textcomplete events', function () {
   var textareaEl, textarea, textcomplete;

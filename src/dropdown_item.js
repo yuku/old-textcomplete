@@ -1,5 +1,9 @@
+// @flow
+
 import uniqueId from 'lodash.uniqueid';
 import bindAll from 'lodash.bindall';
+
+import SearchResult from './search_result';
 
 export const CLASS_NAME = 'textcomplete-item';
 const ACTIVE_CLASS_NAME = `${CLASS_NAME} active`;
@@ -8,11 +12,19 @@ const CALLBACK_METHODS = ['onClick', 'onMouseover'];
 /**
  * Encapsulate an item of dropdown.
  */
-class DropdownItem {
+export default class DropdownItem {
+  searchResult: SearchResult;
+  id: string;
+  active: boolean;
+  siblings: DropdownItem[];
+  dropdown: any; // FIXME
+  index: number;
+  _el: ?HTMLElement;
+
   /**
    * @param {SearchResult} searchResult
    */
-  constructor(searchResult) {
+  constructor(searchResult: SearchResult) {
     this.searchResult = searchResult;
     this.id = uniqueId('dropdown-item-');
     this.active = false;
@@ -24,20 +36,21 @@ class DropdownItem {
    * @public
    * @returns {HTMLLIElement}
    */
-  get el() {
-    if (!this._el) {
-      const li = document.createElement('li');
-      li.id = this.id;
-      li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME;
-      const a = document.createElement('a');
-      a.innerHTML = this.searchResult.render();
-      li.appendChild(a);
-      this._el = li;
-      li.addEventListener('mousedown', this.onClick);
-      li.addEventListener('mouseover', this.onMouseover);
-      li.addEventListener('touchstart', this.onClick);
+  get el(): HTMLElement {
+    if (this._el) {
+      return this._el;
     }
-    return this._el;
+    const li = document.createElement('li');
+    li.id = this.id;
+    li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME;
+    const a = document.createElement('a');
+    a.innerHTML = this.searchResult.render();
+    li.appendChild(a);
+    this._el = li;
+    li.addEventListener('mousedown', this.onClick);
+    li.addEventListener('mouseover', this.onMouseover);
+    li.addEventListener('touchstart', this.onClick);
+    return li;
   }
 
   /**
@@ -60,7 +73,7 @@ class DropdownItem {
    * @param {Dropdown} dropdown
    * @see Dropdown#append
    */
-  appended(dropdown) {
+  appended(dropdown: any) { // FIXME
     this.dropdown = dropdown;
     this.siblings = dropdown.items;
     this.index = this.siblings.length - 1;
@@ -90,7 +103,7 @@ class DropdownItem {
    * @public
    * @returns {?DropdownItem}
    */
-  get next() {
+  get next(): ?DropdownItem {
     let nextIndex;
     if (this.index === this.siblings.length - 1) {
       if (!this.dropdown.rotate) {
@@ -109,7 +122,7 @@ class DropdownItem {
    * @public
    * @returns {DropdownItem}
    */
-  get prev() {
+  get prev(): ?DropdownItem {
     let nextIndex;
     if (this.index === 0) {
       if (!this.dropdown.rotate) {
@@ -138,7 +151,7 @@ class DropdownItem {
    * @private
    * @param {MouseEvent} e
    */
-  onClick(e) {
+  onClick(e: Event) {
     e.preventDefault(); // Prevent blur event
     this.dropdown.select(this);
   }
@@ -147,9 +160,7 @@ class DropdownItem {
    * @private
    * @param {MouseEvent} _e
    */
-  onMouseover(_e) {
+  onMouseover(_e: MouseEvent) {
     this.activate();
   }
 }
-
-export default DropdownItem;

@@ -1,15 +1,21 @@
+// @flow
+
 import SearchResult from './search_result';
 
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
  */
-class Query {
+export default class Query {
+  strategy: any;
+  term: string;
+  match: string[];
+
   /**
    * @param {Strategy} strategy
    * @param {string} term
    * @param {string[]} match
    */
-  constructor(strategy, term, match) {
+  constructor(strategy: any, term: string, match: string[]) {
     this.strategy = strategy;
     this.term = term;
     this.match = match;
@@ -21,7 +27,7 @@ class Query {
    * @public
    * @param {function} callback
    */
-  execute(callback) {
+  execute(callback: (SearchResult[]) => any): void {
     this.strategy.search(
       this.term,
       results => {
@@ -33,5 +39,3 @@ class Query {
     );
   }
 }
-
-export default Query;

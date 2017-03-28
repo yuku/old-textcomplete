@@ -8,6 +8,8 @@
 
   extends: eslint:recommended
 
+  parser: babel-eslint
+
   parserOptions:
     sourceType: module
     ecmaFeatures:
@@ -43,7 +45,5 @@
     space-before-function-paren: [2, {"anonymous": "always", "named": "never"}]
     spaced-comment: [2, "always"]
     strict: [2, "global"]
-    valid-jsdoc: [1, { requireParamDescription: false, requireReturn: false, requireReturnDescription: false, prefer: { return: "returns", property: "prop" }}]
     wrap-iife: [2, "inside"]
-
-# vim: filetype=yaml
+# vim:filetype=yaml

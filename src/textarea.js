@@ -1,5 +1,8 @@
-import Editor, {ENTER, DOWN, UP, BS, ESC} from './editor';
+// @flow
+
+import Editor from './editor';
 import {calculateElementOffset, getIEVersion} from './utils';
+import SearchResult from './search_result';
 
 import bindAll from 'lodash.bindall';
 import getLineHeight from 'line-height';
@@ -14,11 +17,14 @@ const CALLBACK_METHODS = ['onInput', 'onKeydown', 'onKeyup'];
  * @extends Editor
  * @prop {HTMLTextAreaElement} el - Where the textcomplete works on.
  */
-class Textarea extends Editor {
+export default class Textarea extends Editor {
+  el: HTMLTextAreaElement;
+  isIE9: boolean;
+
   /**
    * @param {HTMLTextAreaElement} el
    */
-  constructor(el) {
+  constructor(el: HTMLTextAreaElement) {
     super();
     this.el = el;
     this.isIE9 = getIEVersion() === 9;
@@ -32,7 +38,7 @@ class Textarea extends Editor {
   finalize() {
     super.finalize();
     this.stopListening();
-    this.el = null;
+    delete this.el;
     return this;
   }
 
@@ -40,7 +46,7 @@ class Textarea extends Editor {
    * @override
    * @param {SearchResult} searchResult
    */
-  applySearchResult(searchResult) {
+  applySearchResult(searchResult: SearchResult) {
     const replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
     if (Array.isArray(replace)) {
       this.el.value = replace[0] + replace[1];
@@ -58,7 +64,7 @@ class Textarea extends Editor {
     const left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {
       return { top, left, lineHeight };
-    } else {
+    } else if (document.documentElement) {
       const right = document.documentElement.clientWidth - left;
       return { top, right, lineHeight };
     }
@@ -98,7 +104,7 @@ class Textarea extends Editor {
    * @fires Editor#change
    * @param {InputEvent} _e
    */
-  onInput(_e) {
+  onInput(_e: Event) {
     this.emitChangeEvent();
   }
 
@@ -107,22 +113,15 @@ class Textarea extends Editor {
    * @fires Editor#move
    * @param {KeyboardEvent} e
    */
-  onKeydown(e) {
+  onKeydown(e: KeyboardEvent) {
     const code = this.getCode(e);
     let event;
-    switch (code) {
-      case UP:
-      case DOWN:
-        event = this.emitMoveEvent(code);
-        break;
-      case ENTER: {
-        event = this.emitEnterEvent();
-        break;
-      }
-      case ESC: {
-        event = this.emitEscEvent();
-        break;
-      }
+    if (code === 'UP' || code === 'DOWN') {
+      event = this.emitMoveEvent(code);
+    } else if (code === 'ENTER') {
+      event = this.emitEnterEvent();
+    } else if (code === 'ESC') {
+      event = this.emitEscEvent();
     }
     if (event && event.defaultPrevented) {
       e.preventDefault();
@@ -134,11 +133,11 @@ class Textarea extends Editor {
    * @fires Editor#change
    * @param {KeyboardEvent} e
    */
-  onKeyup(e) {
+  onKeyup(e: KeyboardEvent) {
     const code = this.getCode(e);
     // IE 9 does not fire an input event when the user deletes characters from an input.
     // https://developer.mozilla.org/en-US/docs/Web/Events/input#Browser_compatibility
-    if (code === BS && this.isIE9) {
+    if (code === 'BS' && this.isIE9) {
       this.emitChangeEvent();
     }
   }
@@ -161,5 +160,3 @@ class Textarea extends Editor {
     this.el.removeEventListener('keyup', this.onKeyup);
   }
 }
-
-export default Textarea;

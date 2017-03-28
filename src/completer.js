@@ -1,12 +1,19 @@
+// @flow
+
 import bindAll from 'lodash.bindall';
-import {EventEmitter} from 'events';
+import EventEmitter from 'events';
+
+import Strategy from './strategy';
+import SearchResult from './search_result';
 
 const CALLBACK_METHODS = ['handleQueryResult'];
 
 /**
  * @extends EventEmitter
  */
-class Completer extends EventEmitter {
+export default class Completer extends EventEmitter {
+  strategies: Strategy[];
+
   constructor() {
     super();
     this.strategies = [];
@@ -29,7 +36,7 @@ class Completer extends EventEmitter {
    * @param {Strategy} strategy
    * @returns {this}
    */
-  registerStrategy(strategy) {
+  registerStrategy(strategy: Strategy) {
     this.strategies.push(strategy);
     return this;
   }
@@ -39,7 +46,7 @@ class Completer extends EventEmitter {
    * @param {string} text - Head to input cursor.
    * @fires Completer#hit
    */
-  run(text) {
+  run(text: string) {
     const query = this.extractQuery(text);
     if (query) {
       query.execute(this.handleQueryResult);
@@ -55,7 +62,7 @@ class Completer extends EventEmitter {
    * @param {string} text - Head to input cursor.
    * @returns {?Query}
    */
-  extractQuery(text) {
+  extractQuery(text: string) {
     for (let i = 0; i < this.strategies.length; i++) {
       const query = this.strategies[i].buildQuery(text);
       if (query) { return query; }
@@ -69,7 +76,7 @@ class Completer extends EventEmitter {
    * @private
    * @param {SearchResult[]} searchResults
    */
-  handleQueryResult(searchResults) {
+  handleQueryResult(searchResults: SearchResult[]) {
     /**
      * @event Completer#hit
      * @type {object}
@@ -78,5 +85,3 @@ class Completer extends EventEmitter {
     this.emit('hit', { searchResults });
   }
 }
-
-export default Completer;

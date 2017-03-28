@@ -1,12 +1,22 @@
-import Query from './query';
+// @flow
 
-import isFunction from 'lodash.isfunction';
-import isString from 'lodash.isstring';
+import Query from './query';
 
 const DEFAULT_INDEX = 2;
 
 function DEFAULT_TEMPLATE(value) {
   return value;
+}
+
+export type Properties = {
+  match: RegExp | (string) => RegExp;
+  search: Function;
+  replace: (any) => string[] | string | null;
+  cache?: boolean;
+  context?: Function;
+  template?: (any) => string;
+  index?: number;
+  id?: string;
 }
 
 /**
@@ -28,11 +38,14 @@ function DEFAULT_TEMPLATE(value) {
  *
  * @prop {Strategy~Properties} props - Its properties.
  */
-class Strategy {
+export default class Strategy {
+  props: Properties;
+  cache: ?Object;
+
   /**
    * @param {Strategy~Properties} props
    */
-  constructor(props) {
+  constructor(props: Properties) {
     this.props = props;
     this.cache = props.cache ? {} : null;
   }
@@ -51,10 +64,10 @@ class Strategy {
    * @param {string} text - Head to input cursor.
    * @returns {?Query}
    */
-  buildQuery(text) {
-    if (isFunction(this.props.context)) {
+  buildQuery(text: string): ?Query {
+    if (typeof this.props.context === 'function') {
       const context = this.props.context(text);
-      if (isString(context)) {
+      if (typeof context === 'string') {
         text = context;
       } else if (!context) {
         return null;
@@ -69,7 +82,7 @@ class Strategy {
    * @param {function} callback
    * @param {string[]} match
    */
-  search(term, callback, match) {
+  search(term: string, callback: Function, match: string[]) {
     if (this.cache) {
       this.searchWithCache(term, callback, match);
     } else {
@@ -81,7 +94,7 @@ class Strategy {
    * @param {object} data - An element of array callbacked by search function.
    * @returns {string[]|string|null}
    */
-  replace(data) {
+  replace(data: any) {
     return this.props.replace(data);
   }
 
@@ -91,13 +104,14 @@ class Strategy {
    * @param {function} callback
    * @param {string[]} match
    */
-  searchWithCache(term, callback, match) {
-    const cache = this.cache[term];
-    if (cache) {
-      callback(cache);
+  searchWithCache(term: string, callback: Function, match: string[]): void {
+    if (this.cache && this.cache[term]) {
+      callback(this.cache[term]);
     } else {
       this.props.search(term, results => {
-        this.cache[term] = results;
+        if (this.cache) {
+          this.cache[term] = results;
+        }
         callback(results);
       }, match);
     }
@@ -108,15 +122,15 @@ class Strategy {
    * @param {string} text
    * @returns {RegExp}
    */
-  getMatchRegexp(text) {
-    return isFunction(this.match) ? this.match(text) : this.match;
+  getMatchRegexp(text: string): RegExp {
+    return typeof this.match === 'function' ? this.match(text) : this.match;
   }
 
   /**
    * @private
    * @returns {RegExp|Function}
    */
-  get match() {
+  get match(): $PropertyType<Properties, 'match'> {
     return this.props.match;
   }
 
@@ -124,16 +138,14 @@ class Strategy {
    * @private
    * @returns {Number}
    */
-  get index() {
+  get index(): number {
     return this.props.index || DEFAULT_INDEX;
   }
 
   /**
    * @returns {function}
    */
-  get template() {
+  get template(): (any) => string {
     return this.props.template || DEFAULT_TEMPLATE;
   }
 }
-
-export default Strategy;

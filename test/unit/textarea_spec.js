@@ -142,7 +142,7 @@ describe('Textarea', function () {
 
     context('when SearchResult#replace returns null', function () {
       beforeEach(function () {
-        this.sinon.stub(searchResult, 'replace', function () {
+        this.sinon.stub(searchResult, 'replace').callsFake(function () {
           return null;
         });
       });
@@ -164,7 +164,7 @@ describe('Textarea', function () {
 
     context('when SearchResult#replace returns an array of strings', function () {
       beforeEach(function () {
-        this.sinon.stub(searchResult, 'replace', function () {
+        this.sinon.stub(searchResult, 'replace').callsFake(function () {
           return ['before', 'after'];
         });
       });

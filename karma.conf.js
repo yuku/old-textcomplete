@@ -1,19 +1,12 @@
+const babelrc = require('./package.json').babel;
+
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'browserify'],
-    browserify: {
-      transform: [
-        require('browserify-istanbul')({
-          instrumenter: require('isparta'),
-          ignore: ['test/**']
-        }),
-        ['babelify', {plugins: ['babel-plugin-espower']}]
-      ]
-    },
+    frameworks: ['mocha'],
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
@@ -22,28 +15,34 @@ module.exports = function(config) {
     },
     // list of files / patterns to load in the browser
     files: [
-      'src/*.js',
-      'test/unit/*_spec.js'
+      'test/**/*_spec.js'
     ],
     // list of files to exclude
     exclude: [
       'src/doc/*.js'
     ],
+    plugins: [
+      'karma-chrome-launcher',
+      'karma-coverage',
+      'karma-firefox-launcher',
+      'karma-mocha',
+      'karma-webpack'
+    ],
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/*.js': 'browserify',
-      'test/**/*_spec.js': 'browserify'
+      'src/*.js': 'webpack',
+      'test/**/*_spec.js': 'webpack'
     },
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['mocha', 'coverage'],
+    reporters: ['progress', 'coverage'],
     coverageReporter: {
       reporters: [
         { type: 'lcov' },
-        { type: 'text' }
-      ]
+        { type: 'text' },
+      ],
     },
     // web server port
     port: 9876,
@@ -62,6 +61,26 @@ module.exports = function(config) {
     singleRun: false,
     // Concurrency level
     // how many browser should be started simultaneous
-    concurrency: Infinity
+    concurrency: Infinity,
+    webpack: {
+      devtool: 'inline-source-map',
+      module: {
+        rules: [
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'babel-loader',
+                options: {
+                  plugins: babelrc.plugins.concat('espower', 'istanbul'),
+                  presets: babelrc.presets,
+                },
+              },
+            ],
+          },
+        ],
+      },
+    }
   })
 }
