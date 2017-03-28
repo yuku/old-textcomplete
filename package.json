@@ -11,7 +11,8 @@
     "gh-release": "yarn pack textcomplete && gh-release -a textcomplete-$(cat package.json|jq -r .version).tgz",
     "lint": "eslint src/*.js test/**/*.js",
     "prepare": "git tag v$(jq -r .version package.json) && yarn run build",
-    "test": "yarn run lint && karma start --single-run"
+    "test": "run-p lint typecheck && karma start --single-run",
+    "typecheck": "flow"
   },
   "repository": {
     "type": "git",
