@@ -29,6 +29,8 @@
     "browserify-istanbul": "^2.0.0",
     "del": "^2.2.0",
     "eslint": "^2.13.1",
+    "flow-bin": "^0.42.0",
+    "flow-typed": "^2.0.0",
     "getbase": "^2.8.2",
     "gh-release": "^2.0.2",
     "gulp": "^3.9.0",
