@@ -2,6 +2,7 @@
   root: true
 
   env:
+    browser: true
     commonjs: true
     es6: true
 
@@ -45,3 +46,4 @@
     spaced-comment: [2, "always"]
     strict: [2, "global"]
     wrap-iife: [2, "inside"]
+# vim:filetype=yaml
