@@ -1,12 +1,14 @@
+// @flow
+
 import Completer from './completer';
+import Editor from './editor';
 import Dropdown from './dropdown';
-import Strategy from './strategy';
-import {UP} from './editor';
+import Strategy, {type Properties} from './strategy';
+import SearchResult from './search_result';
 import {lock} from './utils';
 
 import bindAll from 'lodash.bindall';
-import isFunction from 'lodash.isfunction';
-import {EventEmitter} from 'events';
+import EventEmitter from 'events';
 
 const CALLBACK_METHODS = [
   'handleChange',
@@ -33,12 +35,19 @@ const CALLBACK_METHODS = [
  * @extends EventEmitter
  * @tutorial getting-started
  */
-class Textcomplete extends EventEmitter {
+export default class Textcomplete extends EventEmitter {
+  free: ?Function;
+  lockableTrigger: Function;
+  dropdown: Dropdown;
+  editor: Editor;
+  options: any;
+  completer: Completer;
+
   /**
    * @param {Editor} editor - Where the textcomplete works on.
    * @param {Textcomplete~Options} options
    */
-  constructor(editor, options = {}) {
+  constructor(editor: Editor, options: any = {}) {
     super();
 
     this.completer = new Completer();
@@ -61,7 +70,7 @@ class Textcomplete extends EventEmitter {
    * @param {boolean} [finalizeEditor=true]
    * @returns {this}
    */
-  finalize(finalizeEditor = true) {
+  finalize(finalizeEditor: boolean = true) {
     this.completer.finalize();
     this.dropdown.finalize();
     if (finalizeEditor) {
@@ -88,7 +97,7 @@ class Textcomplete extends EventEmitter {
    *   }
    * }]);
    */
-  register(strategyPropsArray) {
+  register(strategyPropsArray: Properties[]) {
     strategyPropsArray.forEach(props => {
       this.completer.registerStrategy(new Strategy(props));
     });
@@ -103,7 +112,7 @@ class Textcomplete extends EventEmitter {
    * @returns {this}
    * @listens Editor#change
    */
-  trigger(text) {
+  trigger(text: string) {
     this.lockableTrigger(text);
     return this;
   }
@@ -119,7 +128,7 @@ class Textcomplete extends EventEmitter {
     // It depends on whether extra function call was made or not.
     const free = this.free;
     this.free = null;
-    if (isFunction(free)) { free(); }
+    if (typeof free === 'function') { free(); }
     return this;
   }
 
@@ -128,7 +137,7 @@ class Textcomplete extends EventEmitter {
    * @param {SearchResult[]} searchResults
    * @listens Completer#hit
    */
-  handleHit({searchResults}) {
+  handleHit({ searchResults }: { searchResults: SearchResult[]; }) {
     if (searchResults.length) {
       this.dropdown.render(searchResults, this.editor.getCursorOffset());
     } else {
@@ -142,9 +151,8 @@ class Textcomplete extends EventEmitter {
    * @param {Editor#move} e
    * @listens Editor#move
    */
-  handleMove(e) {
-    const action = e.detail.code === UP ? 'up' : 'down';
-    this.dropdown[action](e);
+  handleMove(e: CustomEvent) {
+    e.detail.code === 'UP' ? this.dropdown.up(e) : this.dropdown.down(e);
   }
 
   /**
@@ -152,7 +160,7 @@ class Textcomplete extends EventEmitter {
    * @param {Editor#enter} e
    * @listens Editor#enter
    */
-  handleEnter(e) {
+  handleEnter(e: CustomEvent) {
     const activeItem = this.dropdown.getActiveItem();
     if (activeItem) {
       this.dropdown.select(activeItem);
@@ -165,7 +173,7 @@ class Textcomplete extends EventEmitter {
    * @param {Editor#esc} e
    * @listens Editor#esc
    */
-  handleEsc(e) {
+  handleEsc(e: CustomEvent) {
     if (this.dropdown.shown) {
       this.dropdown.deactivate();
       e.preventDefault();
@@ -177,7 +185,7 @@ class Textcomplete extends EventEmitter {
    * @param {Editor#change} e
    * @listens Editor#change
    */
-  handleChange(e) {
+  handleChange(e: CustomEvent) {
     this.trigger(e.detail.beforeCursor);
   }
 
@@ -186,7 +194,7 @@ class Textcomplete extends EventEmitter {
    * @param {Dropdown#select} selectEvent
    * @listens Dropdown#select
    */
-  handleSelect(selectEvent) {
+  handleSelect(selectEvent: CustomEvent) {
     this.emit('select', selectEvent);
     if (!selectEvent.defaultPrevented) {
       this.editor.applySearchResult(selectEvent.detail.searchResult);
@@ -198,7 +206,7 @@ class Textcomplete extends EventEmitter {
    * @param {string} eventName
    * @returns {function}
    */
-  buildHandler(eventName) {
+  buildHandler(eventName: string) {
     return () => this.emit(eventName);
   }
 
@@ -229,5 +237,3 @@ class Textcomplete extends EventEmitter {
                .removeListener('change', this.handleChange);
   }
 }
-
-export default Textcomplete;
