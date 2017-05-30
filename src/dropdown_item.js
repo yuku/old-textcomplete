@@ -1,8 +1,5 @@
 // @flow
 
-import uniqueId from 'lodash.uniqueid';
-import bindAll from 'lodash.bindall';
-
 import SearchResult from './search_result';
 
 export const CLASS_NAME = 'textcomplete-item';
@@ -14,7 +11,6 @@ const CALLBACK_METHODS = ['onClick', 'onMouseover'];
  */
 export default class DropdownItem {
   searchResult: SearchResult;
-  id: string;
   active: boolean;
   siblings: DropdownItem[];
   dropdown: any; // FIXME
@@ -26,10 +22,11 @@ export default class DropdownItem {
    */
   constructor(searchResult: SearchResult) {
     this.searchResult = searchResult;
-    this.id = uniqueId('dropdown-item-');
     this.active = false;
 
-    bindAll(this, CALLBACK_METHODS);
+    CALLBACK_METHODS.forEach((method) => {
+      (this: any)[method] = (this: any)[method].bind(this);
+    });
   }
 
   /**
@@ -41,7 +38,6 @@ export default class DropdownItem {
       return this._el;
     }
     const li = document.createElement('li');
-    li.id = this.id;
     li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME;
     const a = document.createElement('a');
     a.innerHTML = this.searchResult.render();

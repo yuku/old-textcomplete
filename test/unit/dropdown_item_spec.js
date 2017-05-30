@@ -13,13 +13,6 @@ describe('DropdownItem', function () {
     dropdownItem = createDropdownItem(dropdown);
   });
 
-  describe('#el', function () {
-    it('should be a HTMLLIElement with same id', function () {
-      assert(dropdownItem.el instanceof document.defaultView.HTMLLIElement);
-      assert.equal(dropdownItem.el.id, dropdownItem.id);
-    });
-  });
-
   describe('#activate', function () {
     it('should change #active to true', function () {
       dropdownItem.active = false;

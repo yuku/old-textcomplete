@@ -1,6 +1,5 @@
 // @flow
 
-import bindAll from 'lodash.bindall';
 import EventEmitter from 'events';
 
 import Strategy from './strategy';
@@ -18,7 +17,9 @@ export default class Completer extends EventEmitter {
     super();
     this.strategies = [];
 
-    bindAll(this, CALLBACK_METHODS);
+    CALLBACK_METHODS.forEach((method) => {
+      (this: any)[method] = (this: any)[method].bind(this);
+    });
   }
 
   /**
