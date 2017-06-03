@@ -74,12 +74,27 @@ export function createFragment(tagString: string): DocumentFragment {
 /**
  * Create a custom event
  */
-export function createCustomEvent(type: string, options: ?{ detail?: Object; cancelable?: boolean; }): CustomEvent {
-  return new document.defaultView.CustomEvent(type, {
-    cancelable: options && options.cancelable || false,
-    detail: options && options.detail || undefined,
-  });
-}
+export const createCustomEvent = (() => {
+  if (typeof window.CustomEvent === 'function') {
+    return function (type: string, options: ?{ detail?: Object; cancelable?: boolean; }): CustomEvent {
+      return new document.defaultView.CustomEvent(type, {
+        cancelable: options && options.cancelable || false,
+        detail: options && options.detail || undefined,
+      });
+    };
+  } else {
+    // Custom event polyfill from
+    // https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent#polyfill
+    return function (type: string, options: ?{ detail?: Object; cancelable?: boolean; }): CustomEvent {
+      const event = document.createEvent('CustomEvent');
+      event.initCustomEvent(type,
+        /* bubbles */ false,
+        options && options.cancelable || false,
+        options && options.detail || undefined);
+      return event;
+    };
+  }
+})();
 
 /**
  * Get the current coordinates of the `el` relative to the document.
