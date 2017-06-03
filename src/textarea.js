@@ -38,7 +38,8 @@ export default class Textarea extends Editor {
   finalize() {
     super.finalize();
     this.stopListening();
-    delete this.el;
+    // Release the element reference early to help garbage collection.
+    (this: any).el = null;
     return this;
   }
 
