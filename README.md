@@ -68,7 +68,7 @@ Now, the `textcomplete` listens keyboard event on the `editor` and render autoco
 
  Chrome  | Firefox  | Internet Explorer |  Opera  | Safari
 :-------:|:--------:|:-----------------:|:-------:|:-------:
- Current | Current  |        9+         | Current | Current
+ Current | Current  |       10+         | Current | Current
 
 ## Install
 

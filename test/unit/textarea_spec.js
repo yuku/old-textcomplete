@@ -112,25 +112,6 @@ describe('Textarea', function () {
         });
       });
     });
-
-    context('when it is on IE9', function () {
-      beforeEach(function () {
-        textarea.isIE9 = true;
-      });
-
-      context('and it is a backspace key', function () {
-        beforeEach(function () {
-          event.keyCode = 8;
-        });
-
-        it('should emit a change event', function () {
-          const spy = this.sinon.spy();
-          textarea.on('change', spy);
-          subject();
-          assert(spy.calledOnce);
-        });
-      });
-    });
   });
 
   describe('#applySearchResult', function () {

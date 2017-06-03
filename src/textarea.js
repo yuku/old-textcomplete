@@ -1,14 +1,14 @@
 // @flow
 
 import Editor from './editor';
-import {calculateElementOffset, getIEVersion} from './utils';
+import {calculateElementOffset} from './utils';
 import SearchResult from './search_result';
 
 import getLineHeight from 'line-height';
 
 const getCaretCoordinates = require('textarea-caret');
 
-const CALLBACK_METHODS = ['onInput', 'onKeydown', 'onKeyup'];
+const CALLBACK_METHODS = ['onInput', 'onKeydown'];
 
 /**
  * Encapsulate the target textarea element.
@@ -18,7 +18,6 @@ const CALLBACK_METHODS = ['onInput', 'onKeydown', 'onKeyup'];
  */
 export default class Textarea extends Editor {
   el: HTMLTextAreaElement;
-  isIE9: boolean;
 
   /**
    * @param {HTMLTextAreaElement} el
@@ -26,7 +25,6 @@ export default class Textarea extends Editor {
   constructor(el: HTMLTextAreaElement) {
     super();
     this.el = el;
-    this.isIE9 = getIEVersion() === 9;
 
     CALLBACK_METHODS.forEach((method) => {
       (this: any)[method] = (this: any)[method].bind(this);
@@ -132,25 +130,10 @@ export default class Textarea extends Editor {
 
   /**
    * @private
-   * @fires Editor#change
-   * @param {KeyboardEvent} e
-   */
-  onKeyup(e: KeyboardEvent) {
-    const code = this.getCode(e);
-    // IE 9 does not fire an input event when the user deletes characters from an input.
-    // https://developer.mozilla.org/en-US/docs/Web/Events/input#Browser_compatibility
-    if (code === 'BS' && this.isIE9) {
-      this.emitChangeEvent();
-    }
-  }
-
-  /**
-   * @private
    */
   startListening() {
     this.el.addEventListener('input', this.onInput);
     this.el.addEventListener('keydown', this.onKeydown);
-    this.el.addEventListener('keyup', this.onKeyup);
   }
 
   /**
@@ -159,6 +142,5 @@ export default class Textarea extends Editor {
   stopListening() {
     this.el.removeEventListener('input', this.onInput);
     this.el.removeEventListener('keydown', this.onKeydown);
-    this.el.removeEventListener('keyup', this.onKeyup);
   }
 }
