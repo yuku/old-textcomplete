@@ -2,7 +2,7 @@
 
 import DropdownItem from './dropdown_item';
 import SearchResult from './search_result';
-import {createFragment, createCustomEvent} from './utils';
+import {createCustomEvent} from './utils';
 import EventEmitter from 'events';
 
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
@@ -398,8 +398,10 @@ export default class Dropdown extends EventEmitter {
   renderEdge(rawResults: Object[], type: 'header' | 'footer') {
     const source = type === 'header' ? this.header : this.footer;
     const content: any = typeof source === 'function' ? source(rawResults) : source;
-    const fragment = createFragment(`<li class="textcomplete-${type}">${content}</li>`);
-    this.el.appendChild(fragment);
+    const li = document.createElement('li');
+    li.classList.add(`textcomplete-${type}`);
+    li.innerHTML = content;
+    this.el.appendChild(li);
     return this;
   }
 
