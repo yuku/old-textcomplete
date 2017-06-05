@@ -4,7 +4,6 @@ import Editor from './editor';
 import {calculateElementOffset, getIEVersion} from './utils';
 import SearchResult from './search_result';
 
-import bindAll from 'lodash.bindall';
 import getLineHeight from 'line-height';
 
 const getCaretCoordinates = require('textarea-caret');
@@ -29,7 +28,9 @@ export default class Textarea extends Editor {
     this.el = el;
     this.isIE9 = getIEVersion() === 9;
 
-    bindAll(this, CALLBACK_METHODS);
+    CALLBACK_METHODS.forEach((method) => {
+      (this: any)[method] = (this: any)[method].bind(this);
+    });
 
     this.startListening();
   }

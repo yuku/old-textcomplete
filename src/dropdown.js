@@ -3,9 +3,6 @@
 import DropdownItem from './dropdown_item';
 import SearchResult from './search_result';
 import {createFragment, createCustomEvent} from './utils';
-
-import extend from 'lodash.assignin';
-import uniqueId from 'lodash.uniqueid';
 import EventEmitter from 'events';
 
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
@@ -116,12 +113,10 @@ export default class Dropdown extends EventEmitter {
    */
   static createElement() {
     const el = document.createElement('ul');
-    el.id = uniqueId('textcomplete-dropdown-');
-    extend(el.style, {
-      display: 'none',
-      position: 'absolute',
-      zIndex: 10000,
-    });
+    const style = el.style;
+    style.display = 'none';
+    style.position = 'absolute';
+    style.zIndex = '10000';
     const body = document.body;
     if (body) {
       body.appendChild(el);
@@ -149,7 +144,9 @@ export default class Dropdown extends EventEmitter {
     this.rotate = rotate;
     this.placement = placement;
     if (style) {
-      extend(this.el.style, style);
+      Object.keys(style).forEach((key) => {
+        (this.el.style: any)[key] = (style: any)[key];
+      });
     }
   }
 
