@@ -7,7 +7,6 @@ import Strategy, {type Properties} from './strategy';
 import SearchResult from './search_result';
 import {lock} from './utils';
 
-import bindAll from 'lodash.bindall';
 import EventEmitter from 'events';
 
 const CALLBACK_METHODS = [
@@ -55,7 +54,9 @@ export default class Textcomplete extends EventEmitter {
     this.editor = editor;
     this.options = options;
 
-    bindAll(this, CALLBACK_METHODS);
+    CALLBACK_METHODS.forEach((method) => {
+      (this: any)[method] = (this: any)[method].bind(this);
+    });
 
     this.lockableTrigger = lock(function (free, text) {
       this.free = free;
