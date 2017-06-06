@@ -57,21 +57,6 @@ export function lock(func: (Function, any) => any): Function {
 }
 
 /**
- * Create a document fragment by the given HTML string.
- */
-export function createFragment(tagString: string): DocumentFragment {
-  // TODO Imprement with Range#createContextualFragment when it drops IE9 support.
-  const div = document.createElement('div');
-  div.innerHTML = tagString;
-  const childNodes = div.childNodes;
-  const fragment = document.createDocumentFragment();
-  for (let i = 0, l = childNodes.length; i < l; i++) {
-    fragment.appendChild(childNodes[i]);
-  }
-  return fragment;
-}
-
-/**
  * Create a custom event
  */
 export function createCustomEvent(type: string, options: ?{ detail?: Object; cancelable?: boolean; }): CustomEvent {
