@@ -79,11 +79,3 @@ export function calculateElementOffset(el: HTMLElement): { top: number; left: nu
   }
   return offset;
 }
-
-/**
- * Returns IE version if it is IE; otherwise null.
- */
-export function getIEVersion(): ?number {
-  const nav = navigator.userAgent.toLowerCase();
-  return (nav.indexOf('msie') !== -1) ? parseInt(nav.split('msie')[1], 10) : null;
-}
