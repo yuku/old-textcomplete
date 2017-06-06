@@ -5,7 +5,6 @@ import Editor from './editor';
 import Dropdown from './dropdown';
 import Strategy, {type Properties} from './strategy';
 import SearchResult from './search_result';
-import {lock} from './utils';
 
 import EventEmitter from 'events';
 
@@ -35,12 +34,12 @@ const CALLBACK_METHODS = [
  * @tutorial getting-started
  */
 export default class Textcomplete extends EventEmitter {
-  free: ?Function;
-  lockableTrigger: Function;
   dropdown: Dropdown;
   editor: Editor;
   options: any;
   completer: Completer;
+  isQueryInFlight: boolean;
+  nextPendingQuery: string | null;
 
   /**
    * @param {Editor} editor - Where the textcomplete works on.
@@ -50,17 +49,14 @@ export default class Textcomplete extends EventEmitter {
     super();
 
     this.completer = new Completer();
+    this.isQueryInFlight = false;
+    this.nextPendingQuery = null;
     this.dropdown = new Dropdown(options.dropdown || {});
     this.editor = editor;
     this.options = options;
 
     CALLBACK_METHODS.forEach((method) => {
       (this: any)[method] = (this: any)[method].bind(this);
-    });
-
-    this.lockableTrigger = lock(function (free, text) {
-      this.free = free;
-      this.completer.run(text);
     });
 
     this.startListening();
@@ -114,22 +110,13 @@ export default class Textcomplete extends EventEmitter {
    * @listens Editor#change
    */
   trigger(text: string) {
-    this.lockableTrigger(text);
-    return this;
-  }
-
-  /**
-   * Unlock trigger method.
-   *
-   * @private
-   * @returns {this}
-   */
-  unlock() {
-    // Calling free function may assign a new function to `this.free`.
-    // It depends on whether extra function call was made or not.
-    const free = this.free;
-    this.free = null;
-    if (typeof free === 'function') { free(); }
+    if (this.isQueryInFlight) {
+      this.nextPendingQuery = text;
+    } else {
+      this.isQueryInFlight = true;
+      this.nextPendingQuery = null;
+      this.completer.run(text);
+    }
     return this;
   }
 
@@ -144,7 +131,10 @@ export default class Textcomplete extends EventEmitter {
     } else {
       this.dropdown.deactivate();
     }
-    this.unlock();
+    this.isQueryInFlight = false;
+    if (this.nextPendingQuery !== null) {
+      this.trigger(this.nextPendingQuery);
+    }
   }
 
   /**

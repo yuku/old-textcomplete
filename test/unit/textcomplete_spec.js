@@ -82,7 +82,7 @@ describe('Textcomplete', function () {
       assert(stub.calledOnce);
     });
 
-    it('should call #completer.run exclusvely', function () {
+    it('should call #completer.run exclusively', function () {
       var stub = this.sinon.stub(textcomplete.completer, 'run');
 
       textcomplete.trigger('a');
@@ -90,11 +90,12 @@ describe('Textcomplete', function () {
       assert(stub.calledOnce);
       assert(stub.calledWith('a'));
 
-      textcomplete.unlock();
+      textcomplete.handleHit({searchResults: []});
       assert(stub.calledTwice); // Replay
       assert(stub.calledWith('b'));
 
-      textcomplete.unlock().trigger('c');
+      textcomplete.handleHit({searchResults: []});
+      textcomplete.trigger('c');
       assert(stub.calledThrice);
       assert(stub.calledWith('c'));
 
