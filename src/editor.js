@@ -5,12 +5,7 @@ import SearchResult from './search_result';
 
 import EventEmitter from 'events';
 
-export const ENTER = 'ENTER';
-export const UP = 'UP';
-export const DOWN = 'DOWN';
-export const OTHER = 'OTHER';
-export const BS = 'BS';
-export const ESC = 'ESC';
+type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS';
 
 /**
  * @event Editor#move
@@ -140,7 +135,7 @@ export default class Editor extends EventEmitter {
    * @returns {Editor#esc}
    */
   emitEscEvent() {
-    var escEvent = createCustomEvent('esc', { cancelable: true });
+    const escEvent = createCustomEvent('esc', { cancelable: true });
     this.emit('esc', escEvent);
     return escEvent;
   }
@@ -148,17 +143,17 @@ export default class Editor extends EventEmitter {
   /**
    * @private
    * @param {KeyboardEvent} e
-   * @returns {ENTER|UP|DOWN|OTHER|BS}
+   * @returns {KeyCode}
    */
-  getCode(e: KeyboardEvent): 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'ESC' | 'BS' {
-    return e.keyCode === 8 ? BS // backspace
-         : e.keyCode === 9 ? ENTER // tab
-         : e.keyCode === 13 ? ENTER // enter
-         : e.keyCode === 27 ? ESC // esc
-         : e.keyCode === 38 ? UP // up
-         : e.keyCode === 40 ? DOWN // down
-         : e.keyCode === 78 && e.ctrlKey ? DOWN // ctrl-n
-         : e.keyCode === 80 && e.ctrlKey ? UP // ctrl-p
-         : OTHER;
+  getCode(e: KeyboardEvent): KeyCode {
+    return e.keyCode === 8 ? 'BS' // backspace
+         : e.keyCode === 9 ? 'ENTER' // tab
+         : e.keyCode === 13 ? 'ENTER' // enter
+         : e.keyCode === 27 ? 'ESC' // esc
+         : e.keyCode === 38 ? 'UP' // up
+         : e.keyCode === 40 ? 'DOWN' // down
+         : e.keyCode === 78 && e.ctrlKey ? 'DOWN' // ctrl-n
+         : e.keyCode === 80 && e.ctrlKey ? 'UP' // ctrl-p
+         : 'OTHER';
   }
 }
