@@ -5,7 +5,8 @@
   "main": "lib/textcomplete.js",
   "scripts": {
     "build": "yarn run clean && run-p build:*",
-    "build:dist": "webpack && uglifyjs dist/textcomplete.js -o dist/textcomplete.min.js --source-map dist/textcomplete.min.js.map",
+    "build:dist": "webpack && uglifyjs dist/textcomplete.js -o dist/textcomplete.min.js --source-map dist/textcomplete.min.js.map && run-p print-dist-gz-size",
+    "print-dist-gz-size": "printf 'dist/textcomplete.min.js.gz: %d bytes\\n' \"$(gzip -9kc dist/textcomplete.min.js | wc --bytes)\"",
     "build:lib": "babel src -d lib -s",
     "clean": "rm -fr dist lib",
     "gh-release": "yarn pack textcomplete && gh-release -a textcomplete-$(cat package.json|jq -r .version).tgz",
