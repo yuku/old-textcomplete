@@ -1,10 +1,8 @@
 // @flow
 
 import Editor from './editor';
-import {calculateElementOffset} from './utils';
+import {calculateElementOffset, getLineHeightPx} from './utils';
 import SearchResult from './search_result';
-
-import getLineHeight from 'line-height';
 
 const getCaretCoordinates = require('textarea-caret');
 
@@ -59,7 +57,7 @@ export default class Textarea extends Editor {
     const elOffset = calculateElementOffset(this.el);
     const elScroll = this.getElScroll();
     const cursorPosition = this.getCursorPosition();
-    const lineHeight = getLineHeight(this.el);
+    const lineHeight = getLineHeightPx(this.el);
     const top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight;
     const left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {

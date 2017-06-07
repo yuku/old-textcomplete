@@ -94,3 +94,47 @@ export function calculateElementOffset(el: HTMLElement): { top: number; left: nu
   }
   return offset;
 }
+
+const CHAR_CODE_ZERO = '0'.charCodeAt(0);
+const CHAR_CODE_NINE = '9'.charCodeAt(0);
+
+function isDigit(charCode: number): boolean {
+  return charCode >= CHAR_CODE_ZERO && charCode <= CHAR_CODE_NINE;
+}
+
+/**
+ * Returns the line-height of the given node in pixels.
+ */
+export function getLineHeightPx(node: HTMLElement): number {
+  const computedStyle = window.getComputedStyle(node);
+
+  // If the char code starts with a digit, it is either a value in pixels,
+  // or unitless, as per:
+  // https://drafts.csswg.org/css2/visudet.html#propdef-line-height
+  // https://drafts.csswg.org/css2/cascade.html#computed-value
+  if (isDigit(computedStyle.lineHeight.charCodeAt(0))) {
+    // In real browsers the value is *always* in pixels, even for unit-less
+    // line-heights. However, we still check as per the spec.
+    if (isDigit(computedStyle.lineHeight.charCodeAt(computedStyle.lineHeight.length - 1))) {
+      return parseFloat(computedStyle.lineHeight, 10);
+    } else {
+      return parseFloat(computedStyle.lineHeight, 10) * parseFloat(computedStyle.fontSize, 10);
+    }
+  }
+
+  // Otherwise, the value is "normal".
+  // If the line-height is "normal", calculate by font-size
+  const body = document.body;
+  if (!body) {
+    return 0;
+  }
+  const tempNode = document.createElement(node.nodeName);
+  tempNode.innerHTML = '&nbsp;';
+  tempNode.style.fontSize = computedStyle.fontSize;
+  tempNode.style.fontFamily = computedStyle.fontFamily;
+  body.appendChild(tempNode);
+  // Assume the height of the element is the line-height
+  const height = tempNode.offsetHeight;
+  body.removeChild(tempNode);
+  return height;
+}

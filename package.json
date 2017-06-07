@@ -62,7 +62,6 @@
   },
   "dependencies": {
     "events": "^1.1.0",
-    "line-height": "^0.1.1",
     "textarea-caret": "^3.0.1"
   },
   "babel": {
