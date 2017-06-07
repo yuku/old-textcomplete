@@ -54,7 +54,7 @@ export default class DropdownItem {
    *
    * @public
    */
-  finalize() {
+  destroy() {
     this.el.removeEventListener('mousedown', this.onClick, false);
     this.el.removeEventListener('mouseover', this.onMouseover, false);
     this.el.removeEventListener('touchstart', this.onClick, false);

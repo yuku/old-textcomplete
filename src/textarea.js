@@ -32,8 +32,8 @@ export default class Textarea extends Editor {
   }
 
   /** @override */
-  finalize() {
-    super.finalize();
+  destroy() {
+    super.destroy();
     this.stopListening();
     // Release the element reference early to help garbage collection.
     (this: any).el = null;

@@ -153,7 +153,7 @@ export default class Dropdown extends EventEmitter {
   /**
    * @returns {this}
    */
-  finalize() {
+  destroy() {
     const parentNode = this.el.parentNode;
     if (parentNode) {
       parentNode.removeChild(this.el);
@@ -348,7 +348,7 @@ export default class Dropdown extends EventEmitter {
    */
   clear() {
     this.el.innerHTML = '';
-    this.items.forEach(item => item.finalize());
+    this.items.forEach(item => item.destroy());
     this.items = [];
     return this;
   }
