@@ -187,13 +187,10 @@ export default class Dropdown extends EventEmitter {
     if (renderEvent.defaultPrevented) {
       return this;
     }
-    const rawResults = [], dropdownItems = [];
-    searchResults.forEach(searchResult => {
-      rawResults.push(searchResult.data);
-      if (typeof this.maxCount === 'number' && dropdownItems.length < this.maxCount) {
-        dropdownItems.push(new DropdownItem(searchResult));
-      }
-    });
+    const rawResults = searchResults.map(searchResult => searchResult.data);
+    const dropdownItems = searchResults
+      .slice(0, this.maxCount || searchResults.length)
+      .map(searchResult => new DropdownItem(searchResult));
     this.clear()
         .setStrategyId(searchResults[0])
         .renderEdge(rawResults, 'header')

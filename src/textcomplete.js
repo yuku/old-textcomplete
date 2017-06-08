@@ -204,15 +204,6 @@ export default class Textcomplete extends EventEmitter {
 
   /**
    * @private
-   * @param {string} eventName
-   * @returns {function}
-   */
-  buildHandler(eventName: string) {
-    return () => this.emit(eventName);
-  }
-
-  /**
-   * @private
    */
   startListening() {
     this.editor.on('move', this.handleMove)
@@ -220,9 +211,10 @@ export default class Textcomplete extends EventEmitter {
                .on('esc', this.handleEsc)
                .on('change', this.handleChange);
     this.dropdown.on('select', this.handleSelect);
-    ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide'].forEach(eventName => {
-      this.dropdown.on(eventName, this.buildHandler(eventName));
-    });
+    ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide']
+      .forEach(eventName => {
+        this.dropdown.on(eventName, () => this.emit(eventName));
+      });
     this.completer.on('hit', this.handleHit);
   }
 

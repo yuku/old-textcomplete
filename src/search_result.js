@@ -23,7 +23,7 @@ export default class SearchResult {
    */
   replace(beforeCursor: string, afterCursor: string) {
     let replacement = this.strategy.replace(this.data);
-    if (replacement != null) {
+    if (replacement !== null) {
       if (Array.isArray(replacement)) {
         afterCursor = replacement[1] + afterCursor;
         replacement = replacement[0];

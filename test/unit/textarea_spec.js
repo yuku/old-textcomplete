@@ -1,6 +1,5 @@
 require('../test_helper');
 
-import {UP, DOWN} from '../../src/editor';
 import {createTextarea, createSearchResult} from '../test_utils';
 import isNumber from 'lodash.isnumber';
 
@@ -26,10 +25,10 @@ describe('Textarea', function () {
     });
 
     [
-      [38, UP, false, 'up'],
-      [40, DOWN, false, 'down'],
-      [78, DOWN, true, 'ctrl-n'],
-      [80, UP, true, 'ctrl-p'],
+      [38, 'UP', false, 'up'],
+      [40, 'DOWN', false, 'down'],
+      [78, 'DOWN', true, 'ctrl-n'],
+      [80, 'UP', true, 'ctrl-p'],
     ].forEach(([keyCode, code, ctrlKey, name]) => {
       context(`and it is a ${name} key`, function () {
         beforeEach(function () {
