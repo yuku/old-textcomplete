@@ -64,14 +64,14 @@ export default class Textcomplete extends EventEmitter {
 
   /**
    * @public
-   * @param {boolean} [finalizeEditor=true]
+   * @param {boolean} [destroyEditor=true]
    * @returns {this}
    */
-  finalize(finalizeEditor: boolean = true) {
-    this.completer.finalize();
-    this.dropdown.finalize();
-    if (finalizeEditor) {
-      this.editor.finalize();
+  destroy(destroyEditor: boolean = true) {
+    this.completer.destroy();
+    this.dropdown.destroy();
+    if (destroyEditor) {
+      this.editor.destroy();
     }
     this.stopListening();
     return this;

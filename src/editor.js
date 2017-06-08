@@ -47,7 +47,7 @@ export default class Editor extends EventEmitter {
   /**
    * @returns {this}
    */
-  finalize() {
+  destroy() {
     return this;
   }
 

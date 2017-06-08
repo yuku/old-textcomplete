@@ -25,8 +25,8 @@ export default class Completer extends EventEmitter {
   /**
    * @returns {this}
    */
-  finalize() {
-    this.strategies.forEach(strategy => strategy.finalize());
+  destroy() {
+    this.strategies.forEach(strategy => strategy.destroy());
     return this;
   }
 

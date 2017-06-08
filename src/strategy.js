@@ -53,7 +53,7 @@ export default class Strategy {
   /**
    * @returns {this}
    */
-  finalize() {
+  destroy() {
     this.cache = null;
     return this;
   }

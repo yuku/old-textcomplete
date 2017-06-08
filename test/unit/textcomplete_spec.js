@@ -15,32 +15,32 @@ describe('Textcomplete', function () {
     textcomplete = new Textcomplete(editor);
   });
 
-  describe('#finalize', function () {
+  describe('#destroy', function () {
     it('should return itself', function () {
-      assert.strictEqual(textcomplete.finalize(), textcomplete);
+      assert.strictEqual(textcomplete.destroy(), textcomplete);
     });
 
     context('when true is given', function () {
       ['editor', 'completer', 'dropdown'].forEach(prop => {
-        it(`should finalize its ${prop}`, function () {
-          var stub = this.sinon.stub(textcomplete[prop], 'finalize');
-          textcomplete.finalize(true);
+        it(`should destroy its ${prop}`, function () {
+          var stub = this.sinon.stub(textcomplete[prop], 'destroy');
+          textcomplete.destroy(true);
           assert(stub.calledOnce);
         });
       });
     });
 
     context('when false is given', function () {
-      it('should not finalize its editor', function () {
-        var stub = this.sinon.stub(textcomplete.editor, 'finalize');
-        textcomplete.finalize(false);
+      it('should not destroy its editor', function () {
+        var stub = this.sinon.stub(textcomplete.editor, 'destroy');
+        textcomplete.destroy(false);
         assert(!stub.called);
       });
 
       ['completer', 'dropdown'].forEach(prop => {
-        it(`should finalize its ${prop}`, function () {
-          var stub = this.sinon.stub(textcomplete[prop], 'finalize');
-          textcomplete.finalize(false);
+        it(`should destroy its ${prop}`, function () {
+          var stub = this.sinon.stub(textcomplete[prop], 'destroy');
+          textcomplete.destroy(false);
           assert(stub.calledOnce);
         });
       });
