@@ -2,7 +2,7 @@ require('../test_helper');
 
 import Editor from '../../src/editor';
 import {createSearchResult} from '../test_utils';
-import {EventEmitter} from 'events';
+import {EventEmitter} from 'eventemitter3';
 
 const assert = require('power-assert');
 

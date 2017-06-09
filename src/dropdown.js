@@ -3,7 +3,7 @@
 import DropdownItem from './dropdown_item';
 import SearchResult from './search_result';
 import {createCustomEvent} from './utils';
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 

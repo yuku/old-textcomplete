@@ -1,6 +1,6 @@
 // @flow
 
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 import Strategy from './strategy';
 import SearchResult from './search_result';

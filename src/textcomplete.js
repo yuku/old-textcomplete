@@ -6,7 +6,7 @@ import Dropdown from './dropdown';
 import Strategy, {type Properties} from './strategy';
 import SearchResult from './search_result';
 
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 const CALLBACK_METHODS = [
   'handleChange',

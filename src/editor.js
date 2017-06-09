@@ -3,7 +3,7 @@
 import {createCustomEvent} from './utils';
 import SearchResult from './search_result';
 
-import EventEmitter from 'events';
+import EventEmitter from 'eventemitter3';
 
 type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS';
 
