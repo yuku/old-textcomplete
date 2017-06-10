@@ -393,7 +393,7 @@ export default class Dropdown extends EventEmitter {
    * @returns {this}
    */
   renderEdge(rawResults: Object[], type: 'header' | 'footer') {
-    const source = type === 'header' ? this.header : this.footer;
+    const source = (type === 'header' ? this.header : this.footer) || '';
     const content: any = typeof source === 'function' ? source(rawResults) : source;
     const li = document.createElement('li');
     li.classList.add(`textcomplete-${type}`);
