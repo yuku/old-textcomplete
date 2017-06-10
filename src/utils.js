@@ -60,9 +60,9 @@ export function getLineHeightPx(node: HTMLElement): number {
     // In real browsers the value is *always* in pixels, even for unit-less
     // line-heights. However, we still check as per the spec.
     if (isDigit(computedStyle.lineHeight.charCodeAt(computedStyle.lineHeight.length - 1))) {
-      return parseFloat(computedStyle.lineHeight, 10);
-    } else {
       return parseFloat(computedStyle.lineHeight, 10) * parseFloat(computedStyle.fontSize, 10);
+    } else {
+      return parseFloat(computedStyle.lineHeight, 10);
     }
   }
 
