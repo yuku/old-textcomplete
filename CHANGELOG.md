@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## [0.9.1] - 2016-06-10
+### Fixed
+- Fix incorrect line height computation.
+
 ## [0.9.0] - 2016-06-08
 ### Changed
 - `Dropdown~Offset` must have "lineHeight" property.
