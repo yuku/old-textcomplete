@@ -12,3 +12,7 @@ select     | {@link Dropdown#event:select}   | This event is fired immediately w
 selected   | {@link Dropdown#event:selected} | This event is fired when the selected dropdown item was applied to the editor (will wait for CSS transitions to complete).
 hide       | {@link Dropdown#event:hide}     | This event is fired immediately when the dropdown is going to be hidden.
 hidden     | {@link Dropdown#event:hidden}   | This event is fired when the dropdown has finished being hidden from the user (will wait for CSS transitions to complete).
+
+
+The native `input` event is dispatched to the textarea element when its value
+is changed because a search result has been selected.

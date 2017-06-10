@@ -161,6 +161,15 @@ describe('Textarea', function () {
         assert.equal(textarea.el.selectionStart, 'before'.length);
         assert.equal(textarea.el.selectionEnd, 'before'.length);
       });
+
+      it('should trigger a change event on #el', function () {
+        var changeTriggered = false;
+        textarea.el.addEventListener('input', function () {
+          changeTriggered = true;
+        });
+        textarea.applySearchResult(searchResult);
+        assert(changeTriggered);
+      });
     });
   });
 
