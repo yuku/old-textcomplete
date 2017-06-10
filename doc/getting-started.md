@@ -62,5 +62,14 @@ textcomplete.register([{
 }]);
 ```
 
+You can also pass `index` to specify the match group to use as the query.
+The default value is `2`.
+
+The `match` strategy argument can also be a function that returns an
+Array of strings with the `index` property, with the same semantics as
+the return type of [`String#match`].
+
 Now, the `textcomplete` listens keyboard event on the `editor` and render autocomplete dropdown
 when one of the registered strategy matches to the current `editor`'s value.
+
+[`String#match`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/match

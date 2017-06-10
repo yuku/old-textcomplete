@@ -28,7 +28,18 @@ export default class SearchResult {
         afterCursor = replacement[1] + afterCursor;
         replacement = replacement[0];
       }
-      return [beforeCursor.replace(this.strategy.match, replacement), afterCursor];
+      const match = this.strategy.matchText(beforeCursor);
+      replacement = replacement
+        .replace(/\$&/g, match[0])
+        .replace(/\$(\d+)/g, (_, p1) => match[parseInt(p1, 10)]);
+      return [
+        [
+          beforeCursor.slice(0, match.index),
+          replacement,
+          beforeCursor.slice(match.index + match[0].length),
+        ].join(''),
+        afterCursor,
+      ];
     }
   }
 

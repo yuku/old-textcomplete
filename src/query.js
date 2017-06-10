@@ -2,20 +2,26 @@
 
 import SearchResult from './search_result';
 
+declare class MatchData extends Array<string> {
+  index: number;
+}
+
+export type { MatchData };
+
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
  */
 export default class Query {
   strategy: any;
   term: string;
-  match: string[];
+  match: MatchData;
 
   /**
    * @param {Strategy} strategy
    * @param {string} term
-   * @param {string[]} match
+   * @param {MatchData} match
    */
-  constructor(strategy: any, term: string, match: string[]) {
+  constructor(strategy: any, term: string, match: MatchData) {
     this.strategy = strategy;
     this.term = term;
     this.match = match;
