@@ -1,3 +1,5 @@
+require('./main.css');
+
 import Textcomplete from '../textcomplete';
 import Textarea from '../textarea';
 import hljs from 'highlight.js';

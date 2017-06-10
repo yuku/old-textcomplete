@@ -1,12 +1,8 @@
 @import "../../node_modules/getbase/dist/style.css";
 @import "../../node_modules/highlight.js/styles/solarized-dark.css";
 
-:root {
-  --height: 18px;
-}
-
 textarea {
-  font-size: var(--height);
+  font-size: 18px;
 }
 
 .dropdown-menu {
@@ -15,35 +11,36 @@ textarea {
   list-style: none;
   margin: 0;
   padding: 0;
-  & li {
-    border-top: 1px solid #ddd;
-    padding: 2px 5px;
-    margin: 0;
-  }
+}
 
-  & li:first-child {
-    border-top: none;
-  }
+.dropdown-menu li {
+  border-top: 1px solid #ddd;
+  padding: 2px 5px;
+  margin: 0;
+}
 
-  & li:hover,
-  & .active {
-    background-color: rgb(110, 183, 219);
-  }
+.dropdown-menu li:first-child {
+  border-top: none;
+}
 
-  & a {
-    height: var(--height);
-    text-decoration: none;
-    color: #555;
-  }
+.dropdown-menu li:hover,
+.dropdown-menu .active {
+  background-color: rgb(110, 183, 219);
+}
 
-  & a:hover {
-    cursor: pointer;
-  }
+.dropdown-menu a {
+  height: 18px;
+  text-decoration: none;
+  color: #555;
+}
 
-  & img {
-    vertical-align: text-top;
-    height: var(--height);
-  }
+.dropdown-menu a:hover {
+  cursor: pointer;
+}
+
+.dropdown-menu img {
+  vertical-align: text-top;
+  height: 18px;
 }
 
 .editor {
