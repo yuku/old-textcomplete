@@ -1,4 +1,5 @@
 /* eslint-env node */
+/* eslint-disable camelcase */
 
 const path = require('path');
 const webpack = require('webpack');
