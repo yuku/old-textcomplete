@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Remove unused parameter.
 
 ## [0.12.0] - 2017-06-12
 ### Added
