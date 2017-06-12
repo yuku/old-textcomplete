@@ -10,11 +10,11 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ### Added
 - Npm package contains .flow files.
 
-## [0.11.0] - 2016-06-12
+## [0.11.0] - 2017-06-12
 ### Changed
 - Accept a fuction that returns match data as `match` option.
 
-## [0.10.0] - 2016-06-10
+## [0.10.0] - 2017-06-10
 Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! Great job, [@glebm]!
 
 ### Added
@@ -23,11 +23,11 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Fixed
 - Fix "undefined" appearing in the list. (thanks for [@glebm])
 
-## [0.9.1] - 2016-06-10
+## [0.9.1] - 2017-06-10
 ### Fixed
 - Fix incorrect line height computation. (thanks for [@glebm])
 
-## [0.9.0] - 2016-06-08
+## [0.9.0] - 2017-06-08
 ### Changed
 - `Dropdown~Offset` must have "lineHeight" property.
 - Drop IE9 support. (thanks for [@glebm])
@@ -136,7 +136,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.10.0...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.11.0...HEAD
+[0.11.0]: https://github.com/yuku-t/textcomplete/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/yuku-t/textcomplete/compare/v0.9.1...v0.10.0
 [0.9.1]: https://github.com/yuku-t/textcomplete/compare/v0.9.0...v0.9.1
 [0.9.0]: https://github.com/yuku-t/textcomplete/compare/v0.8.0...v0.9.0
