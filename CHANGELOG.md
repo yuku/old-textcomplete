@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## [0.11.0] - 2016-06-12
+### Changed
+- Accept a fuction that returns match data as `match` option.
+
 ## [0.10.0] - 2016-06-10
 Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! Great job, [@glebm]!
 
