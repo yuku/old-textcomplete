@@ -39,7 +39,7 @@
     "eslint": "^3.18.0",
     "eslint-plugin-flowtype": "^2.30.4",
     "extract-text-webpack-plugin": "^2.1.2",
-    "flow-bin": "^0.42.0",
+    "flow-bin": "^0.47.0",
     "getbase": "^2.8.2",
     "gh-release": "^2.0.2",
     "highlight.js": "^9.2.0",
