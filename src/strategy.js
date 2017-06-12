@@ -1,6 +1,7 @@
 // @flow
 
 import Query from './query';
+import type {MatchData} from './query';
 
 const DEFAULT_INDEX = 2;
 
@@ -9,7 +10,7 @@ function DEFAULT_TEMPLATE(value) {
 }
 
 export type Properties = {
-  match: RegExp | (string) => RegExp;
+  match: RegExp | (string) => MatchData | null;
   search: Function;
   replace: (any) => string[] | string | null;
   cache?: boolean;
@@ -23,7 +24,7 @@ export type Properties = {
  * Properties for a strategy.
  *
  * @typedef {Object} Strategy~Properties
- * @prop {regexp|function} match - If it is a function, it must return a RegExp.
+ * @prop {regexp|function} match - If it is a function, it must return MatchData.
  * @prop {function} search
  * @prop {function} replace
  * @prop {boolean} [cache]
@@ -73,16 +74,16 @@ export default class Strategy {
         return null;
       }
     }
-    const match = text.match(this.getMatchRegexp(text));
+    const match = this.matchText(text);
     return match ? new Query(this, match[this.index], match) : null;
   }
 
   /**
    * @param {string} term
    * @param {function} callback
-   * @param {string[]} match
+   * @param {MatchData} match
    */
-  search(term: string, callback: Function, match: string[]) {
+  search(term: string, callback: Function, match: MatchData) {
     if (this.cache) {
       this.searchWithCache(term, callback, match);
     } else {
@@ -102,9 +103,9 @@ export default class Strategy {
    * @private
    * @param {string} term
    * @param {function} callback
-   * @param {string[]} match
+   * @param {MatchData} match
    */
-  searchWithCache(term: string, callback: Function, match: string[]): void {
+  searchWithCache(term: string, callback: Function, match: MatchData): void {
     if (this.cache && this.cache[term]) {
       callback(this.cache[term]);
     } else {
@@ -118,12 +119,15 @@ export default class Strategy {
   }
 
   /**
-   * @private
    * @param {string} text
-   * @returns {RegExp}
+   * @returns {MatchData|null}
    */
-  getMatchRegexp(text: string): RegExp {
-    return typeof this.match === 'function' ? this.match(text) : this.match;
+  matchText(text: string): MatchData | null {
+    if (typeof this.match === 'function') {
+      return this.match(text);
+    } else {
+      return (text.match(this.match): any);
+    }
   }
 
   /**
@@ -139,7 +143,7 @@ export default class Strategy {
    * @returns {Number}
    */
   get index(): number {
-    return this.props.index || DEFAULT_INDEX;
+    return typeof this.props.index === 'number' ? this.props.index : DEFAULT_INDEX;
   }
 
   /**

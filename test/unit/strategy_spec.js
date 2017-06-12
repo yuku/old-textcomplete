@@ -44,7 +44,9 @@ describe('Strategy', function () {
 
     context('when match param is a function' , function () {
       beforeEach(function () {
-        strategy = new Strategy({ match: function () { return /(^|\s)@(\w+)$/; } });
+        strategy = new Strategy({
+          match: function (text) { return text.match(/(^|\s)@(\w+)$/); },
+        });
       });
 
       sharedExamples();
