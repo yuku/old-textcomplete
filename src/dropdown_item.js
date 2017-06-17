@@ -1,5 +1,6 @@
 // @flow
 
+import Dropdown from './dropdown';
 import SearchResult from './search_result';
 
 export const CLASS_NAME = 'textcomplete-item';
@@ -13,13 +14,10 @@ export default class DropdownItem {
   searchResult: SearchResult;
   active: boolean;
   siblings: DropdownItem[];
-  dropdown: any; // FIXME
+  dropdown: Dropdown;
   index: number;
-  _el: ?HTMLElement;
+  _el: ?HTMLLIElement;
 
-  /**
-   * @param {SearchResult} searchResult
-   */
   constructor(searchResult: SearchResult) {
     this.searchResult = searchResult;
     this.active = false;
@@ -29,11 +27,7 @@ export default class DropdownItem {
     });
   }
 
-  /**
-   * @public
-   * @returns {HTMLLIElement}
-   */
-  get el(): HTMLElement {
+  get el(): HTMLLIElement {
     if (this._el) {
       return this._el;
     }
@@ -51,25 +45,21 @@ export default class DropdownItem {
 
   /**
    * Try to free resources and perform other cleanup operations.
-   *
-   * @public
    */
   destroy() {
     this.el.removeEventListener('mousedown', this.onClick, false);
     this.el.removeEventListener('mouseover', this.onMouseover, false);
     this.el.removeEventListener('touchstart', this.onClick, false);
-    // This element has already been removed by `Dropdown#clear`.
+    // This element has already been removed by {@link Dropdown#clear}.
     this._el = null;
   }
 
   /**
    * Callbacked when it is appended to a dropdown.
    *
-   * @public
-   * @param {Dropdown} dropdown
    * @see Dropdown#append
    */
-  appended(dropdown: any) { // FIXME
+  appended(dropdown: Dropdown) {
     this.dropdown = dropdown;
     this.siblings = dropdown.items;
     this.index = this.siblings.length - 1;
@@ -78,8 +68,7 @@ export default class DropdownItem {
   /**
    * Deactivate active item then activate itself.
    *
-   * @public
-   * @returns {this}
+   * @return {this}
    */
   activate() {
     if (!this.active) {
@@ -95,9 +84,6 @@ export default class DropdownItem {
 
   /**
    * Get the next sibling.
-   *
-   * @public
-   * @returns {?DropdownItem}
    */
   get next(): ?DropdownItem {
     let nextIndex;
@@ -114,9 +100,6 @@ export default class DropdownItem {
 
   /**
    * Get the previous sibling.
-   *
-   * @public
-   * @returns {DropdownItem}
    */
   get prev(): ?DropdownItem {
     let nextIndex;
@@ -131,10 +114,7 @@ export default class DropdownItem {
     return this.siblings[nextIndex];
   }
 
-  /**
-   * @private
-   * @returns {this}
-   */
+  /** @private */
   deactivate() {
     if (this.active) {
       this.active = false;
@@ -143,20 +123,14 @@ export default class DropdownItem {
     return this;
   }
 
-  /**
-   * @private
-   * @param {MouseEvent} e
-   */
+  /** @private */
   onClick(e: Event) {
     e.preventDefault(); // Prevent blur event
     this.dropdown.select(this);
   }
 
-  /**
-   * @private
-   * @param {MouseEvent} _e
-   */
-  onMouseover(_e: MouseEvent) {
+  /** @private */
+  onMouseover(_: MouseEvent) {
     this.activate();
   }
 }

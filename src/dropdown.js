@@ -1,117 +1,41 @@
 // @flow
+import EventEmitter from 'eventemitter3';
 
 import DropdownItem from './dropdown_item';
 import SearchResult from './search_result';
 import {createCustomEvent} from './utils';
-import EventEmitter from 'eventemitter3';
+import type {CursorOffset} from './editor';
 
 const DEFAULT_CLASS_NAME = 'dropdown-menu textcomplete-dropdown';
 
-type Offset = {
-  lineHeight: number;
-  top: number;
-  left?: number;
-  right?: number;
-};
-
-type Options = {
+/** @typedef */
+export type DropdownOptions = {
   className?: string;
   footer?: (any) => string | string;
   header?: (any) => string | string;
   maxCount?: number;
   placement?: string;
   rotate?: boolean;
-  style?: Object;
+  style?: { [string]: string; };
 };
-
-/**
- * @typedef {Object} Dropdown~Offset
- * @prop {number} lineHeight
- * @prop {number} top
- * @prop {number} [left] specified if ltr language
- * @prop {number} [right] specified if rtl language
- */
-
-/**
- * @typedef {Object} Dropdown~Options
- * @prop {boolean} [rotate]
- * @prop {function|string} [footer]
- * @prop {function|string} [header]
- * @prop {number} [maxCount]
- * @prop {object} [style]
- * @prop {string} [className]
- * @prop {string} [placement]
- */
-
-/**
- * @event Dropdown#render
- * @type {CustomEvent}
- * @prop {function} preventDefault
- */
-
-/**
- * @event Dropdown#rendered
- * @type {CustomEvent}
- */
-
-/**
- * @event Dropdown#select
- * @type {CustomEvent}
- * @prop {function} preventDefault
- * @prop {object} detail
- * @prop {SearchResult} detail.searchResult
- */
-
-/**
- * @event Dropdown#selected
- * @type {CustomEvent}
- * @prop {object} detail
- * @prop {SearchResult} detail.searchResult
- */
-
-/**
- * @event Dropdown#show
- * @type {CustomEvent}
- * @prop {function} preventDefault
- */
-
-/**
- * @event Dropdown#shown
- * @type {CustomEvent}
- */
-
-/**
- * @event Dropdown#hide
- * @type {CustomEvent}
- * @prop {function} preventDefault
- */
-
-/**
- * @event Dropdown#hidden
- * @type {CustomEvent}
- */
 
 /**
  * Encapsulate a dropdown view.
  *
  * @prop {boolean} shown - Whether the #el is shown or not.
  * @prop {DropdownItem[]} items - The array of rendered dropdown items.
- * @extends EventEmitter
  */
 export default class Dropdown extends EventEmitter {
   shown: boolean;
   items: DropdownItem[];
-  footer: $PropertyType<Options, 'footer'>;
-  header: $PropertyType<Options, 'header'>;
-  maxCount: $PropertyType<Options, 'maxCount'>;
-  rotate: $PropertyType<Options, 'rotate'>;
-  placement: $PropertyType<Options, 'placement'>;
-  _el: ?HTMLElement;
+  footer: $PropertyType<DropdownOptions, 'footer'>;
+  header: $PropertyType<DropdownOptions, 'header'>;
+  maxCount: $PropertyType<DropdownOptions, 'maxCount'>;
+  rotate: $PropertyType<DropdownOptions, 'rotate'>;
+  placement: $PropertyType<DropdownOptions, 'placement'>;
+  _el: ?HTMLUListElement;
 
-  /**
-   * @returns {HTMLUListElement}
-   */
-  static createElement() {
+  static createElement(): HTMLUListElement {
     const el = document.createElement('ul');
     const style = el.style;
     style.display = 'none';
@@ -124,34 +48,26 @@ export default class Dropdown extends EventEmitter {
     return el;
   }
 
-  /**
-   * @param {string} [className=DEFAULT_CLASS_NAME] - The class attribute of the el.
-   * @param {function|string} [footer]
-   * @param {function|string} [header]
-   * @param {number} [maxCount=10]
-   * @param {object} [style] - The style of the el.
-   * @param {boolean} [rotate=true]
-   * @param {string} [placement]
-   */
-  constructor({ className=DEFAULT_CLASS_NAME, footer, header, maxCount=10, placement, rotate=true, style }: Options) {
+  constructor(options: DropdownOptions) {
     super();
     this.shown = false;
     this.items = [];
-    this.footer = footer;
-    this.header = header;
-    this.maxCount = maxCount;
-    this.el.className = className;
-    this.rotate = rotate;
-    this.placement = placement;
+    this.footer = options.footer;
+    this.header = options.header;
+    this.maxCount = options.maxCount || 10;
+    this.el.className = options.className || DEFAULT_CLASS_NAME;
+    this.rotate = options.hasOwnProperty('rotate') ? options.rotate : true;
+    this.placement = options.placement;
+    const style = options.style;
     if (style) {
       Object.keys(style).forEach((key) => {
-        (this.el.style: any)[key] = (style: any)[key];
+        (this.el.style: any)[key] = style[key];
       });
     }
   }
 
   /**
-   * @returns {this}
+   * @return {this}
    */
   destroy() {
     const parentNode = this.el.parentNode;
@@ -162,10 +78,7 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 
-  /**
-   * @returns {HTMLUListElement} the dropdown element.
-   */
-  get el(): HTMLElement {
+  get el(): HTMLUListElement {
     if (!this._el) {
       this._el = Dropdown.createElement();
     }
@@ -175,13 +88,9 @@ export default class Dropdown extends EventEmitter {
   /**
    * Render the given data as dropdown items.
    *
-   * @param {SearchResult[]} searchResults
-   * @param {Dropdown~Offset} cursorOffset
-   * @returns {this}
-   * @fires Dropdown#render
-   * @fires Dropdown#rendered
+   * @return {this}
    */
-  render(searchResults: SearchResult[], cursorOffset: Offset) {
+  render(searchResults: SearchResult[], cursorOffset: CursorOffset) {
     const renderEvent = createCustomEvent('render', { cancelable: true });
     this.emit('render', renderEvent);
     if (renderEvent.defaultPrevented) {
@@ -205,16 +114,14 @@ export default class Dropdown extends EventEmitter {
   /**
    * Hide the dropdown then sweep out items.
    *
-   * @returns {this}
+   * @return {this}
    */
   deactivate() {
     return this.hide().clear();
   }
 
   /**
-   * @param {DropdownItem} dropdownItem
-   * @returns {this}
-   * @fires Dropdown#select
+   * @return {this}
    */
   select(dropdownItem: DropdownItem) {
     const detail = { searchResult: dropdownItem.searchResult };
@@ -229,16 +136,14 @@ export default class Dropdown extends EventEmitter {
   }
 
   /**
-   * @param {Editor#move} e
-   * @returns {this}
+   * @return {this}
    */
   up(e: CustomEvent) {
     return this.shown ? this.moveActiveItem('prev', e) : this;
   }
 
   /**
-   * @param {Editor#move} e
-   * @returns {this}
+   * @return {this}
    */
   down(e: CustomEvent) {
     return this.shown ? this.moveActiveItem('next', e) : this;
@@ -246,10 +151,8 @@ export default class Dropdown extends EventEmitter {
 
   /**
    * Retrieve the active item.
-   *
-   * @returns {DropdownItem|undefined}
    */
-  getActiveItem() {
+  getActiveItem(): ?DropdownItem {
     return this.items.find(item => item.active);
   }
 
@@ -257,8 +160,6 @@ export default class Dropdown extends EventEmitter {
    * Add items to dropdown.
    *
    * @private
-   * @param {DropdownItem[]} items
-   * @returns {this};
    */
   append(items: DropdownItem[]) {
     const fragment = document.createDocumentFragment();
@@ -271,12 +172,8 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 
-  /**
-   * @private
-   * @param {Dropdown~Offset} cursorOffset
-   * @returns {this}
-   */
-  setOffset(cursorOffset: Offset) {
+  /** @private */
+  setOffset(cursorOffset: CursorOffset) {
     if (cursorOffset.left) {
       this.el.style.left = `${cursorOffset.left}px`;
     } else if (cursorOffset.right) {
@@ -297,9 +194,6 @@ export default class Dropdown extends EventEmitter {
    * Show the element.
    *
    * @private
-   * @returns {this}
-   * @fires Dropdown#show
-   * @fires Dropdown#shown
    */
   show() {
     if (!this.shown) {
@@ -319,9 +213,6 @@ export default class Dropdown extends EventEmitter {
    * Hide the element.
    *
    * @private
-   * @returns {this}
-   * @fires Dropdown#hide
-   * @fires Dropdown#hidden
    */
   hide() {
     if (this.shown) {
@@ -341,7 +232,6 @@ export default class Dropdown extends EventEmitter {
    * Clear search results.
    *
    * @private
-   * @returns {this}
    */
   clear() {
     this.el.innerHTML = '';
@@ -350,13 +240,8 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 
-  /**
-   * @private
-   * @param {string} name - "next" or "prev".
-   * @param {Editor#move} e
-   * @returns {this}
-   */
-  moveActiveItem(name: string, e: CustomEvent) {
+  /** @private */
+  moveActiveItem(name: 'next' | 'prev', e: CustomEvent) {
     const activeItem: any = this.getActiveItem();
     let nextActiveItem;
     if (activeItem) {
@@ -371,11 +256,7 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 
-  /**
-   * @private
-   * @param {?SearchResult} searchResult
-   * @returns {this}
-   */
+  /** @private */
   setStrategyId(searchResult: ?SearchResult) {
     const strategyId = searchResult && searchResult.strategy.props.id;
     if (strategyId) {
@@ -389,8 +270,6 @@ export default class Dropdown extends EventEmitter {
   /**
    * @private
    * @param {object[]} rawResults - What callbacked by search function.
-   * @param {string} type - 'header' or 'footer'.
-   * @returns {this}
    */
   renderEdge(rawResults: Object[], type: 'header' | 'footer') {
     const source = (type === 'header' ? this.header : this.footer) || '';
@@ -402,10 +281,7 @@ export default class Dropdown extends EventEmitter {
     return this;
   }
 
-  /**
-   * @private
-   * @returns {boolean}
-   */
+  /** @private */
   isPlacementTop() {
     return this.placement === 'top';
   }

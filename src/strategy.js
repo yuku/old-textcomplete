@@ -9,7 +9,12 @@ function DEFAULT_TEMPLATE(value) {
   return value;
 }
 
-export type Properties = {
+/**
+ * Properties for a strategy.
+ *
+ * @typedef
+ */
+export type StrategyProperties = {
   match: RegExp | (string) => MatchData | null;
   search: Function;
   replace: (any) => string[] | string | null;
@@ -21,38 +26,19 @@ export type Properties = {
 }
 
 /**
- * Properties for a strategy.
- *
- * @typedef {Object} Strategy~Properties
- * @prop {regexp|function} match - If it is a function, it must return MatchData.
- * @prop {function} search
- * @prop {function} replace
- * @prop {boolean} [cache]
- * @prop {function} [context]
- * @prop {function} [template]
- * @prop {number} [index=2]
- * @prop {string} [id]
- */
-
-/**
  * Encapsulate a single strategy.
- *
- * @prop {Strategy~Properties} props - Its properties.
  */
 export default class Strategy {
-  props: Properties;
+  props: StrategyProperties;
   cache: ?Object;
 
-  /**
-   * @param {Strategy~Properties} props
-   */
-  constructor(props: Properties) {
+  constructor(props: StrategyProperties) {
     this.props = props;
     this.cache = props.cache ? {} : null;
   }
 
   /**
-   * @returns {this}
+   * @return {this}
    */
   destroy() {
     this.cache = null;
@@ -63,7 +49,6 @@ export default class Strategy {
    * Build a Query object by the given string if this matches to the string.
    *
    * @param {string} text - Head to input cursor.
-   * @returns {?Query}
    */
   buildQuery(text: string): ?Query {
     if (typeof this.props.context === 'function') {
@@ -78,12 +63,7 @@ export default class Strategy {
     return match ? new Query(this, match[this.index], match) : null;
   }
 
-  /**
-   * @param {string} term
-   * @param {function} callback
-   * @param {MatchData} match
-   */
-  search(term: string, callback: Function, match: MatchData) {
+  search(term: string, callback: Function, match: MatchData): void {
     if (this.cache) {
       this.searchWithCache(term, callback, match);
     } else {
@@ -93,18 +73,12 @@ export default class Strategy {
 
   /**
    * @param {object} data - An element of array callbacked by search function.
-   * @returns {string[]|string|null}
    */
   replace(data: any) {
     return this.props.replace(data);
   }
 
-  /**
-   * @private
-   * @param {string} term
-   * @param {function} callback
-   * @param {MatchData} match
-   */
+  /** @private */
   searchWithCache(term: string, callback: Function, match: MatchData): void {
     if (this.cache && this.cache[term]) {
       callback(this.cache[term]);
@@ -118,10 +92,7 @@ export default class Strategy {
     }
   }
 
-  /**
-   * @param {string} text
-   * @returns {MatchData|null}
-   */
+  /** @private */
   matchText(text: string): MatchData | null {
     if (typeof this.match === 'function') {
       return this.match(text);
@@ -130,26 +101,17 @@ export default class Strategy {
     }
   }
 
-  /**
-   * @private
-   * @returns {RegExp|Function}
-   */
-  get match(): $PropertyType<Properties, 'match'> {
+  /** @private */
+  get match(): $PropertyType<StrategyProperties, 'match'> {
     return this.props.match;
   }
 
-  /**
-   * @private
-   * @returns {Number}
-   */
+  /** @private */
   get index(): number {
     return typeof this.props.index === 'number' ? this.props.index : DEFAULT_INDEX;
   }
 
-  /**
-   * @returns {function}
-   */
-  get template(): (any) => string {
+  get template(): (...any) => string {
     return this.props.template || DEFAULT_TEMPLATE;
   }
 }

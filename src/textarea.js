@@ -10,15 +10,12 @@ const CALLBACK_METHODS = ['onInput', 'onKeydown'];
 
 /**
  * Encapsulate the target textarea element.
- *
- * @extends Editor
- * @prop {HTMLTextAreaElement} el - Where the textcomplete works on.
  */
 export default class Textarea extends Editor {
   el: HTMLTextAreaElement;
 
   /**
-   * @param {HTMLTextAreaElement} el
+   * @param {HTMLTextAreaElement} el - Where the textcomplete works on.
    */
   constructor(el: HTMLTextAreaElement) {
     super();
@@ -31,7 +28,9 @@ export default class Textarea extends Editor {
     this.startListening();
   }
 
-  /** @override */
+  /**
+   * @return {this}
+   */
   destroy() {
     super.destroy();
     this.stopListening();
@@ -41,8 +40,7 @@ export default class Textarea extends Editor {
   }
 
   /**
-   * @override
-   * @param {SearchResult} searchResult
+   * Implementation for {@link Editor#applySearchResult}
    */
   applySearchResult(searchResult: SearchResult) {
     const replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
@@ -54,6 +52,9 @@ export default class Textarea extends Editor {
     this.el.focus(); // Clicking a dropdown item removes focus from the element.
   }
 
+  /**
+   * Implementation for {@link Editor#getCursorOffset}
+   */
   getCursorOffset() {
     const elOffset = calculateElementOffset(this.el);
     const elScroll = this.getElScroll();
@@ -63,27 +64,28 @@ export default class Textarea extends Editor {
     const left = elOffset.left - elScroll.left + cursorPosition.left;
     if (this.el.dir !== 'rtl') {
       return { top, left, lineHeight };
-    } else if (document.documentElement) {
-      const right = document.documentElement.clientWidth - left;
+    } else {
+      const right = document.documentElement ? document.documentElement.clientWidth - left : 0;
       return { top, right, lineHeight };
     }
   }
 
-  /** @override */
+  /**
+   * Implementation for {@link Editor#getBeforeCursor}
+   */
   getBeforeCursor() {
     return this.el.value.substring(0, this.el.selectionEnd);
   }
 
-  /** @override */
+  /**
+   * Implementation for {@link Editor#getAfterCursor}
+   */
   getAfterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
   }
 
-  /**
-   * @private
-   * @returns {{top: number, left: number}}
-   */
-  getElScroll() {
+  /** @private */
+  getElScroll(): { top: number; left: number; } {
     return { top: this.el.scrollTop, left: this.el.scrollLeft };
   }
 
@@ -92,26 +94,17 @@ export default class Textarea extends Editor {
    * top corner.
    *
    * @private
-   * @returns {{top: number, left: number}}
    */
-  getCursorPosition() {
+  getCursorPosition(): { top: number; left: number; } {
     return getCaretCoordinates(this.el, this.el.selectionEnd);
   }
 
-  /**
-   * @private
-   * @fires Editor#change
-   * @param {InputEvent} _e
-   */
-  onInput(_e: Event) {
+  /** @private */
+  onInput(_: Event) {
     this.emitChangeEvent();
   }
 
-  /**
-   * @private
-   * @fires Editor#move
-   * @param {KeyboardEvent} e
-   */
+  /** @private */
   onKeydown(e: KeyboardEvent) {
     const code = this.getCode(e);
     let event;
@@ -127,17 +120,13 @@ export default class Textarea extends Editor {
     }
   }
 
-  /**
-   * @private
-   */
+  /** @private */
   startListening() {
     this.el.addEventListener('input', this.onInput);
     this.el.addEventListener('keydown', this.onKeydown);
   }
 
-  /**
-   * @private
-   */
+  /** @private */
   stopListening() {
     this.el.removeEventListener('input', this.onInput);
     this.el.removeEventListener('keydown', this.onKeydown);
