@@ -2,8 +2,8 @@
 
 import Completer from './completer';
 import Editor from './editor';
-import Dropdown from './dropdown';
-import Strategy, {type Properties} from './strategy';
+import Dropdown, {type DropdownOptions} from './dropdown';
+import Strategy, {type StrategyProperties} from './strategy';
 import SearchResult from './search_result';
 
 import EventEmitter from 'eventemitter3';
@@ -17,35 +17,26 @@ const CALLBACK_METHODS = [
   'handleSelect',
 ];
 
-/**
- * Options for a textcomplete.
- *
- * @typedef {Object} Textcomplete~Options
- * @prop {Dropdown~Options} dropdown
- */
+/** @typedef */
+type TextcompleteOptions = {
+  dropdown?: DropdownOptions;
+};
 
 /**
  * The core of textcomplete. It acts as a mediator.
- *
- * @prop {Completer} completer
- * @prop {Dropdown} dropdown
- * @prop {Editor} editor
- * @extends EventEmitter
- * @tutorial getting-started
  */
 export default class Textcomplete extends EventEmitter {
   dropdown: Dropdown;
   editor: Editor;
-  options: any;
+  options: TextcompleteOptions;
   completer: Completer;
   isQueryInFlight: boolean;
   nextPendingQuery: string | null;
 
   /**
    * @param {Editor} editor - Where the textcomplete works on.
-   * @param {Textcomplete~Options} options
    */
-  constructor(editor: Editor, options: any = {}) {
+  constructor(editor: Editor, options: TextcompleteOptions = {}) {
     super();
 
     this.completer = new Completer();
@@ -63,9 +54,7 @@ export default class Textcomplete extends EventEmitter {
   }
 
   /**
-   * @public
-   * @param {boolean} [destroyEditor=true]
-   * @returns {this}
+   * @return {this}
    */
   destroy(destroyEditor: boolean = true) {
     this.completer.destroy();
@@ -78,9 +67,7 @@ export default class Textcomplete extends EventEmitter {
   }
 
   /**
-   * @public
-   * @param {Strategy~Properties[]} strategyPropsArray
-   * @returns {this}
+   * @return {this}
    * @example
    * textcomplete.register([{
    *   match: /(^|\s)(\w+)$/,
@@ -94,7 +81,7 @@ export default class Textcomplete extends EventEmitter {
    *   }
    * }]);
    */
-  register(strategyPropsArray: Properties[]) {
+  register(strategyPropsArray: StrategyProperties[]) {
     strategyPropsArray.forEach(props => {
       this.completer.registerStrategy(new Strategy(props));
     });
@@ -104,10 +91,8 @@ export default class Textcomplete extends EventEmitter {
   /**
    * Start autocompleting.
    *
-   * @public
    * @param {string} text - Head to input cursor.
-   * @returns {this}
-   * @listens Editor#change
+   * @return {this}
    */
   trigger(text: string) {
     if (this.isQueryInFlight) {
@@ -120,11 +105,7 @@ export default class Textcomplete extends EventEmitter {
     return this;
   }
 
-  /**
-   * @private
-   * @param {SearchResult[]} searchResults
-   * @listens Completer#hit
-   */
+  /** @private */
   handleHit({ searchResults }: { searchResults: SearchResult[]; }) {
     if (searchResults.length) {
       this.dropdown.render(searchResults, this.editor.getCursorOffset());
@@ -137,20 +118,12 @@ export default class Textcomplete extends EventEmitter {
     }
   }
 
-  /**
-   * @private
-   * @param {Editor#move} e
-   * @listens Editor#move
-   */
+  /** @private */
   handleMove(e: CustomEvent) {
     e.detail.code === 'UP' ? this.dropdown.up(e) : this.dropdown.down(e);
   }
 
-  /**
-   * @private
-   * @param {Editor#enter} e
-   * @listens Editor#enter
-   */
+  /** @private */
   handleEnter(e: CustomEvent) {
     const activeItem = this.dropdown.getActiveItem();
     if (activeItem) {
@@ -159,11 +132,7 @@ export default class Textcomplete extends EventEmitter {
     }
   }
 
-  /**
-   * @private
-   * @param {Editor#esc} e
-   * @listens Editor#esc
-   */
+  /** @private */
   handleEsc(e: CustomEvent) {
     if (this.dropdown.shown) {
       this.dropdown.deactivate();
@@ -171,20 +140,12 @@ export default class Textcomplete extends EventEmitter {
     }
   }
 
-  /**
-   * @private
-   * @param {Editor#change} e
-   * @listens Editor#change
-   */
+  /** @private */
   handleChange(e: CustomEvent) {
     this.trigger(e.detail.beforeCursor);
   }
 
-  /**
-   * @private
-   * @param {Dropdown#select} selectEvent
-   * @listens Dropdown#select
-   */
+  /** @private */
   handleSelect(selectEvent: CustomEvent) {
     this.emit('select', selectEvent);
     if (!selectEvent.defaultPrevented) {
@@ -192,9 +153,7 @@ export default class Textcomplete extends EventEmitter {
     }
   }
 
-  /**
-   * @private
-   */
+  /** @private */
   startListening() {
     this.editor.on('move', this.handleMove)
                .on('enter', this.handleEnter)
@@ -208,9 +167,7 @@ export default class Textcomplete extends EventEmitter {
     this.completer.on('hit', this.handleHit);
   }
 
-  /**
-   * @private
-   */
+  /** @private */
   stopListening() {
     this.completer.removeAllListeners();
     this.dropdown.removeAllListeners();

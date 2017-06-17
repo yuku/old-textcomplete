@@ -2,6 +2,8 @@
 
 /**
  * Create a custom event
+ *
+ * @private
  */
 export const createCustomEvent = (() => {
   if (typeof window.CustomEvent === 'function') {
@@ -27,6 +29,8 @@ export const createCustomEvent = (() => {
 
 /**
  * Get the current coordinates of the `el` relative to the document.
+ *
+ * @private
  */
 export function calculateElementOffset(el: HTMLElement): { top: number; left: number; } {
   const rect = el.getBoundingClientRect();
@@ -48,6 +52,8 @@ function isDigit(charCode: number): boolean {
 
 /**
  * Returns the line-height of the given node in pixels.
+ *
+ * @private
  */
 export function getLineHeightPx(node: HTMLElement): number {
   const computedStyle = window.getComputedStyle(node);

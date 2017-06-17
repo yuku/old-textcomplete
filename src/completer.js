@@ -8,7 +8,7 @@ import SearchResult from './search_result';
 const CALLBACK_METHODS = ['handleQueryResult'];
 
 /**
- * @extends EventEmitter
+ * Complete engine.
  */
 export default class Completer extends EventEmitter {
   strategies: Strategy[];
@@ -23,7 +23,7 @@ export default class Completer extends EventEmitter {
   }
 
   /**
-   * @returns {this}
+   * @return {this}
    */
   destroy() {
     this.strategies.forEach(strategy => strategy.destroy());
@@ -33,9 +33,7 @@ export default class Completer extends EventEmitter {
   /**
    * Register a strategy to the completer.
    *
-   * @public
-   * @param {Strategy} strategy
-   * @returns {this}
+   * @return {this}
    */
   registerStrategy(strategy: Strategy) {
     this.strategies.push(strategy);
@@ -43,11 +41,9 @@ export default class Completer extends EventEmitter {
   }
 
   /**
-   * @public
    * @param {string} text - Head to input cursor.
-   * @fires Completer#hit
    */
-  run(text: string) {
+  run(text: string): void {
     const query = this.extractQuery(text);
     if (query) {
       query.execute(this.handleQueryResult);
@@ -60,8 +56,6 @@ export default class Completer extends EventEmitter {
    * Find a query, which matches to the given text.
    *
    * @private
-   * @param {string} text - Head to input cursor.
-   * @returns {?Query}
    */
   extractQuery(text: string) {
     for (let i = 0; i < this.strategies.length; i++) {
@@ -72,17 +66,11 @@ export default class Completer extends EventEmitter {
   }
 
   /**
-   * Callbacked by Query#execute.
+   * Callbacked by {@link Query#execute}.
    *
    * @private
-   * @param {SearchResult[]} searchResults
    */
   handleQueryResult(searchResults: SearchResult[]) {
-    /**
-     * @event Completer#hit
-     * @type {object}
-     * @prop {SearchResult[]} searchResults
-     */
     this.emit('hit', { searchResults });
   }
 }

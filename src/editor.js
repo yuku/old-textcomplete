@@ -1,38 +1,19 @@
 // @flow
 
+import EventEmitter from 'eventemitter3';
+
 import {createCustomEvent} from './utils';
 import SearchResult from './search_result';
 
-import EventEmitter from 'eventemitter3';
+/** @typedef */
+export type CursorOffset = {
+  lineHeight: number;
+  top: number;
+  left?: number;
+  right?: number;
+};
 
 type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS' | 'META';
-
-/**
- * @event Editor#move
- * @type {CustomEvent}
- * @prop {function} preventDefault
- * @prop {object} detail
- * @prop {number} detail.code
- */
-
-/**
- * @event Editor#enter
- * @type {CustomEvent}
- * @prop {function} preventDefault
- */
-
-/**
- * @event Editor#esc
- * @type {CustomEvent}
- * @prop {function} preventDefault
- */
-
-/**
- * @event Editor#change
- * @type {CustomEvent}
- * @prop {object} detail
- * @prop {string} detail.beforeCursor
- */
 
 /**
  * Abstract class representing a editor target.
@@ -41,11 +22,12 @@ type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS' | 'META';
  * `#getBeforeCursor` and `#getAfterCursor` methods.
  *
  * @abstract
- * @extends EventEmitter
  */
 export default class Editor extends EventEmitter {
   /**
-   * @returns {this}
+   * It is called when associated textcomplete object is destroyed.
+   *
+   * @return {this}
    */
   destroy() {
     return this;
@@ -54,45 +36,34 @@ export default class Editor extends EventEmitter {
   /**
    * It is called when a search result is selected by a user.
    */
-  applySearchResult(_searchResult: SearchResult) {
+  applySearchResult(_: SearchResult): void {
     throw new Error('Not implemented.');
   }
 
   /**
    * The input cursor's absolute coordinates from the window's left
-   * top corner. It is intended to be overridden by sub classes.
-   *
-   * @type {Dropdown~Offset}
+   * top corner.
    */
-  getCursorOffset() {
+  getCursorOffset(): CursorOffset {
     throw new Error('Not implemented.');
   }
 
   /**
    * Editor string value from head to cursor.
-   *
-   * @private
    */
-  getBeforeCursor() {
+  getBeforeCursor(): string {
     throw new Error('Not implemented.');
   }
 
   /**
    * Editor string value from cursor to tail.
-   *
-   * @private
    */
-  getAfterCursor() {
+  getAfterCursor(): string {
     throw new Error('Not implemented.');
   }
 
-  /**
-   * @private
-   * @fires Editor#move
-   * @param {UP|DOWN} code
-   * @returns {Editor#move}
-   */
-  emitMoveEvent(code: 'UP' | 'DOWN') {
+  /** @private */
+  emitMoveEvent(code: 'UP' | 'DOWN'): CustomEvent {
     const moveEvent = createCustomEvent('move', {
       cancelable: true,
       detail: {
@@ -103,23 +74,15 @@ export default class Editor extends EventEmitter {
     return moveEvent;
   }
 
-  /**
-   * @private
-   * @fires Editor#enter
-   * @returns {Editor#enter}
-   */
-  emitEnterEvent() {
+  /** @private */
+  emitEnterEvent(): CustomEvent {
     const enterEvent = createCustomEvent('enter', { cancelable: true });
     this.emit('enter', enterEvent);
     return enterEvent;
   }
 
-  /**
-   * @private
-   * @fires Editor#change
-   * @returns {Editor#change}
-   */
-  emitChangeEvent() {
+  /** @private */
+  emitChangeEvent(): CustomEvent {
     const changeEvent = createCustomEvent('change', {
       detail: {
         beforeCursor: this.getBeforeCursor(),
@@ -129,22 +92,14 @@ export default class Editor extends EventEmitter {
     return changeEvent;
   }
 
-  /**
-   * @private
-   * @fires Editor#esc
-   * @returns {Editor#esc}
-   */
-  emitEscEvent() {
+  /** @private */
+  emitEscEvent(): CustomEvent {
     const escEvent = createCustomEvent('esc', { cancelable: true });
     this.emit('esc', escEvent);
     return escEvent;
   }
 
-  /**
-   * @private
-   * @param {KeyboardEvent} e
-   * @returns {KeyCode}
-   */
+  /** @private */
   getCode(e: KeyboardEvent): KeyCode {
     return e.keyCode === 8 ? 'BS' // backspace
          : e.keyCode === 9 ? 'ENTER' // tab

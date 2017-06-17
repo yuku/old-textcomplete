@@ -1,6 +1,7 @@
 // @flow
 
 import SearchResult from './search_result';
+import Strategy from './strategy';
 
 declare class MatchData extends Array<string> {
   index: number;
@@ -12,16 +13,11 @@ export type { MatchData };
  * Encapsulate matching condition between a Strategy and current editor's value.
  */
 export default class Query {
-  strategy: any;
+  strategy: Strategy;
   term: string;
   match: MatchData;
 
-  /**
-   * @param {Strategy} strategy
-   * @param {string} term
-   * @param {MatchData} match
-   */
-  constructor(strategy: any, term: string, match: MatchData) {
+  constructor(strategy: Strategy, term: string, match: MatchData) {
     this.strategy = strategy;
     this.term = term;
     this.match = match;
@@ -29,11 +25,8 @@ export default class Query {
 
   /**
    * Invoke search strategy and callback the given function.
-   *
-   * @public
-   * @param {function} callback
    */
-  execute(callback: (SearchResult[]) => any): void {
+  execute(callback: (SearchResult[]) => void) {
     this.strategy.search(
       this.term,
       results => {
