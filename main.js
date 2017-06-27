@@ -1338,12 +1338,37 @@ var Textarea = function (_Editor) {
     key: 'applySearchResult',
     value: function applySearchResult(searchResult) {
       var replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
+      this.el.focus(); // Clicking a dropdown item removes focus from the element.
       if (Array.isArray(replace)) {
-        this.el.value = replace[0] + replace[1];
+        var curr = this.el.value; // strA + strB1 + strC
+        var next = replace[0] + replace[1]; // strA + strB2 + strC
+
+        //  Calculate length of strA and strC
+        var aLength = 0;
+        while (curr[aLength] === next[aLength]) {
+          aLength++;
+        }
+        var cLength = 0;
+        while (curr[curr.length - cLength - 1] === next[next.length - cLength - 1]) {
+          cLength++;
+        }
+
+        // Select strB1
+        this.el.setSelectionRange(aLength, curr.length - cLength);
+
+        // Replace strB1 with strB2
+        var strB2 = next.substring(aLength, next.length - cLength);
+        if (!document.execCommand('insertText', false, strB2)) {
+          // Document.execCommand returns false if the command is not supported.
+          // Firefox returns false in this case.
+          this.el.value = next;
+        }
+
+        // Move cursor
         this.el.selectionStart = this.el.selectionEnd = replace[0].length;
+
         this.el.dispatchEvent(new Event('input'));
       }
-      this.el.focus(); // Clicking a dropdown item removes focus from the element.
     }
 
     /**
