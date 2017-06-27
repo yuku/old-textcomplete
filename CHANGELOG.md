@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Enable to revoke autocompletion by ctrl-z.
 
 ## [0.12.1] - 2017-06-12
 ### Fixed

@@ -10,6 +10,11 @@ describe('Textarea', function () {
 
   beforeEach(function () {
     textarea = createTextarea();
+    document.body.appendChild(textarea.el);
+  });
+
+  afterEach(function () {
+    document.body.removeChild(textarea.el);
   });
 
   context('when a keydown event occurs', function () {
