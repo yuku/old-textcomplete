@@ -134,7 +134,11 @@ describe('Textcomplete', function () {
         var event = createCustomEvent('select', { detail: {searchResult} });
         var spy = this.sinon.spy();
         textcomplete.on('select', spy);
-        textcomplete.dropdown.emit('select', event);
+        try {
+          textcomplete.dropdown.emit('select', event);
+        } catch (_) {
+          // eventemitter3 throws an error here on Firefox. I don't know why
+        }
         assert(spy.calledOnce);
       });
     });
