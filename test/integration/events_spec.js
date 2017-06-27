@@ -28,6 +28,11 @@ describe('Textcomplete events', function () {
     }]);
   });
 
+  afterEach(function () {
+    textcomplete.destroy();
+    document.body.removeChild(textareaEl);
+  });
+
   function assertCalled(spy) {
     assert(spy.calledOnce);
   }

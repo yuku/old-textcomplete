@@ -30,6 +30,11 @@ describe('Integration test', function () {
     ]);
   });
 
+  afterEach(function () {
+    textcomplete.destroy();
+    document.body.removeChild(textareaEl);
+  });
+
   function expectDropdownIsShown() {
     var dropdownEl = document.querySelector('.dropdown-menu.textcomplete-dropdown');
     var computed = window.getComputedStyle(dropdownEl);
