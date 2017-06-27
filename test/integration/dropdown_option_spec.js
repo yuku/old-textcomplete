@@ -18,6 +18,11 @@ describe('Dropdown options integration test', function () {
     textarea = new Textarea(textareaEl);
   });
 
+  afterEach(function () {
+    textarea.destroy();
+    document.body.removeChild(textareaEl);
+  });
+
   function setup(option, strategy) {
     var textcomplete = new Textcomplete(textarea, { dropdown: option });
     textcomplete.register([strategy]);

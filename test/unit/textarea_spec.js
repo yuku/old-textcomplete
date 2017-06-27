@@ -162,7 +162,7 @@ describe('Textarea', function () {
         assert.equal(textarea.el.selectionEnd, 'before'.length);
       });
 
-      it('should trigger a change event on #el', function () {
+      it('should trigger an input event on #el', function () {
         var changeTriggered = false;
         textarea.el.addEventListener('input', function () {
           changeTriggered = true;

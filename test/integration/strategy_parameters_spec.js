@@ -14,6 +14,11 @@ describe('Strategy parameters integration tests', function () {
     textarea = new Textarea(textareaEl);
   });
 
+  afterEach(function () {
+    textcomplete.destroy();
+    document.body.removeChild(textareaEl);
+  });
+
   function setup(strategy) {
     textcomplete = new Textcomplete(textarea);
     textcomplete.register([strategy]);
