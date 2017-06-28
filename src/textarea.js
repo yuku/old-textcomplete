@@ -1,5 +1,7 @@
 // @flow
 
+import update from 'undate';
+
 import Editor from './editor';
 import {calculateElementOffset, getLineHeightPx} from './utils';
 import SearchResult from './search_result';
@@ -46,29 +48,7 @@ export default class Textarea extends Editor {
     const replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
     this.el.focus(); // Clicking a dropdown item removes focus from the element.
     if (Array.isArray(replace)) {
-      const curr = this.el.value; // strA + strB1 + strC
-      const next = replace[0] + replace[1]; // strA + strB2 + strC
-
-      //  Calculate length of strA and strC
-      let aLength = 0;
-      while (curr[aLength] === next[aLength]) { aLength++; }
-      let cLength = 0;
-      while (curr[curr.length - cLength - 1] === next[next.length - cLength - 1]) { cLength++; }
-
-      // Select strB1
-      this.el.setSelectionRange(aLength, curr.length - cLength);
-
-      // Replace strB1 with strB2
-      const strB2 = next.substring(aLength, next.length - cLength);
-      if (!document.execCommand('insertText', false, strB2)) {
-        // Document.execCommand returns false if the command is not supported.
-        // Firefox returns false in this case.
-        this.el.value = next;
-      }
-
-      // Move cursor
-      this.el.selectionStart = this.el.selectionEnd = replace[0].length;
-
+      update(this.el, replace[0], replace[1]);
       this.el.dispatchEvent(new Event('input'));
     }
   }
