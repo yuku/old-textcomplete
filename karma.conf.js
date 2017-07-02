@@ -73,7 +73,7 @@ module.exports = function(config) {
               {
                 loader: 'babel-loader',
                 options: {
-                  plugins: babelrc.plugins.concat('espower', 'istanbul'),
+                  plugins: (babelrc.plugins || []).concat('espower', 'istanbul'),
                   presets: babelrc.presets,
                 },
               },
