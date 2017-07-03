@@ -1,6 +1,6 @@
 // @flow
 
-import update from 'undate';
+import update from 'undate/lib/update';
 
 import Editor from './editor';
 import {calculateElementOffset, getLineHeightPx} from './utils';
