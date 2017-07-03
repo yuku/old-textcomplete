@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## [0.13.1] - 2017-07-03
+### Fixed
+- Fix bug around revoking autocompletion. (Extract the feature as [yuku-t/undate](https://github.com/yuku-t/undate))
+
 ## [0.13.0] - 2017-06-27
 ### Added
 - Enable to revoke autocompletion by ctrl-z.
