@@ -1,12 +1,21 @@
 const babelrc = require('./package.json').babel;
 
+const SUPPORTED_BROWSERS = [
+  'Chrome',
+  'Edge',
+  'Firefox',
+  'IE',
+  'Opera',
+  'Safari',
+];
+
 module.exports = function(config) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha'],
+    frameworks: ['mocha', 'detectBrowsers'],
     client: {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
@@ -24,8 +33,13 @@ module.exports = function(config) {
     plugins: [
       'karma-chrome-launcher',
       'karma-coverage',
+      'karma-detect-browsers',
+      'karma-edge-launcher',
       'karma-firefox-launcher',
+      'karma-ie-launcher',
       'karma-mocha',
+      'karma-opera-launcher',
+      'karma-safari-launcher',
       'karma-webpack'
     ],
     // preprocess matching files before serving them to the browser
@@ -55,7 +69,7 @@ module.exports = function(config) {
     autoWatch: true,
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: [],
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
     singleRun: false,
@@ -81,6 +95,18 @@ module.exports = function(config) {
           },
         ],
       },
-    }
+    },
+
+    detectBrowsers: {
+      usePhantomJS: false,
+      postDetection: (browsers) => {
+        if (process.env.TRAVIS) {
+          // TODO: Test with Chrome
+          return ['Firefox'];
+        } else {
+          return browsers.filter(browser => SUPPORTED_BROWSERS.indexOf(browser) !== -1);
+        }
+      }
+    },
   })
 }
