@@ -99,7 +99,14 @@ module.exports = function(config) {
 
     detectBrowsers: {
       usePhantomJS: false,
-      postDetection: (browsers) => browsers.filter(browser => SUPPORTED_BROWSERS.indexOf(browser) !== -1)
+      postDetection: (browsers) => {
+        if (process.env.TRAVIS) {
+          // TODO: Test with Chrome
+          return ['Firefox'];
+        } else {
+          return browsers.filter(browser => SUPPORTED_BROWSERS.indexOf(browser) !== -1);
+        }
+      }
     },
   })
 }
