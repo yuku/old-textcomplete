@@ -1268,6 +1268,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
 
+var _update = __webpack_require__(193);
+
+var _update2 = _interopRequireDefault(_update);
+
 var _editor = __webpack_require__(5);
 
 var _editor2 = _interopRequireDefault(_editor);
@@ -1340,33 +1344,7 @@ var Textarea = function (_Editor) {
       var replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
       this.el.focus(); // Clicking a dropdown item removes focus from the element.
       if (Array.isArray(replace)) {
-        var curr = this.el.value; // strA + strB1 + strC
-        var next = replace[0] + replace[1]; // strA + strB2 + strC
-
-        //  Calculate length of strA and strC
-        var aLength = 0;
-        while (curr[aLength] === next[aLength]) {
-          aLength++;
-        }
-        var cLength = 0;
-        while (curr[curr.length - cLength - 1] === next[next.length - cLength - 1]) {
-          cLength++;
-        }
-
-        // Select strB1
-        this.el.setSelectionRange(aLength, curr.length - cLength);
-
-        // Replace strB1 with strB2
-        var strB2 = next.substring(aLength, next.length - cLength);
-        if (!document.execCommand('insertText', false, strB2)) {
-          // Document.execCommand returns false if the command is not supported.
-          // Firefox returns false in this case.
-          this.el.value = next;
-        }
-
-        // Move cursor
-        this.el.selectionStart = this.el.selectionEnd = replace[0].length;
-
+        (0, _update2.default)(this.el, replace[0], replace[1]);
         this.el.dispatchEvent(new Event('input'));
       }
     }
@@ -19878,6 +19856,55 @@ if (typeof module != 'undefined' && typeof module.exports != 'undefined') {
 
 }());
 
+
+/***/ }),
+/* 193 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+exports.default = function (el, headToCursor, cursorToTail) {
+  var curr = el.value,
+      // strA + strB1 + strC
+  next = headToCursor + (cursorToTail || ''),
+      // strA + strB2 + strC
+  activeElement = document.activeElement;
+
+  //  Calculate length of strA and strC
+  var aLength = 0,
+      cLength = 0;
+  while (curr[aLength] === next[aLength]) {
+    aLength++;
+  }
+  while (curr[curr.length - cLength - 1] === next[next.length - cLength - 1]) {
+    cLength++;
+  }
+  aLength = Math.min(aLength, curr.length - cLength);
+
+  // Select strB1
+  el.setSelectionRange(aLength, curr.length - cLength);
+
+  // Get strB2
+  var strB2 = next.substring(aLength, next.length - cLength);
+
+  // Replace strB1 with strB2
+  el.focus();
+  if (!document.execCommand('insertText', false, strB2)) {
+    // Document.execCommand returns false if the command is not supported.
+    // Firefox and IE returns false in this case.
+    el.value = next;
+  }
+  activeElement && activeElement.focus();
+
+  // Move cursor to the end of headToCursor
+  el.setSelectionRange(headToCursor.length, headToCursor.length);
+  return el;
+};
 
 /***/ })
 /******/ ]);
