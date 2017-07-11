@@ -1,5 +1,3 @@
-const babelrc = require('./package.json').babel;
-
 const SUPPORTED_BROWSERS = [
   'Chrome',
   'Edge',
@@ -83,15 +81,7 @@ module.exports = function(config) {
           {
             test: /\.js$/,
             exclude: /node_modules/,
-            use: [
-              {
-                loader: 'babel-loader',
-                options: {
-                  plugins: (babelrc.plugins || []).concat('espower', 'istanbul'),
-                  presets: babelrc.presets,
-                },
-              },
-            ],
+            use: ["babel-loader"],
           },
         ],
       },
