@@ -17,7 +17,7 @@
     "static": "static docs",
     "test": "run-p test:*",
     "test:bundlesize": "yarn run build:dist && bundlesize",
-    "test:e2e": "karma start --single-run",
+    "test:e2e": "NODE_ENV=test karma start --single-run",
     "test:lint": "eslint src/*.js test/**/*.js",
     "test:typecheck": "flow",
     "watch": "run-p watch:*",
@@ -83,12 +83,6 @@
     "eventemitter3": "^2.0.3",
     "textarea-caret": "^3.0.1",
     "undate": "^0.2.0"
-  },
-  "babel": {
-    "presets": [
-      "es2015",
-      "flow"
-    ]
   },
   "bundlesize": [
     {
