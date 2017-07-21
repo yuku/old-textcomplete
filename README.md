@@ -6,6 +6,7 @@ Autocomplete for textarea elements.
 [![Build Status](https://travis-ci.org/yuku-t/textcomplete.svg?branch=master)](https://travis-ci.org/yuku-t/textcomplete)
 [![Code Climate](https://codeclimate.com/github/yuku-t/textcomplete/badges/gpa.svg)](https://codeclimate.com/github/yuku-t/textcomplete)
 [![Test Coverage](https://codeclimate.com/github/yuku-t/textcomplete/badges/coverage.svg)](https://codeclimate.com/github/yuku-t/textcomplete/coverage)
+[![Stable Release Size](http://img.badgesize.io/https://unpkg.com/textcomplete/dist/textcomplete.min.js?compression=gzip)](https://github.com/ngryman/badge-size)
 [![Analytics](https://ga-beacon.appspot.com/UA-4932407-14/textcomplete/readme)](https://github.com/igrigorik/ga-beacon)
 
 ## Requirements
