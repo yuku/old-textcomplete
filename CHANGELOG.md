@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Hide dropdown on enter
 
 ## [0.14.0] - 2017-09-24
 ### Changed
