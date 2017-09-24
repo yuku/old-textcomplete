@@ -27,7 +27,11 @@
     -   [applySearchResult](#applysearchresult)
     -   [getCursorOffset](#getcursoroffset)
     -   [getBeforeCursor](#getbeforecursor)
-    -   [getAfterCursor](#getaftercursor)
+    -   [emitMoveEvent](#emitmoveevent)
+    -   [emitEnterEvent](#emitenterevent)
+    -   [emitChangeEvent](#emitchangeevent)
+    -   [emitEscEvent](#emitescevent)
+    -   [getCode](#getcode)
 -   [Query](#query)
     -   [execute](#execute)
 -   [SearchResult](#searchresult)
@@ -43,7 +47,6 @@
     -   [applySearchResult](#applysearchresult-1)
     -   [getCursorOffset](#getcursoroffset-1)
     -   [getBeforeCursor](#getbeforecursor-1)
-    -   [getAfterCursor](#getaftercursor-1)
 -   [TextcompleteOptions](#textcompleteoptions)
 -   [Textcomplete](#textcomplete)
     -   [constructor](#constructor-2)
@@ -216,8 +219,11 @@ Type: {lineHeight: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScr
 
 Abstract class representing a editor target.
 
-Editor classes must implement `#applySearchResult`, `#getCursorOffset`,
-`#getBeforeCursor` and `#getAfterCursor` methods.
+Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
+`#getBeforeCursor` methods.
+
+Editor classes must invoke `#emitMoveEvent`, `#emitEnterEvent`,
+`#emitChangeEvent` and `#emitEscEvent` at proper timing.
 
 ### destroy
 
@@ -245,14 +251,61 @@ Returns **[CursorOffset](#cursoroffset)**
 ### getBeforeCursor
 
 Editor string value from head to cursor.
+Returns null if selection type is range not cursor.
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
-### getAfterCursor
+### emitMoveEvent
 
-Editor string value from cursor to tail.
+-   **See: [Textarea](#textarea) for live example.**
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+Emit a move event, which moves active dropdown element.
+Child class must call this method at proper timing with proper parameter.
+
+**Parameters**
+
+-   `code` **(`"UP"` \| `"DOWN"`)** 
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitEnterEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a enter event, which selects current search result.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitChangeEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a change event, which triggers auto completion.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitEscEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a esc event, which hides dropdown element.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### getCode
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Helper method for parsing KeyboardEvent.
+
+**Parameters**
+
+-   `e` **[KeyboardEvent](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)** 
+
+Returns **KeyCode** 
 
 ## Query
 
@@ -370,10 +423,6 @@ Implementation for [Editor#getCursorOffset](#editorgetcursoroffset)
 ### getBeforeCursor
 
 Implementation for [Editor#getBeforeCursor](#editorgetbeforecursor)
-
-### getAfterCursor
-
-Implementation for [Editor#getAfterCursor](#editorgetaftercursor)
 
 ## TextcompleteOptions
 

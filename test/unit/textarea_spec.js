@@ -152,16 +152,15 @@ describe('Textarea', function () {
         this.sinon.stub(searchResult, 'replace').callsFake(function () {
           return ['before', 'after'];
         });
+        textarea.el.value = 'previous value';
       });
 
       it('should change #el.value', function () {
-        textarea.el.value = 'previous value';
         textarea.applySearchResult(searchResult);
         assert.equal(textarea.el.value, 'beforeafter');
       });
 
       it('should change #el.selectionStart and selectionEnd', function () {
-        textarea.el.value = 'previous value';
         textarea.applySearchResult(searchResult);
         assert.equal(textarea.el.selectionStart, 'before'.length);
         assert.equal(textarea.el.selectionEnd, 'before'.length);

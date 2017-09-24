@@ -7,6 +7,12 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Changed
+- Change `Editor#getBeforeCuror` return type from `string` to `?string` for better selection handling.
+  Now `Textarea` emits a change event if selection type is cursor.
+
+### Fixed
+- Remove `Editor#getAfterCursor` since it is not necessary.
 
 ## [0.13.1] - 2017-07-03
 ### Fixed

@@ -45,11 +45,14 @@ export default class Textarea extends Editor {
    * Implementation for {@link Editor#applySearchResult}
    */
   applySearchResult(searchResult: SearchResult) {
-    const replace = searchResult.replace(this.getBeforeCursor(), this.getAfterCursor());
-    this.el.focus(); // Clicking a dropdown item removes focus from the element.
-    if (Array.isArray(replace)) {
-      update(this.el, replace[0], replace[1]);
-      this.el.dispatchEvent(new Event('input'));
+    const before = this.getBeforeCursor();
+    if (before != null) {
+      const replace = searchResult.replace(before, this.getAfterCursor());
+      this.el.focus(); // Clicking a dropdown item removes focus from the element.
+      if (Array.isArray(replace)) {
+        update(this.el, replace[0], replace[1]);
+        this.el.dispatchEvent(new Event('input'));
+      }
     }
   }
 
@@ -75,12 +78,10 @@ export default class Textarea extends Editor {
    * Implementation for {@link Editor#getBeforeCursor}
    */
   getBeforeCursor() {
-    return this.el.value.substring(0, this.el.selectionEnd);
+    return this.el.selectionStart !== this.el.selectionEnd ? null : this.el.value.substring(0, this.el.selectionEnd);
   }
 
-  /**
-   * Implementation for {@link Editor#getAfterCursor}
-   */
+  /** @private */
   getAfterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
   }
@@ -102,7 +103,7 @@ export default class Textarea extends Editor {
 
   /** @private */
   onInput(_: Event) {
-    this.emitChangeEvent();
+    this.getBeforeCursor() != null && this.emitChangeEvent();
   }
 
   /** @private */

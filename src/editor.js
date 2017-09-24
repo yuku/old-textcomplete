@@ -13,13 +13,16 @@ export type CursorOffset = {
   right?: number;
 };
 
-type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS' | 'META';
+type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER';
 
 /**
  * Abstract class representing a editor target.
  *
- * Editor classes must implement `#applySearchResult`, `#getCursorOffset`,
- * `#getBeforeCursor` and `#getAfterCursor` methods.
+ * Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
+ * `#getBeforeCursor` methods.
+ *
+ * Editor classes must invoke `#emitMoveEvent`, `#emitEnterEvent`,
+ * `#emitChangeEvent` and `#emitEscEvent` at proper timing.
  *
  * @abstract
  */
@@ -50,19 +53,18 @@ export default class Editor extends EventEmitter {
 
   /**
    * Editor string value from head to cursor.
+   * Returns null if selection type is range not cursor.
    */
-  getBeforeCursor(): string {
+  getBeforeCursor(): ?string {
     throw new Error('Not implemented.');
   }
 
   /**
-   * Editor string value from cursor to tail.
+   * Emit a move event, which moves active dropdown element.
+   * Child class must call this method at proper timing with proper parameter.
+   *
+   * @see {@link Textarea} for live example.
    */
-  getAfterCursor(): string {
-    throw new Error('Not implemented.');
-  }
-
-  /** @private */
   emitMoveEvent(code: 'UP' | 'DOWN'): CustomEvent {
     const moveEvent = createCustomEvent('move', {
       cancelable: true,
@@ -74,14 +76,24 @@ export default class Editor extends EventEmitter {
     return moveEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a enter event, which selects current search result.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitEnterEvent(): CustomEvent {
     const enterEvent = createCustomEvent('enter', { cancelable: true });
     this.emit('enter', enterEvent);
     return enterEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a change event, which triggers auto completion.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitChangeEvent(): CustomEvent {
     const changeEvent = createCustomEvent('change', {
       detail: {
@@ -92,28 +104,31 @@ export default class Editor extends EventEmitter {
     return changeEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a esc event, which hides dropdown element.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitEscEvent(): CustomEvent {
     const escEvent = createCustomEvent('esc', { cancelable: true });
     this.emit('esc', escEvent);
     return escEvent;
   }
 
-  /** @private */
+  /**
+   * Helper method for parsing KeyboardEvent.
+   *
+   * @see {@link Textarea} for live example.
+   */
   getCode(e: KeyboardEvent): KeyCode {
-    return e.keyCode === 8 ? 'BS' // backspace
-         : e.keyCode === 9 ? 'ENTER' // tab
+    return e.keyCode === 9 ? 'ENTER' // tab
          : e.keyCode === 13 ? 'ENTER' // enter
-         : e.keyCode === 16 ? 'META' // shift
-         : e.keyCode === 17 ? 'META' // ctrl
-         : e.keyCode === 18 ? 'META' // alt
          : e.keyCode === 27 ? 'ESC' // esc
          : e.keyCode === 38 ? 'UP' // up
          : e.keyCode === 40 ? 'DOWN' // down
          : e.keyCode === 78 && e.ctrlKey ? 'DOWN' // ctrl-n
          : e.keyCode === 80 && e.ctrlKey ? 'UP' // ctrl-p
-         : e.keyCode === 91 ? 'META' // left command
-         : e.keyCode === 93 ? 'META' // right command
          : 'OTHER';
   }
 }
