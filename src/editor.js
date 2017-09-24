@@ -21,6 +21,9 @@ type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER';
  * Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
  * `#getBeforeCursor` methods.
  *
+ * Editor classes must invoke `#emitMoveEvent`, `#emitEnterEvent`,
+ * `#emitChangeEvent` and `#emitEscEvent` at proper timing.
+ *
  * @abstract
  */
 export default class Editor extends EventEmitter {
@@ -56,7 +59,12 @@ export default class Editor extends EventEmitter {
     throw new Error('Not implemented.');
   }
 
-  /** @private */
+  /**
+   * Emit a move event, which moves active dropdown element.
+   * Child class must call this method at proper timing with proper parameter.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitMoveEvent(code: 'UP' | 'DOWN'): CustomEvent {
     const moveEvent = createCustomEvent('move', {
       cancelable: true,
@@ -68,14 +76,24 @@ export default class Editor extends EventEmitter {
     return moveEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a enter event, which selects current search result.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitEnterEvent(): CustomEvent {
     const enterEvent = createCustomEvent('enter', { cancelable: true });
     this.emit('enter', enterEvent);
     return enterEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a change event, which triggers auto completion.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitChangeEvent(): CustomEvent {
     const changeEvent = createCustomEvent('change', {
       detail: {
@@ -86,14 +104,23 @@ export default class Editor extends EventEmitter {
     return changeEvent;
   }
 
-  /** @private */
+  /**
+   * Emit a esc event, which hides dropdown element.
+   * Child class must call this method at proper timing.
+   *
+   * @see {@link Textarea} for live example.
+   */
   emitEscEvent(): CustomEvent {
     const escEvent = createCustomEvent('esc', { cancelable: true });
     this.emit('esc', escEvent);
     return escEvent;
   }
 
-  /** @private */
+  /**
+   * Helper method for parsing KeyboardEvent.
+   *
+   * @see {@link Textarea} for live example.
+   */
   getCode(e: KeyboardEvent): KeyCode {
     return e.keyCode === 9 ? 'ENTER' // tab
          : e.keyCode === 13 ? 'ENTER' // enter

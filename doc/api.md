@@ -27,6 +27,11 @@
     -   [applySearchResult](#applysearchresult)
     -   [getCursorOffset](#getcursoroffset)
     -   [getBeforeCursor](#getbeforecursor)
+    -   [emitMoveEvent](#emitmoveevent)
+    -   [emitEnterEvent](#emitenterevent)
+    -   [emitChangeEvent](#emitchangeevent)
+    -   [emitEscEvent](#emitescevent)
+    -   [getCode](#getcode)
 -   [Query](#query)
     -   [execute](#execute)
 -   [SearchResult](#searchresult)
@@ -217,6 +222,9 @@ Abstract class representing a editor target.
 Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
 `#getBeforeCursor` methods.
 
+Editor classes must invoke `#emitMoveEvent`, `#emitEnterEvent`,
+`#emitChangeEvent` and `#emitEscEvent` at proper timing.
+
 ### destroy
 
 It is called when associated textcomplete object is destroyed.
@@ -246,6 +254,58 @@ Editor string value from head to cursor.
 Returns null if selection type is range not cursor.
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+
+### emitMoveEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a move event, which moves active dropdown element.
+Child class must call this method at proper timing with proper parameter.
+
+**Parameters**
+
+-   `code` **(`"UP"` \| `"DOWN"`)** 
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitEnterEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a enter event, which selects current search result.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitChangeEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a change event, which triggers auto completion.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### emitEscEvent
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Emit a esc event, which hides dropdown element.
+Child class must call this method at proper timing.
+
+Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+
+### getCode
+
+-   **See: [Textarea](#textarea) for live example.**
+
+Helper method for parsing KeyboardEvent.
+
+**Parameters**
+
+-   `e` **[KeyboardEvent](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)** 
+
+Returns **KeyCode** 
 
 ## Query
 
