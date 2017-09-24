@@ -4,6 +4,10 @@ const path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
+  devServer: {
+    contentBase: 'docs',
+    port: 8082,
+  },
   entry: {
     main: './src/doc/main.js',
   },
