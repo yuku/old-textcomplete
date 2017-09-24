@@ -4,6 +4,8 @@ Update "version" of package.json and change unreleased section of [CHANGELOG.md]
 
 ```bash
 git tag v$(jq -r .version package.json)
+git push
+git push --tags
 npm run build
 npm publish
 npm run gh-release
