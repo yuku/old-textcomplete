@@ -13,7 +13,7 @@ export type CursorOffset = {
   right?: number;
 };
 
-type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS' | 'META';
+type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER';
 
 /**
  * Abstract class representing a editor target.
@@ -95,19 +95,13 @@ export default class Editor extends EventEmitter {
 
   /** @private */
   getCode(e: KeyboardEvent): KeyCode {
-    return e.keyCode === 8 ? 'BS' // backspace
-         : e.keyCode === 9 ? 'ENTER' // tab
+    return e.keyCode === 9 ? 'ENTER' // tab
          : e.keyCode === 13 ? 'ENTER' // enter
-         : e.keyCode === 16 ? 'META' // shift
-         : e.keyCode === 17 ? 'META' // ctrl
-         : e.keyCode === 18 ? 'META' // alt
          : e.keyCode === 27 ? 'ESC' // esc
          : e.keyCode === 38 ? 'UP' // up
          : e.keyCode === 40 ? 'DOWN' // down
          : e.keyCode === 78 && e.ctrlKey ? 'DOWN' // ctrl-n
          : e.keyCode === 80 && e.ctrlKey ? 'UP' // ctrl-p
-         : e.keyCode === 91 ? 'META' // left command
-         : e.keyCode === 93 ? 'META' // right command
          : 'OTHER';
   }
 }
