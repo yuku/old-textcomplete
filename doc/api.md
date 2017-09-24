@@ -27,7 +27,6 @@
     -   [applySearchResult](#applysearchresult)
     -   [getCursorOffset](#getcursoroffset)
     -   [getBeforeCursor](#getbeforecursor)
-    -   [getAfterCursor](#getaftercursor)
 -   [Query](#query)
     -   [execute](#execute)
 -   [SearchResult](#searchresult)
@@ -43,7 +42,6 @@
     -   [applySearchResult](#applysearchresult-1)
     -   [getCursorOffset](#getcursoroffset-1)
     -   [getBeforeCursor](#getbeforecursor-1)
-    -   [getAfterCursor](#getaftercursor-1)
 -   [TextcompleteOptions](#textcompleteoptions)
 -   [Textcomplete](#textcomplete)
     -   [constructor](#constructor-2)
@@ -216,8 +214,8 @@ Type: {lineHeight: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScr
 
 Abstract class representing a editor target.
 
-Editor classes must implement `#applySearchResult`, `#getCursorOffset`,
-`#getBeforeCursor` and `#getAfterCursor` methods.
+Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
+`#getBeforeCursor` methods.
 
 ### destroy
 
@@ -245,12 +243,6 @@ Returns **[CursorOffset](#cursoroffset)**
 ### getBeforeCursor
 
 Editor string value from head to cursor.
-
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
-
-### getAfterCursor
-
-Editor string value from cursor to tail.
 
 Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 
@@ -370,10 +362,6 @@ Implementation for [Editor#getCursorOffset](#editorgetcursoroffset)
 ### getBeforeCursor
 
 Implementation for [Editor#getBeforeCursor](#editorgetbeforecursor)
-
-### getAfterCursor
-
-Implementation for [Editor#getAfterCursor](#editorgetaftercursor)
 
 ## TextcompleteOptions
 

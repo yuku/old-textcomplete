@@ -18,8 +18,8 @@ type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER' | 'BS' | 'META';
 /**
  * Abstract class representing a editor target.
  *
- * Editor classes must implement `#applySearchResult`, `#getCursorOffset`,
- * `#getBeforeCursor` and `#getAfterCursor` methods.
+ * Editor classes must implement `#applySearchResult`, `#getCursorOffset` and
+ * `#getBeforeCursor` methods.
  *
  * @abstract
  */
@@ -52,13 +52,6 @@ export default class Editor extends EventEmitter {
    * Editor string value from head to cursor.
    */
   getBeforeCursor(): string {
-    throw new Error('Not implemented.');
-  }
-
-  /**
-   * Editor string value from cursor to tail.
-   */
-  getAfterCursor(): string {
     throw new Error('Not implemented.');
   }
 

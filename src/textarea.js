@@ -78,9 +78,7 @@ export default class Textarea extends Editor {
     return this.el.value.substring(0, this.el.selectionEnd);
   }
 
-  /**
-   * Implementation for {@link Editor#getAfterCursor}
-   */
+  /** @private */
   getAfterCursor() {
     return this.el.value.substring(this.el.selectionEnd);
   }
