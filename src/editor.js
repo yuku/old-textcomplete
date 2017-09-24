@@ -50,8 +50,9 @@ export default class Editor extends EventEmitter {
 
   /**
    * Editor string value from head to cursor.
+   * Returns null if selection type is range not cursor.
    */
-  getBeforeCursor(): string {
+  getBeforeCursor(): ?string {
     throw new Error('Not implemented.');
   }
 
