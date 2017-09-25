@@ -103,7 +103,7 @@ export default class Textarea extends Editor {
 
   /** @private */
   onInput(_: Event) {
-    this.getBeforeCursor() != null && this.emitChangeEvent();
+    this.emitChangeEvent();
   }
 
   /** @private */

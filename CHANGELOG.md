@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Deactivate dropdown if null change event is fired.
 
 ## [0.14.1] - 2017-09-24
 ### Fixed

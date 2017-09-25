@@ -144,7 +144,11 @@ export default class Textcomplete extends EventEmitter {
 
   /** @private */
   handleChange(e: CustomEvent) {
-    this.trigger(e.detail.beforeCursor);
+    if (e.detail.beforeCursor != null) {
+      this.trigger(e.detail.beforeCursor);
+    } else {
+      this.dropdown.deactivate();
+    }
   }
 
   /** @private */
