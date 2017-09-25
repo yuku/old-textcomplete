@@ -130,7 +130,7 @@ export default class Textcomplete extends EventEmitter {
       this.dropdown.select(activeItem);
       e.preventDefault();
     } else {
-      this.dropdown.hide();
+      this.dropdown.deactivate();
     }
   }
 

@@ -9,6 +9,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## [Unreleased]
 ### Fixed
 - Deactivate dropdown if null change event is fired.
+- Deactivate dropdown on enter instead of hide.
 
 ## [0.14.1] - 2017-09-24
 ### Fixed
