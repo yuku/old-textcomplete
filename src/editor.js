@@ -1,19 +1,19 @@
 // @flow
 
-import EventEmitter from 'eventemitter3';
+import EventEmitter from "eventemitter3"
 
-import {createCustomEvent} from './utils';
-import SearchResult from './search_result';
+import { createCustomEvent } from "./utils"
+import SearchResult from "./search_result"
 
 /** @typedef */
 export type CursorOffset = {
-  lineHeight: number;
-  top: number;
-  left?: number;
-  right?: number;
-};
+  lineHeight: number,
+  top: number,
+  left?: number,
+  right?: number,
+}
 
-type KeyCode = 'ESC' | 'ENTER' | 'UP' | 'DOWN' | 'OTHER';
+type KeyCode = "ESC" | "ENTER" | "UP" | "DOWN" | "OTHER"
 
 /**
  * Abstract class representing a editor target.
@@ -33,14 +33,14 @@ export default class Editor extends EventEmitter {
    * @return {this}
    */
   destroy() {
-    return this;
+    return this
   }
 
   /**
    * It is called when a search result is selected by a user.
    */
   applySearchResult(_: SearchResult): void {
-    throw new Error('Not implemented.');
+    throw new Error("Not implemented.")
   }
 
   /**
@@ -48,7 +48,7 @@ export default class Editor extends EventEmitter {
    * top corner.
    */
   getCursorOffset(): CursorOffset {
-    throw new Error('Not implemented.');
+    throw new Error("Not implemented.")
   }
 
   /**
@@ -56,7 +56,7 @@ export default class Editor extends EventEmitter {
    * Returns null if selection type is range not cursor.
    */
   getBeforeCursor(): ?string {
-    throw new Error('Not implemented.');
+    throw new Error("Not implemented.")
   }
 
   /**
@@ -65,15 +65,15 @@ export default class Editor extends EventEmitter {
    *
    * @see {@link Textarea} for live example.
    */
-  emitMoveEvent(code: 'UP' | 'DOWN'): CustomEvent {
-    const moveEvent = createCustomEvent('move', {
+  emitMoveEvent(code: "UP" | "DOWN"): CustomEvent {
+    const moveEvent = createCustomEvent("move", {
       cancelable: true,
       detail: {
         code: code,
       },
-    });
-    this.emit('move', moveEvent);
-    return moveEvent;
+    })
+    this.emit("move", moveEvent)
+    return moveEvent
   }
 
   /**
@@ -83,9 +83,9 @@ export default class Editor extends EventEmitter {
    * @see {@link Textarea} for live example.
    */
   emitEnterEvent(): CustomEvent {
-    const enterEvent = createCustomEvent('enter', { cancelable: true });
-    this.emit('enter', enterEvent);
-    return enterEvent;
+    const enterEvent = createCustomEvent("enter", { cancelable: true })
+    this.emit("enter", enterEvent)
+    return enterEvent
   }
 
   /**
@@ -95,13 +95,13 @@ export default class Editor extends EventEmitter {
    * @see {@link Textarea} for live example.
    */
   emitChangeEvent(): CustomEvent {
-    const changeEvent = createCustomEvent('change', {
+    const changeEvent = createCustomEvent("change", {
       detail: {
         beforeCursor: this.getBeforeCursor(),
       },
-    });
-    this.emit('change', changeEvent);
-    return changeEvent;
+    })
+    this.emit("change", changeEvent)
+    return changeEvent
   }
 
   /**
@@ -111,9 +111,9 @@ export default class Editor extends EventEmitter {
    * @see {@link Textarea} for live example.
    */
   emitEscEvent(): CustomEvent {
-    const escEvent = createCustomEvent('esc', { cancelable: true });
-    this.emit('esc', escEvent);
-    return escEvent;
+    const escEvent = createCustomEvent("esc", { cancelable: true })
+    this.emit("esc", escEvent)
+    return escEvent
   }
 
   /**
@@ -122,13 +122,20 @@ export default class Editor extends EventEmitter {
    * @see {@link Textarea} for live example.
    */
   getCode(e: KeyboardEvent): KeyCode {
-    return e.keyCode === 9 ? 'ENTER' // tab
-         : e.keyCode === 13 ? 'ENTER' // enter
-         : e.keyCode === 27 ? 'ESC' // esc
-         : e.keyCode === 38 ? 'UP' // up
-         : e.keyCode === 40 ? 'DOWN' // down
-         : e.keyCode === 78 && e.ctrlKey ? 'DOWN' // ctrl-n
-         : e.keyCode === 80 && e.ctrlKey ? 'UP' // ctrl-p
-         : 'OTHER';
+    return e.keyCode === 9
+      ? "ENTER" // tab
+      : e.keyCode === 13
+        ? "ENTER" // enter
+        : e.keyCode === 27
+          ? "ESC" // esc
+          : e.keyCode === 38
+            ? "UP" // up
+            : e.keyCode === 40
+              ? "DOWN" // down
+              : e.keyCode === 78 && e.ctrlKey
+                ? "DOWN" // ctrl-n
+                : e.keyCode === 80 && e.ctrlKey
+                  ? "UP" // ctrl-p
+                  : "OTHER"
   }
 }

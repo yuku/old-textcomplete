@@ -1,33 +1,33 @@
 // @flow
 
-import EventEmitter from 'eventemitter3';
+import EventEmitter from "eventemitter3"
 
-import Strategy from './strategy';
-import SearchResult from './search_result';
+import Strategy from "./strategy"
+import SearchResult from "./search_result"
 
-const CALLBACK_METHODS = ['handleQueryResult'];
+const CALLBACK_METHODS = ["handleQueryResult"]
 
 /**
  * Complete engine.
  */
 export default class Completer extends EventEmitter {
-  strategies: Strategy[];
+  strategies: Strategy[]
 
   constructor() {
-    super();
-    this.strategies = [];
+    super()
+    this.strategies = []
 
-    CALLBACK_METHODS.forEach((method) => {
-      (this: any)[method] = (this: any)[method].bind(this);
-    });
+    CALLBACK_METHODS.forEach(method => {
+      ;(this: any)[method] = (this: any)[method].bind(this)
+    })
   }
 
   /**
    * @return {this}
    */
   destroy() {
-    this.strategies.forEach(strategy => strategy.destroy());
-    return this;
+    this.strategies.forEach(strategy => strategy.destroy())
+    return this
   }
 
   /**
@@ -36,19 +36,19 @@ export default class Completer extends EventEmitter {
    * @return {this}
    */
   registerStrategy(strategy: Strategy) {
-    this.strategies.push(strategy);
-    return this;
+    this.strategies.push(strategy)
+    return this
   }
 
   /**
    * @param {string} text - Head to input cursor.
    */
   run(text: string): void {
-    const query = this.extractQuery(text);
+    const query = this.extractQuery(text)
     if (query) {
-      query.execute(this.handleQueryResult);
+      query.execute(this.handleQueryResult)
     } else {
-      this.handleQueryResult([]);
+      this.handleQueryResult([])
     }
   }
 
@@ -59,10 +59,12 @@ export default class Completer extends EventEmitter {
    */
   extractQuery(text: string) {
     for (let i = 0; i < this.strategies.length; i++) {
-      const query = this.strategies[i].buildQuery(text);
-      if (query) { return query; }
+      const query = this.strategies[i].buildQuery(text)
+      if (query) {
+        return query
+      }
     }
-    return null;
+    return null
   }
 
   /**
@@ -71,6 +73,6 @@ export default class Completer extends EventEmitter {
    * @private
    */
   handleQueryResult(searchResults: SearchResult[]) {
-    this.emit('hit', { searchResults });
+    this.emit("hit", { searchResults })
   }
 }

@@ -1,69 +1,69 @@
 // @flow
 
-import Completer from './completer';
-import Editor from './editor';
-import Dropdown, {type DropdownOptions} from './dropdown';
-import Strategy, {type StrategyProperties} from './strategy';
-import SearchResult from './search_result';
+import Completer from "./completer"
+import Editor from "./editor"
+import Dropdown, { type DropdownOptions } from "./dropdown"
+import Strategy, { type StrategyProperties } from "./strategy"
+import SearchResult from "./search_result"
 
-import EventEmitter from 'eventemitter3';
+import EventEmitter from "eventemitter3"
 
 const CALLBACK_METHODS = [
-  'handleChange',
-  'handleEnter',
-  'handleEsc',
-  'handleHit',
-  'handleMove',
-  'handleSelect',
-];
+  "handleChange",
+  "handleEnter",
+  "handleEsc",
+  "handleHit",
+  "handleMove",
+  "handleSelect",
+]
 
 /** @typedef */
 type TextcompleteOptions = {
-  dropdown?: DropdownOptions;
-};
+  dropdown?: DropdownOptions,
+}
 
 /**
  * The core of textcomplete. It acts as a mediator.
  */
 export default class Textcomplete extends EventEmitter {
-  dropdown: Dropdown;
-  editor: Editor;
-  options: TextcompleteOptions;
-  completer: Completer;
-  isQueryInFlight: boolean;
-  nextPendingQuery: string | null;
+  dropdown: Dropdown
+  editor: Editor
+  options: TextcompleteOptions
+  completer: Completer
+  isQueryInFlight: boolean
+  nextPendingQuery: string | null
 
   /**
    * @param {Editor} editor - Where the textcomplete works on.
    */
   constructor(editor: Editor, options: TextcompleteOptions = {}) {
-    super();
+    super()
 
-    this.completer = new Completer();
-    this.isQueryInFlight = false;
-    this.nextPendingQuery = null;
-    this.dropdown = new Dropdown(options.dropdown || {});
-    this.editor = editor;
-    this.options = options;
+    this.completer = new Completer()
+    this.isQueryInFlight = false
+    this.nextPendingQuery = null
+    this.dropdown = new Dropdown(options.dropdown || {})
+    this.editor = editor
+    this.options = options
 
-    CALLBACK_METHODS.forEach((method) => {
-      (this: any)[method] = (this: any)[method].bind(this);
-    });
+    CALLBACK_METHODS.forEach(method => {
+      ;(this: any)[method] = (this: any)[method].bind(this)
+    })
 
-    this.startListening();
+    this.startListening()
   }
 
   /**
    * @return {this}
    */
   destroy(destroyEditor: boolean = true) {
-    this.completer.destroy();
-    this.dropdown.destroy();
+    this.completer.destroy()
+    this.dropdown.destroy()
     if (destroyEditor) {
-      this.editor.destroy();
+      this.editor.destroy()
     }
-    this.stopListening();
-    return this;
+    this.stopListening()
+    return this
   }
 
   /**
@@ -83,9 +83,9 @@ export default class Textcomplete extends EventEmitter {
    */
   register(strategyPropsArray: StrategyProperties[]) {
     strategyPropsArray.forEach(props => {
-      this.completer.registerStrategy(new Strategy(props));
-    });
-    return this;
+      this.completer.registerStrategy(new Strategy(props))
+    })
+    return this
   }
 
   /**
@@ -96,90 +96,99 @@ export default class Textcomplete extends EventEmitter {
    */
   trigger(text: string) {
     if (this.isQueryInFlight) {
-      this.nextPendingQuery = text;
+      this.nextPendingQuery = text
     } else {
-      this.isQueryInFlight = true;
-      this.nextPendingQuery = null;
-      this.completer.run(text);
+      this.isQueryInFlight = true
+      this.nextPendingQuery = null
+      this.completer.run(text)
     }
-    return this;
+    return this
   }
 
   /** @private */
-  handleHit({ searchResults }: { searchResults: SearchResult[]; }) {
+  handleHit({ searchResults }: { searchResults: SearchResult[] }) {
     if (searchResults.length) {
-      this.dropdown.render(searchResults, this.editor.getCursorOffset());
+      this.dropdown.render(searchResults, this.editor.getCursorOffset())
     } else {
-      this.dropdown.deactivate();
+      this.dropdown.deactivate()
     }
-    this.isQueryInFlight = false;
+    this.isQueryInFlight = false
     if (this.nextPendingQuery !== null) {
-      this.trigger(this.nextPendingQuery);
+      this.trigger(this.nextPendingQuery)
     }
   }
 
   /** @private */
   handleMove(e: CustomEvent) {
-    e.detail.code === 'UP' ? this.dropdown.up(e) : this.dropdown.down(e);
+    e.detail.code === "UP" ? this.dropdown.up(e) : this.dropdown.down(e)
   }
 
   /** @private */
   handleEnter(e: CustomEvent) {
-    const activeItem = this.dropdown.getActiveItem();
+    const activeItem = this.dropdown.getActiveItem()
     if (activeItem) {
-      this.dropdown.select(activeItem);
-      e.preventDefault();
+      this.dropdown.select(activeItem)
+      e.preventDefault()
     } else {
-      this.dropdown.deactivate();
+      this.dropdown.deactivate()
     }
   }
 
   /** @private */
   handleEsc(e: CustomEvent) {
     if (this.dropdown.shown) {
-      this.dropdown.deactivate();
-      e.preventDefault();
+      this.dropdown.deactivate()
+      e.preventDefault()
     }
   }
 
   /** @private */
   handleChange(e: CustomEvent) {
     if (e.detail.beforeCursor != null) {
-      this.trigger(e.detail.beforeCursor);
+      this.trigger(e.detail.beforeCursor)
     } else {
-      this.dropdown.deactivate();
+      this.dropdown.deactivate()
     }
   }
 
   /** @private */
   handleSelect(selectEvent: CustomEvent) {
-    this.emit('select', selectEvent);
+    this.emit("select", selectEvent)
     if (!selectEvent.defaultPrevented) {
-      this.editor.applySearchResult(selectEvent.detail.searchResult);
+      this.editor.applySearchResult(selectEvent.detail.searchResult)
     }
   }
 
   /** @private */
   startListening() {
-    this.editor.on('move', this.handleMove)
-               .on('enter', this.handleEnter)
-               .on('esc', this.handleEsc)
-               .on('change', this.handleChange);
-    this.dropdown.on('select', this.handleSelect);
-    ['show', 'shown', 'render', 'rendered', 'selected', 'hidden', 'hide']
-      .forEach(eventName => {
-        this.dropdown.on(eventName, () => this.emit(eventName));
-      });
-    this.completer.on('hit', this.handleHit);
+    this.editor
+      .on("move", this.handleMove)
+      .on("enter", this.handleEnter)
+      .on("esc", this.handleEsc)
+      .on("change", this.handleChange)
+    this.dropdown.on("select", this.handleSelect)
+    ;[
+      "show",
+      "shown",
+      "render",
+      "rendered",
+      "selected",
+      "hidden",
+      "hide",
+    ].forEach(eventName => {
+      this.dropdown.on(eventName, () => this.emit(eventName))
+    })
+    this.completer.on("hit", this.handleHit)
   }
 
   /** @private */
   stopListening() {
-    this.completer.removeAllListeners();
-    this.dropdown.removeAllListeners();
-    this.editor.removeListener('move', this.handleMove)
-               .removeListener('enter', this.handleEnter)
-               .removeListener('esc', this.handleEsc)
-               .removeListener('change', this.handleChange);
+    this.completer.removeAllListeners()
+    this.dropdown.removeAllListeners()
+    this.editor
+      .removeListener("move", this.handleMove)
+      .removeListener("enter", this.handleEnter)
+      .removeListener("esc", this.handleEsc)
+      .removeListener("change", this.handleChange)
   }
 }

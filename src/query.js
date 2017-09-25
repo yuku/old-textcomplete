@@ -1,26 +1,26 @@
 // @flow
 
-import SearchResult from './search_result';
-import Strategy from './strategy';
+import SearchResult from "./search_result"
+import Strategy from "./strategy"
 
 declare class MatchData extends Array<string> {
-  index: number;
+  index: number,
 }
 
-export type { MatchData };
+export type { MatchData }
 
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
  */
 export default class Query {
-  strategy: Strategy;
-  term: string;
-  match: MatchData;
+  strategy: Strategy
+  term: string
+  match: MatchData
 
   constructor(strategy: Strategy, term: string, match: MatchData) {
-    this.strategy = strategy;
-    this.term = term;
-    this.match = match;
+    this.strategy = strategy
+    this.term = term
+    this.match = match
   }
 
   /**
@@ -30,11 +30,13 @@ export default class Query {
     this.strategy.search(
       this.term,
       results => {
-        callback(results.map(result => {
-          return new SearchResult(result, this.term, this.strategy);
-        }));
+        callback(
+          results.map(result => {
+            return new SearchResult(result, this.term, this.strategy)
+          }),
+        )
       },
-      this.match
-    );
+      this.match,
+    )
   }
 }

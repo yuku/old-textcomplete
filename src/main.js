@@ -1,13 +1,13 @@
-import Textcomplete from './textcomplete';
-import Textarea from './textarea';
+import Textcomplete from "./textcomplete"
+import Textarea from "./textarea"
 
-let editors;
+let editors
 if (global.Textcomplete && global.Textcomplete.editors) {
-  editors = global.Textcomplete.editors;
+  editors = global.Textcomplete.editors
 } else {
-  editors = {};
+  editors = {}
 }
-editors.Textarea = Textarea;
+editors.Textarea = Textarea
 
-global.Textcomplete = Textcomplete;
-global.Textcomplete.editors = editors;
+global.Textcomplete = Textcomplete
+global.Textcomplete.editors = editors
