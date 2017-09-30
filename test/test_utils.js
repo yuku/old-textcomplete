@@ -1,16 +1,16 @@
-import Dropdown from '../src/dropdown';
-import DropdownItem from '../src/dropdown_item';
-import Query from '../src/query';
-import SearchResult from '../src/search_result';
-import Strategy from '../src/strategy';
-import Textarea from '../src/textarea';
-import extend from 'lodash.assignin';
+import Dropdown from "../src/dropdown"
+import DropdownItem from "../src/dropdown_item"
+import Query from "../src/query"
+import SearchResult from "../src/search_result"
+import Strategy from "../src/strategy"
+import Textarea from "../src/textarea"
+import extend from "lodash.assignin"
 
 /**
  * @returns {HTMLTextAreaElement}
  */
 export function getHTMLTextAreaElement() {
-  return document.createElement('textarea');
+  return document.createElement("textarea")
 }
 
 /**
@@ -18,15 +18,20 @@ export function getHTMLTextAreaElement() {
  * @returns {Strategy}
  */
 export function createStrategy(props) {
-  return new Strategy(extend({
-    match: /(^|\s)(\w*)$/,
-    search: function (term, callback) {
-      callback([term]);
-    },
-    replace: function (value) {
-      return `$1${value.toUpperCase()} `;
-    },
-  }, props));
+  return new Strategy(
+    extend(
+      {
+        match: /(^|\s)(\w*)$/,
+        search: function(term, callback) {
+          callback([term])
+        },
+        replace: function(value) {
+          return `$1${value.toUpperCase()} `
+        },
+      },
+      props,
+    ),
+  )
 }
 
 /**
@@ -35,15 +40,15 @@ export function createStrategy(props) {
  * @param {object} [strategyProps]
  * @returns {Strategy}
  */
-export function createSearchResult(data='hello', term='he', strategyProps) {
-  return new SearchResult(data, term, createStrategy(strategyProps));
+export function createSearchResult(data = "hello", term = "he", strategyProps) {
+  return new SearchResult(data, term, createStrategy(strategyProps))
 }
 
 /**
  * @returns {Textarea}
  */
 export function createTextarea() {
-  return new Textarea(getHTMLTextAreaElement());
+  return new Textarea(getHTMLTextAreaElement())
 }
 
 /**
@@ -52,8 +57,12 @@ export function createTextarea() {
  * @param {string[]} [match]
  * @returns {Query}
  */
-export function createQuery(strategy=createStrategy(), term='he', match=['he', '', 'he']) {
-  return new Query(strategy, term, match);
+export function createQuery(
+  strategy = createStrategy(),
+  term = "he",
+  match = ["he", "", "he"],
+) {
+  return new Query(strategy, term, match)
 }
 
 /**
@@ -61,8 +70,11 @@ export function createQuery(strategy=createStrategy(), term='he', match=['he', '
  * @param {SearchResult} [searchResult]
  * @returns {DropdownItem}
  */
-export function createDropdownItem(dropdown=new Dropdown(), searchResult=createSearchResult()) {
-  var dropdownItem = new DropdownItem(searchResult);
-  dropdown.append([dropdownItem]);
-  return dropdownItem;
+export function createDropdownItem(
+  dropdown = new Dropdown(),
+  searchResult = createSearchResult(),
+) {
+  var dropdownItem = new DropdownItem(searchResult)
+  dropdown.append([dropdownItem])
+  return dropdownItem
 }

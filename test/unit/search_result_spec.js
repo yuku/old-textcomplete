@@ -1,48 +1,60 @@
-require('../test_helper');
+require("../test_helper")
 
-import {createSearchResult} from '../test_utils';
-import isUndefined from 'lodash.isundefined';
+import { createSearchResult } from "../test_utils"
+import isUndefined from "lodash.isundefined"
 
-const assert = require('power-assert');
+const assert = require("power-assert")
 
-describe('SearchResult', function () {
-  describe('#replace', function () {
-    var searchResult;
+describe("SearchResult", function() {
+  describe("#replace", function() {
+    var searchResult
 
-    context('when #strategy.replace returns a string', function () {
-      beforeEach(function () {
-        searchResult = createSearchResult('hello', 'he', {
-          replace: function (data) { return `$1@${data}`; },
-        });
-      });
+    context("when #strategy.replace returns a string", function() {
+      beforeEach(function() {
+        searchResult = createSearchResult("hello", "he", {
+          replace: function(data) {
+            return `$1@${data}`
+          },
+        })
+      })
 
-      it('should return an array of strings', function () {
-        assert.deepEqual(searchResult.replace('before he', 'after'), ['before @hello', 'after']);
-      });
-    });
+      it("should return an array of strings", function() {
+        assert.deepEqual(searchResult.replace("before he", "after"), [
+          "before @hello",
+          "after",
+        ])
+      })
+    })
 
-    context('when #strategy.replace returns an array of strings', function () {
-      beforeEach(function () {
-        searchResult = createSearchResult('hello', 'he', {
-          replace: function (data) { return ['$1@', data]; },
-        });
-      });
+    context("when #strategy.replace returns an array of strings", function() {
+      beforeEach(function() {
+        searchResult = createSearchResult("hello", "he", {
+          replace: function(data) {
+            return ["$1@", data]
+          },
+        })
+      })
 
-      it('should return an array of strings', function () {
-        assert.deepEqual(searchResult.replace('before he', 'after'), ['before @', 'helloafter']);
-      });
-    });
+      it("should return an array of strings", function() {
+        assert.deepEqual(searchResult.replace("before he", "after"), [
+          "before @",
+          "helloafter",
+        ])
+      })
+    })
 
-    context('when #strategy.replace returns null', function () {
-      beforeEach(function () {
-        searchResult = createSearchResult('hello', 'he', {
-          replace: function () { return null; },
-        });
-      });
+    context("when #strategy.replace returns null", function() {
+      beforeEach(function() {
+        searchResult = createSearchResult("hello", "he", {
+          replace: function() {
+            return null
+          },
+        })
+      })
 
-      it('should return undefined', function () {
-        assert(isUndefined(searchResult.replace('', '')));
-      });
-    });
-  });
-});
+      it("should return undefined", function() {
+        assert(isUndefined(searchResult.replace("", "")))
+      })
+    })
+  })
+})
