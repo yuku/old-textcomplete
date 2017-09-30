@@ -130,7 +130,7 @@ export default class DropdownItem {
   }
 
   /** @private */
-  onMouseover(_: MouseEvent) {
+  onMouseover() {
     this.activate()
   }
 }

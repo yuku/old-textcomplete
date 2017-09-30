@@ -106,7 +106,7 @@ export default class Textarea extends Editor {
   }
 
   /** @private */
-  onInput(_: Event) {
+  onInput() {
     this.emitChangeEvent()
   }
 
