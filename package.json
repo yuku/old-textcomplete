@@ -87,7 +87,7 @@
   "dependencies": {
     "eventemitter3": "^2.0.3",
     "textarea-caret": "^3.0.1",
-    "undate": "^0.2.0"
+    "undate": "^0.2.2"
   },
   "bundlesize": [
     {
