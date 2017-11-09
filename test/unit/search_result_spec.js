@@ -56,5 +56,18 @@ describe("SearchResult", function() {
         assert(isUndefined(searchResult.replace("", "")))
       })
     })
+
+    context("when #strategy.replace handles numeric strings correctly", function() {
+      beforeEach(function() {
+        searchResult = createSearchResult("0000001", "1")
+      })
+
+      it("should sub the numeric value in the string correctly", function() {
+        assert.deepEqual(searchResult.replace("1", ""),[
+          "0000001 ",
+          ""
+        ])
+      })
+    })
   })
 })
