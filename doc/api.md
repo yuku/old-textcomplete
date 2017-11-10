@@ -35,21 +35,18 @@
 -   [Query](#query)
     -   [execute](#execute)
 -   [SearchResult](#searchresult)
-    -   [constructor](#constructor)
 -   [StrategyProperties](#strategyproperties)
 -   [Strategy](#strategy)
     -   [destroy](#destroy-4)
     -   [buildQuery](#buildquery)
     -   [replace](#replace)
 -   [Textarea](#textarea)
-    -   [constructor](#constructor-1)
     -   [destroy](#destroy-5)
     -   [applySearchResult](#applysearchresult-1)
     -   [getCursorOffset](#getcursoroffset-1)
     -   [getBeforeCursor](#getbeforecursor-1)
 -   [TextcompleteOptions](#textcompleteoptions)
 -   [Textcomplete](#textcomplete)
-    -   [constructor](#constructor-2)
     -   [destroy](#destroy-6)
     -   [register](#register)
     -   [trigger](#trigger)
@@ -335,14 +332,6 @@ Encapsulate an result of each search results.
 -   `term` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `strategy` **[Strategy](#strategy)** 
 
-### constructor
-
-**Parameters**
-
--   `data` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An element of array callbacked by search function.
--   `term` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
--   `strategy` **[Strategy](#strategy)** 
-
 ## StrategyProperties
 
 Properties for a strategy.
@@ -398,12 +387,6 @@ Encapsulate the target textarea element.
 
 -   `el` **[HTMLTextAreaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement)** 
 
-### constructor
-
-**Parameters**
-
--   `el` **[HTMLTextAreaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement)** Where the textcomplete works on.
-
 ### destroy
 
 Returns **this** 
@@ -441,13 +424,6 @@ The core of textcomplete. It acts as a mediator.
 **Parameters**
 
 -   `editor` **[Editor](#editor)** 
--   `options` **[TextcompleteOptions](#textcompleteoptions)**  (optional, default `{}`)
-
-### constructor
-
-**Parameters**
-
--   `editor` **[Editor](#editor)** Where the textcomplete works on.
 -   `options` **[TextcompleteOptions](#textcompleteoptions)**  (optional, default `{}`)
 
 ### destroy

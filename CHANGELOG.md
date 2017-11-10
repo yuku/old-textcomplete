@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## [0.14.3] - 2017-11-10
+### Fixed
+- Fix to make SearchResult.replace work with numeric matches. (thanks for [@mikemorton])
+
 ## [0.14.2] - 2017-09-25
 ### Fixed
 - Deactivate dropdown if null change event is fired.
@@ -167,7 +171,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.14.2...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.14.3...HEAD
+[0.14.3]: https://github.com/yuku-t/textcomplete/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/yuku-t/textcomplete/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/yuku-t/textcomplete/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/yuku-t/textcomplete/compare/v0.13.1...v0.14.0
