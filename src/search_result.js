@@ -30,7 +30,7 @@ export default class SearchResult {
       if (match) {
         replacement = replacement
           .replace(/\$&/g, match[0])
-          .replace(/\$(\d+)/g, (_, p1) => match[parseInt(p1, 10)])
+          .replace(/\$(\d)/g, (_, p1) => match[parseInt(p1, 10)])
         return [
           [
             beforeCursor.slice(0, match.index),
