@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Fixed
+- Update undate to fix infinite loop.
 
 ## [0.14.3] - 2017-11-10
 ### Fixed
