@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+
+## [0.14.4] - 2017-11-15
 ### Fixed
 - Update undate to fix infinite loop.
 
@@ -173,7 +175,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.14.3...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.14.4...HEAD
+[0.14.4]: https://github.com/yuku-t/textcomplete/compare/v0.14.3...v0.14.4
 [0.14.3]: https://github.com/yuku-t/textcomplete/compare/v0.14.2...v0.14.3
 [0.14.2]: https://github.com/yuku-t/textcomplete/compare/v0.14.1...v0.14.2
 [0.14.1]: https://github.com/yuku-t/textcomplete/compare/v0.14.0...v0.14.1
