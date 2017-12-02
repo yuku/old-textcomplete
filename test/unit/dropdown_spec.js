@@ -3,7 +3,6 @@ require("../test_helper")
 import Dropdown from "../../src/dropdown"
 import DropdownItem from "../../src/dropdown_item"
 import { createSearchResult } from "../test_utils"
-import isUndefined from "lodash.isundefined"
 
 const assert = require("power-assert")
 
@@ -65,7 +64,6 @@ describe("Dropdown", function() {
       dropdown = new Dropdown({})
       assert.strictEqual(subject(), dropdown)
     })
-
     ;["render", "rendered"].forEach(name => {
       it(`should emit ${name} event`, function() {
         var spy = this.sinon.spy()
@@ -106,7 +104,6 @@ describe("Dropdown", function() {
           subject()
           assert(dropdown.shown)
         })
-
         ;["show", "shown"].forEach(eventName => {
           it(`should emit ${eventName} event`, function() {
             var spy = this.sinon.spy()
@@ -132,7 +129,6 @@ describe("Dropdown", function() {
           dropdown = new Dropdown({})
           dropdown.shown = true
         })
-
         ;["show", "shown"].forEach(eventName => {
           it(`should not emit ${eventName} event`, function() {
             var spy = this.sinon.spy()
@@ -156,7 +152,6 @@ describe("Dropdown", function() {
           dropdown = new Dropdown({})
           dropdown.shown = true
         })
-
         ;["show", "shown"].forEach(eventName => {
           it(`should not emit ${eventName} event`, function() {
             var spy = this.sinon.spy()
@@ -172,7 +167,6 @@ describe("Dropdown", function() {
           dropdown = new Dropdown({})
           dropdown.shown = false
         })
-
         ;["show", "shown"].forEach(eventName => {
           it(`should emit ${eventName} event`, function() {
             var spy = this.sinon.spy()
@@ -304,7 +298,6 @@ describe("Dropdown", function() {
         subject()
         assert(!dropdown.shown)
       })
-
       ;["hide", "hidden"].forEach(eventName => {
         it(`should emit ${eventName} event`, function() {
           var spy = this.sinon.spy()
@@ -357,7 +350,6 @@ describe("Dropdown", function() {
       subject()
       assert(stub.calledOnce)
     })
-
     ;["select", "selected"].forEach(name => {
       it(`should emit a ${name} event`, function() {
         var spy = this.sinon.spy()
@@ -527,8 +519,8 @@ describe("Dropdown", function() {
     }
 
     context("without active item", function() {
-      it("should return undefined", function() {
-        assert(isUndefined(subject()))
+      it("should return null", function() {
+        assert(subject() === null)
       })
     })
 

@@ -28,6 +28,7 @@ export type DropdownOptions = {
 export default class Dropdown extends EventEmitter {
   shown: boolean
   items: DropdownItem[]
+  activeItem: DropdownItem | null
   footer: $PropertyType<DropdownOptions, "footer">
   header: $PropertyType<DropdownOptions, "header">
   maxCount: $PropertyType<DropdownOptions, "maxCount">
@@ -52,6 +53,7 @@ export default class Dropdown extends EventEmitter {
     super()
     this.shown = false
     this.items = []
+    this.activeItem = null
     this.footer = options.footer
     this.header = options.header
     this.maxCount = options.maxCount || 10
@@ -155,8 +157,8 @@ export default class Dropdown extends EventEmitter {
   /**
    * Retrieve the active item.
    */
-  getActiveItem(): ?DropdownItem {
-    return this.items.find(item => item.active)
+  getActiveItem(): DropdownItem | null {
+    return this.activeItem
   }
 
   /**
@@ -246,15 +248,13 @@ export default class Dropdown extends EventEmitter {
   }
 
   /** @private */
-  moveActiveItem(name: "next" | "prev", e: CustomEvent) {
-    const activeItem: any = this.getActiveItem()
-    let nextActiveItem
-    if (activeItem) {
-      nextActiveItem = activeItem[name]
-    } else {
-      nextActiveItem =
-        name === "next" ? this.items[0] : this.items[this.items.length - 1]
-    }
+  moveActiveItem(direction: "next" | "prev", e: CustomEvent) {
+    const nextActiveItem =
+      direction === "next"
+        ? this.activeItem ? this.activeItem.next : this.items[0]
+        : this.activeItem
+          ? this.activeItem.prev
+          : this.items[this.items.length - 1]
     if (nextActiveItem) {
       nextActiveItem.activate()
       e.preventDefault()
