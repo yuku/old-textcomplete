@@ -50,6 +50,9 @@ export default class DropdownItem {
     this.el.removeEventListener("mousedown", this.onClick, false)
     this.el.removeEventListener("mouseover", this.onMouseover, false)
     this.el.removeEventListener("touchstart", this.onClick, false)
+    if (this.active) {
+      this.dropdown.activeItem = null
+    }
     // This element has already been removed by {@link Dropdown#clear}.
     this._el = null
   }
@@ -76,6 +79,7 @@ export default class DropdownItem {
       if (activeItem) {
         activeItem.deactivate()
       }
+      this.dropdown.activeItem = this
       this.active = true
       this.el.className = ACTIVE_CLASS_NAME
     }
@@ -119,6 +123,7 @@ export default class DropdownItem {
     if (this.active) {
       this.active = false
       this.el.className = CLASS_NAME
+      this.dropdown.activeItem = null
     }
     return this
   }
