@@ -1,17 +1,13 @@
----
-engines:
-  duplication:
-    enabled: true
+version: "2"
+checks:
+  similar-code:
     config:
-      languages:
-        javascript:
-          mass_threshold: 100 # Defualt: 40
+      threshold: 100
+plugins:
   eslint:
     enabled: true
-ratings:
-  paths:
-  - "**.js"
-exclude_paths:
-- karma.conf.js
-- webpack.config.js
-- test
+    channel: "eslint-4"
+exclude_patterns:
+  - "karma.conf.js"
+  - "webpack.config.js"
+  - "test/"
