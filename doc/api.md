@@ -197,7 +197,7 @@ Returns **this**
 
 Retrieve the active item.
 
-Returns **[DropdownItem](#dropdownitem)?** 
+Returns **([DropdownItem](#dropdownitem) | null)** 
 
 ## CursorOffset
 
