@@ -3,9 +3,13 @@
 import Dropdown from "./dropdown"
 import SearchResult from "./search_result"
 
-export const CLASS_NAME = "textcomplete-item"
-const ACTIVE_CLASS_NAME = `${CLASS_NAME} active`
+export const DEFAULT_CLASS_NAME = "textcomplete-item"
 const CALLBACK_METHODS = ["onClick", "onMouseover"]
+
+/** @typedef */
+export type DropdownItemOptions = {
+  className?: string,
+}
 
 /**
  * Encapsulate an item of dropdown.
@@ -13,14 +17,18 @@ const CALLBACK_METHODS = ["onClick", "onMouseover"]
 export default class DropdownItem {
   searchResult: SearchResult
   active: boolean
+  className: string
+  activeClassName: string
   siblings: DropdownItem[]
   dropdown: Dropdown
   index: number
   _el: ?HTMLLIElement
 
-  constructor(searchResult: SearchResult) {
+  constructor(searchResult: SearchResult, options: DropdownItemOptions) {
     this.searchResult = searchResult
     this.active = false
+    this.className = options.className || DEFAULT_CLASS_NAME;
+    this.activeClassName = `${this.className} active`;
 
     CALLBACK_METHODS.forEach(method => {
       ;(this: any)[method] = (this: any)[method].bind(this)
@@ -32,7 +40,7 @@ export default class DropdownItem {
       return this._el
     }
     const li = document.createElement("li")
-    li.className = this.active ? ACTIVE_CLASS_NAME : CLASS_NAME
+    li.className = this.active ? this.activeClassName : this.className
     const a = document.createElement("a")
     a.innerHTML = this.searchResult.render()
     li.appendChild(a)
@@ -81,7 +89,7 @@ export default class DropdownItem {
       }
       this.dropdown.activeItem = this
       this.active = true
-      this.el.className = ACTIVE_CLASS_NAME
+      this.el.className = this.activeClassName
     }
     return this
   }
@@ -122,7 +130,7 @@ export default class DropdownItem {
   deactivate() {
     if (this.active) {
       this.active = false
-      this.el.className = CLASS_NAME
+      this.el.className = this.className
       this.dropdown.activeItem = null
     }
     return this
