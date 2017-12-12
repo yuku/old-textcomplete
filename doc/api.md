@@ -6,6 +6,7 @@
     -   [destroy](#destroy)
     -   [registerStrategy](#registerstrategy)
     -   [run](#run)
+-   [DropdownItemOptions](#dropdownitemoptions)
 -   [DropdownItem](#dropdownitem)
     -   [destroy](#destroy-1)
     -   [appended](#appended)
@@ -75,9 +76,17 @@ Returns **this**
 
 **Parameters**
 
--   `text` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
+-   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
 
 Returns **void** 
+
+## DropdownItemOptions
+
+Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+
+**Properties**
+
+-   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 ## DropdownItem
 
@@ -86,6 +95,7 @@ Encapsulate an item of dropdown.
 **Parameters**
 
 -   `searchResult` **[SearchResult](#searchresult)** 
+-   `options` **[DropdownItemOptions](#dropdownitemoptions)** 
 
 ### destroy
 
@@ -121,17 +131,18 @@ Returns **[DropdownItem](#dropdownitem)?**
 
 ## DropdownOptions
 
-Type: {className: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?}
+Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?, item: [DropdownItemOptions](#dropdownitemoptions)?}
 
 **Properties**
 
--   `className` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `footer` **function (any): ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?** 
--   `header` **function (any): ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String))?** 
--   `maxCount` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
--   `placement` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `rotate` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+-   `className` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+-   `footer` **function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** 
+-   `header` **function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?** 
+-   `maxCount` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
+-   `placement` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+-   `rotate` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
 -   `style` **{}?** 
+-   `item` **[DropdownItemOptions](#dropdownitemoptions)?** 
 
 ## Dropdown
 
@@ -145,8 +156,8 @@ Encapsulate a dropdown view.
 
 **Properties**
 
--   `shown` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the #el is shown or not.
--   `items` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[DropdownItem](#dropdownitem)>** The array of rendered dropdown items.
+-   `shown` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)** Whether the #el is shown or not.
+-   `items` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[DropdownItem](#dropdownitem)>** The array of rendered dropdown items.
 
 ### destroy
 
@@ -158,7 +169,7 @@ Render the given data as dropdown items.
 
 **Parameters**
 
--   `searchResults` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[SearchResult](#searchresult)>** 
+-   `searchResults` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[SearchResult](#searchresult)>** 
 -   `cursorOffset` **[CursorOffset](#cursoroffset)** 
 
 Returns **this** 
@@ -181,7 +192,7 @@ Returns **this**
 
 **Parameters**
 
--   `e` **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+-   `e` **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 Returns **this** 
 
@@ -189,7 +200,7 @@ Returns **this**
 
 **Parameters**
 
--   `e` **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+-   `e` **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 Returns **this** 
 
@@ -201,14 +212,14 @@ Returns **([DropdownItem](#dropdownitem) | null)**
 
 ## CursorOffset
 
-Type: {lineHeight: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), top: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number), left: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?, right: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?}
+Type: {lineHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), top: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), left: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, right: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?}
 
 **Properties**
 
--   `lineHeight` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `top` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
--   `left` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
--   `right` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
+-   `lineHeight` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `top` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
+-   `left` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
+-   `right` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
 
 ## Editor
 
@@ -250,7 +261,7 @@ Returns **[CursorOffset](#cursoroffset)**
 Editor string value from head to cursor.
 Returns null if selection type is range not cursor.
 
-Returns **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+Returns **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 ### emitMoveEvent
 
@@ -263,7 +274,7 @@ Child class must call this method at proper timing with proper parameter.
 
 -   `code` **(`"UP"` \| `"DOWN"`)** 
 
-Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+Returns **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 ### emitEnterEvent
 
@@ -272,7 +283,7 @@ Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomE
 Emit a enter event, which selects current search result.
 Child class must call this method at proper timing.
 
-Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+Returns **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 ### emitChangeEvent
 
@@ -281,7 +292,7 @@ Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomE
 Emit a change event, which triggers auto completion.
 Child class must call this method at proper timing.
 
-Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+Returns **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 ### emitEscEvent
 
@@ -290,7 +301,7 @@ Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomE
 Emit a esc event, which hides dropdown element.
 Child class must call this method at proper timing.
 
-Returns **[CustomEvent](https://developer.mozilla.org/en-US/docs/Web/API/CustomEvent/CustomEvent)** 
+Returns **[CustomEvent](https://developer.mozilla.org/docs/Web/API/CustomEvent/CustomEvent)** 
 
 ### getCode
 
@@ -300,7 +311,7 @@ Helper method for parsing KeyboardEvent.
 
 **Parameters**
 
--   `e` **[KeyboardEvent](https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent)** 
+-   `e` **[KeyboardEvent](https://developer.mozilla.org/docs/Web/API/KeyboardEvent)** 
 
 Returns **KeyCode** 
 
@@ -311,7 +322,7 @@ Encapsulate matching condition between a Strategy and current editor's value.
 **Parameters**
 
 -   `strategy` **[Strategy](#strategy)** 
--   `term` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `term` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `match` **MatchData** 
 
 ### execute
@@ -320,7 +331,7 @@ Invoke search strategy and callback the given function.
 
 **Parameters**
 
--   `callback` **function ([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[SearchResult](#searchresult)>): void** 
+-   `callback` **function ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[SearchResult](#searchresult)>): void** 
 
 ## SearchResult
 
@@ -328,26 +339,26 @@ Encapsulate an result of each search results.
 
 **Parameters**
 
--   `data` **[Object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
--   `term` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** 
+-   `data` **[Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** 
+-   `term` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** 
 -   `strategy` **[Strategy](#strategy)** 
 
 ## StrategyProperties
 
 Properties for a strategy.
 
-Type: {match: ([RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) | function ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)): (MatchData | null)), search: [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function), replace: function (any): ([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | null), cache: [boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, context: [Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?, template: function (any): [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?, index: [number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?, id: [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?}
+Type: {match: ([RegExp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp) | function ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)): (MatchData | null)), search: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function), replace: function (any): ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | null), cache: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, context: [Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?, template: function (any): [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, index: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, id: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?}
 
 **Properties**
 
--   `match` **([RegExp](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp) | function ([string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)): (MatchData | null))** 
--   `search` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)** 
--   `replace` **function (any): ([Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String) | null)** 
--   `cache` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
--   `context` **[Function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function)?** 
--   `template` **function (any): [string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
--   `index` **[number](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
--   `id` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+-   `match` **([RegExp](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/RegExp) | function ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)): (MatchData | null))** 
+-   `search` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)** 
+-   `replace` **function (any): ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)> | [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) | null)** 
+-   `cache` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
+-   `context` **[Function](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function)?** 
+-   `template` **function (any): [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
+-   `index` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
+-   `id` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** 
 
 ## Strategy
 
@@ -367,7 +378,7 @@ Build a Query object by the given string if this matches to the string.
 
 **Parameters**
 
--   `text` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
+-   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
 
 Returns **[Query](#query)?** 
 
@@ -375,7 +386,7 @@ Returns **[Query](#query)?**
 
 **Parameters**
 
--   `data` **[object](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object)** An element of array callbacked by search function.
+-   `data` **[object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)** An element of array callbacked by search function.
 
 ## Textarea
 
@@ -385,7 +396,7 @@ Encapsulate the target textarea element.
 
 **Parameters**
 
--   `el` **[HTMLTextAreaElement](https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement)** 
+-   `el` **[HTMLTextAreaElement](https://developer.mozilla.org/docs/Web/API/HTMLTextAreaElement)** 
 
 ### destroy
 
@@ -430,7 +441,7 @@ The core of textcomplete. It acts as a mediator.
 
 **Parameters**
 
--   `destroyEditor` **[boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**  (optional, default `true`)
+-   `destroyEditor` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**  (optional, default `true`)
 
 Returns **this** 
 
@@ -438,7 +449,7 @@ Returns **this**
 
 **Parameters**
 
--   `strategyPropsArray` **[Array](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[StrategyProperties](#strategyproperties)>** 
+-   `strategyPropsArray` **[Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[StrategyProperties](#strategyproperties)>** 
 
 **Examples**
 
@@ -464,6 +475,6 @@ Start autocompleting.
 
 **Parameters**
 
--   `text` **[string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
+-   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
 
 Returns **this** 

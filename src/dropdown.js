@@ -1,7 +1,7 @@
 // @flow
 import EventEmitter from "eventemitter3"
 
-import DropdownItem from "./dropdown_item"
+import DropdownItem, { type DropdownItemOptions } from "./dropdown_item"
 import SearchResult from "./search_result"
 import { createCustomEvent } from "./utils"
 import type { CursorOffset } from "./editor"
@@ -17,6 +17,7 @@ export type DropdownOptions = {
   placement?: string,
   rotate?: boolean,
   style?: { [string]: string },
+  item?: DropdownItemOptions,
 }
 
 /**
@@ -34,6 +35,7 @@ export default class Dropdown extends EventEmitter {
   maxCount: $PropertyType<DropdownOptions, "maxCount">
   rotate: $PropertyType<DropdownOptions, "rotate">
   placement: $PropertyType<DropdownOptions, "placement">
+  itemOptions: DropdownItemOptions
   _el: ?HTMLUListElement
 
   static createElement(): HTMLUListElement {
@@ -60,6 +62,7 @@ export default class Dropdown extends EventEmitter {
     this.el.className = options.className || DEFAULT_CLASS_NAME
     this.rotate = options.hasOwnProperty("rotate") ? options.rotate : true
     this.placement = options.placement
+    this.itemOptions = options.item || {}
     const style = options.style
     if (style) {
       Object.keys(style).forEach(key => {
@@ -101,7 +104,7 @@ export default class Dropdown extends EventEmitter {
     const rawResults = searchResults.map(searchResult => searchResult.data)
     const dropdownItems = searchResults
       .slice(0, this.maxCount || searchResults.length)
-      .map(searchResult => new DropdownItem(searchResult))
+      .map(searchResult => new DropdownItem(searchResult, this.itemOptions))
     this.clear()
       .setStrategyId(searchResults[0])
       .renderEdge(rawResults, "header")

@@ -283,7 +283,7 @@ describe("Dropdown", function() {
     })
 
     it("should empty itself", function() {
-      dropdown.append([new DropdownItem(createSearchResult())])
+      dropdown.append([new DropdownItem(createSearchResult(), {})])
       assert.equal(dropdown.items.length, 1)
       subject()
       assert.equal(dropdown.items.length, 0)
@@ -324,7 +324,7 @@ describe("Dropdown", function() {
   describe("#append", function() {
     it("should call #appended of the appended dropdown item", function() {
       var dropdown = new Dropdown({})
-      var dropdownItem = new DropdownItem(createSearchResult())
+      var dropdownItem = new DropdownItem(createSearchResult(), {})
       var stub = this.sinon.stub(dropdownItem, "appended")
       dropdown.append([dropdownItem])
       assert(stub.calledOnce)
@@ -341,7 +341,7 @@ describe("Dropdown", function() {
 
     beforeEach(function() {
       dropdown = new Dropdown({})
-      dropdownItem = new DropdownItem(createSearchResult())
+      dropdownItem = new DropdownItem(createSearchResult(), {})
       dropdown.append([dropdownItem])
     })
 

@@ -2,7 +2,7 @@ require("../test_helper")
 
 import Textcomplete from "../../src/textcomplete"
 import Textarea from "../../src/textarea"
-import { CLASS_NAME } from "../../src/dropdown_item"
+import { DEFAULT_CLASS_NAME } from "../../src/dropdown_item"
 
 import { Keyboard } from "keysim"
 
@@ -106,7 +106,7 @@ describe("Dropdown options integration test", function() {
       textareaEl.selectionStart = textareaEl.selectionEnd = 2
       keyboard.dispatchEventsForInput("@a", textareaEl)
 
-      var items = document.getElementsByClassName(CLASS_NAME)
+      var items = document.getElementsByClassName(DEFAULT_CLASS_NAME)
       assert.equal(items.length, maxCount)
     })
   })
