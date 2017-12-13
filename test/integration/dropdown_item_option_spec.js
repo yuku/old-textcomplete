@@ -23,7 +23,9 @@ describe("Dropdown item options integration test", function() {
   })
 
   function setup(option, strategy) {
-    var textcomplete = new Textcomplete(textarea, { dropdown: { item: option } })
+    var textcomplete = new Textcomplete(textarea, {
+      dropdown: { item: option },
+    })
     textcomplete.register([strategy])
     return textcomplete
   }

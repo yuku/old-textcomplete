@@ -36,7 +36,6 @@ describe("Textcomplete", function() {
         textcomplete.destroy(false)
         assert(!stub.called)
       })
-
       ;["completer", "dropdown"].forEach(prop => {
         it(`should destroy its ${prop}`, function() {
           var stub = this.sinon.stub(textcomplete[prop], "destroy")

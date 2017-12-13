@@ -73,7 +73,7 @@ export function createQuery(
 export function createDropdownItem(
   dropdown = new Dropdown(),
   searchResult = createSearchResult(),
-  options = {}
+  options = {},
 ) {
   var dropdownItem = new DropdownItem(searchResult, options)
   dropdown.append([dropdownItem])

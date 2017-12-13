@@ -27,8 +27,8 @@ export default class DropdownItem {
   constructor(searchResult: SearchResult, options: DropdownItemOptions) {
     this.searchResult = searchResult
     this.active = false
-    this.className = options.className || DEFAULT_CLASS_NAME;
-    this.activeClassName = `${this.className} active`;
+    this.className = options.className || DEFAULT_CLASS_NAME
+    this.activeClassName = `${this.className} active`
 
     CALLBACK_METHODS.forEach(method => {
       ;(this: any)[method] = (this: any)[method].bind(this)

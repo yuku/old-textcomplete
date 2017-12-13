@@ -28,7 +28,6 @@ describe("Textarea", function() {
       event = document.createEvent("UIEvents")
       event.initEvent("keydown", true, true)
     })
-
     ;[
       [38, "UP", false, "up"],
       [40, "DOWN", false, "down"],
@@ -50,7 +49,6 @@ describe("Textarea", function() {
         })
       })
     })
-
     ;[[9, "tab"], [13, "enter"]].forEach(([keyCode, name]) => {
       context(`and it is a ${name} key`, function() {
         beforeEach(function() {
@@ -91,7 +89,6 @@ describe("Textarea", function() {
       event = document.createEvent("UIEvents")
       event.initEvent("keyup", true, true)
     })
-
     ;[
       [16, false, "shift"],
       [17, false, "ctrl"],

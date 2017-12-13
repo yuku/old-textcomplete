@@ -24,7 +24,6 @@ describe("Editor", function() {
       })
     })
   })
-
   ;["getCursorOffset", "getBeforeCursor", "getAfterCursor"].forEach(name => {
     describe(`#${name}`, function() {
       it("should throw an error", function() {

@@ -4,7 +4,7 @@ import SearchResult from "./search_result"
 import Strategy from "./strategy"
 
 declare class MatchData extends Array<string> {
-  index: number,
+  index: number;
 }
 
 export type { MatchData }
