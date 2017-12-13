@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Add option for className of DropdownItem.
 
 ## [0.14.5] - 2017-12-05
 ### Fixed
