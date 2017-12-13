@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+
+## [0.15.0] - 2017-12-14
 ### Added
 - Add option for className of DropdownItem.
 
@@ -181,7 +183,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.14.5...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.15.0...HEAD
+[0.15.0]: https://github.com/yuku-t/textcomplete/compare/v0.14.5...v0.15.0
 [0.14.5]: https://github.com/yuku-t/textcomplete/compare/v0.14.4...v0.14.5
 [0.14.4]: https://github.com/yuku-t/textcomplete/compare/v0.14.3...v0.14.4
 [0.14.3]: https://github.com/yuku-t/textcomplete/compare/v0.14.2...v0.14.3
