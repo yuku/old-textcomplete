@@ -7,8 +7,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
-### Added
-- Export `Textarea` and `Textcomplete` from main entry file.
+
+## [0.16.0] - 2017-12-19
+### Changed
+- Export `Textarea` and `Textcomplete` from main entry file. Now it no longer exports
+  `Textcomplete` as default.
 
 ## [0.15.0] - 2017-12-14
 ### Added
@@ -185,7 +188,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.16.0...HEAD
+[0.16.0]: https://github.com/yuku-t/textcomplete/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/yuku-t/textcomplete/compare/v0.14.5...v0.15.0
 [0.14.5]: https://github.com/yuku-t/textcomplete/compare/v0.14.4...v0.14.5
 [0.14.4]: https://github.com/yuku-t/textcomplete/compare/v0.14.3...v0.14.4
