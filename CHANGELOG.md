@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Export `Textarea` and `Textcomplete` from main entry file.
 
 ## [0.15.0] - 2017-12-14
 ### Added

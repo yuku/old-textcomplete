@@ -29,8 +29,7 @@ npm install --save textcomplete
 Then you can load the module into your code with `require` call:
 
 ```js
-var Textcomplete = require('textcomplete/lib/textcomplete');
-var Textarea = require('textcomplete/lib/textarea');
+var { Textcomplete, Textarea } = require('textcomplete');
 ```
 
 The `Textarea` object is a kind of *editor class*. An editor encapsulates an HTML element where users input text. The `Textarea` editor is an editor for textarea element.
