@@ -1,7 +1,6 @@
 require('./main.css');
 
-import Textcomplete from '../textcomplete';
-import Textarea from '../textarea';
+import { Textarea, Textcomplete } from '../index';
 import hljs from 'highlight.js';
 
 global.Textarea = Textarea;

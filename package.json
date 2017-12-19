@@ -2,7 +2,7 @@
   "name": "textcomplete",
   "version": "0.15.0",
   "description": "Autocomplete for textarea elements",
-  "main": "lib/textcomplete.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "yarn run clean && run-p build:*",
     "build:dist": "webpack && webpack --env=min && run-p print-dist-gz-size",
