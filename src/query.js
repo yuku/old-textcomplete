@@ -2,12 +2,7 @@
 
 import SearchResult from "./search_result"
 import Strategy from "./strategy"
-
-declare class MatchData extends Array<string> {
-  index: number;
-}
-
-export type { MatchData }
+import type { MatchData } from "./strategy"
 
 /**
  * Encapsulate matching condition between a Strategy and current editor's value.
@@ -16,6 +11,24 @@ export default class Query {
   strategy: Strategy
   term: string
   match: MatchData
+
+  /**
+   * Build a Query object by the given string if this matches to the string.
+   *
+   * @param {string} text - Head to input cursor.
+   */
+  static build(strategy: Strategy, text: string): ?Query {
+    if (typeof strategy.props.context === "function") {
+      const context = strategy.props.context(text)
+      if (typeof context === "string") {
+        text = context
+      } else if (!context) {
+        return null
+      }
+    }
+    const match = strategy.matchText(text)
+    return match ? new Query(strategy, match[strategy.index], match) : null
+  }
 
   constructor(strategy: Strategy, term: string, match: MatchData) {
     this.strategy = strategy

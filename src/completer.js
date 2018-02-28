@@ -2,8 +2,9 @@
 
 import EventEmitter from "eventemitter3"
 
-import Strategy from "./strategy"
+import Query from "./query"
 import SearchResult from "./search_result"
+import Strategy from "./strategy"
 
 const CALLBACK_METHODS = ["handleQueryResult"]
 
@@ -59,7 +60,7 @@ export default class Completer extends EventEmitter {
    */
   extractQuery(text: string) {
     for (let i = 0; i < this.strategies.length; i++) {
-      const query = this.strategies[i].buildQuery(text)
+      const query = Query.build(this.strategies[i], text)
       if (query) {
         return query
       }
