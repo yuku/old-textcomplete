@@ -1,7 +1,10 @@
 // @flow
 
-import Query from "./query"
-import type { MatchData } from "./query"
+declare class MatchData extends Array<string> {
+  index: number;
+}
+
+export type { MatchData }
 
 const DEFAULT_INDEX = 2
 
@@ -43,24 +46,6 @@ export default class Strategy {
   destroy() {
     this.cache = null
     return this
-  }
-
-  /**
-   * Build a Query object by the given string if this matches to the string.
-   *
-   * @param {string} text - Head to input cursor.
-   */
-  buildQuery(text: string): ?Query {
-    if (typeof this.props.context === "function") {
-      const context = this.props.context(text)
-      if (typeof context === "string") {
-        text = context
-      } else if (!context) {
-        return null
-      }
-    }
-    const match = this.matchText(text)
-    return match ? new Query(this, match[this.index], match) : null
   }
 
   search(term: string, callback: Function, match: MatchData): void {

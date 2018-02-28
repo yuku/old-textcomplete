@@ -1,6 +1,5 @@
 // @flow
 
-import Dropdown from "./dropdown"
 import SearchResult from "./search_result"
 
 export const DEFAULT_CLASS_NAME = "textcomplete-item"
@@ -9,6 +8,15 @@ const CALLBACK_METHODS = ["onClick", "onMouseover"]
 /** @typedef */
 export type DropdownItemOptions = {
   className?: string,
+}
+
+// Declare interface instead of importing Dropdown itself to prevent circular dependency.
+interface Dropdown {
+  activeItem: DropdownItem | null;
+  items: DropdownItem[];
+  rotate: ?Boolean;
+  getActiveItem(): DropdownItem | null;
+  select(DropdownItem): DropdownItem;
 }
 
 /**
