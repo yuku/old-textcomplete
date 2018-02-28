@@ -35,11 +35,11 @@
     -   [getCode](#getcode)
 -   [Query](#query)
     -   [execute](#execute)
+    -   [build](#build)
 -   [SearchResult](#searchresult)
 -   [StrategyProperties](#strategyproperties)
 -   [Strategy](#strategy)
     -   [destroy](#destroy-4)
-    -   [buildQuery](#buildquery)
     -   [replace](#replace)
 -   [Textarea](#textarea)
     -   [destroy](#destroy-5)
@@ -333,6 +333,17 @@ Invoke search strategy and callback the given function.
 
 -   `callback` **function ([Array](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array)&lt;[SearchResult](#searchresult)>): void** 
 
+### build
+
+Build a Query object by the given string if this matches to the string.
+
+**Parameters**
+
+-   `strategy` **[Strategy](#strategy)** 
+-   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
+
+Returns **[Query](#query)?** 
+
 ## SearchResult
 
 Encapsulate an result of each search results.
@@ -371,16 +382,6 @@ Encapsulate a single strategy.
 ### destroy
 
 Returns **this** 
-
-### buildQuery
-
-Build a Query object by the given string if this matches to the string.
-
-**Parameters**
-
--   `text` **[string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** Head to input cursor.
-
-Returns **[Query](#query)?** 
 
 ### replace
 
