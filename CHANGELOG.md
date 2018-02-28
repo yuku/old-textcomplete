@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## [0.16.1] - 2018-02-28
+### Fixed
+- Remove circluar dependency.
+
 ## [0.16.0] - 2017-12-19
 ### Changed
 - Export `Textarea` and `Textcomplete` from main entry file. Now it no longer exports
@@ -188,7 +192,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.16.0...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.16.1...HEAD
+[0.16.1]: https://github.com/yuku-t/textcomplete/compare/v0.16.0...v0.16.1
 [0.16.0]: https://github.com/yuku-t/textcomplete/compare/v0.15.0...v0.16.0
 [0.15.0]: https://github.com/yuku-t/textcomplete/compare/v0.14.5...v0.15.0
 [0.14.5]: https://github.com/yuku-t/textcomplete/compare/v0.14.4...v0.14.5
