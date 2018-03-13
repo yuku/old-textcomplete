@@ -110,8 +110,8 @@ export default class Dropdown extends EventEmitter {
       .renderEdge(rawResults, "header")
       .append(dropdownItems)
       .renderEdge(rawResults, "footer")
-      .setOffset(cursorOffset)
       .show()
+      .setOffset(cursorOffset)
     this.emit("rendered", createCustomEvent("rendered"))
     return this
   }
@@ -182,20 +182,28 @@ export default class Dropdown extends EventEmitter {
 
   /** @private */
   setOffset(cursorOffset: CursorOffset) {
-    if (cursorOffset.left) {
-      this.el.style.left = `${cursorOffset.left}px`
-    } else if (cursorOffset.right) {
-      this.el.style.right = `${cursorOffset.right}px`
-    }
-    if (this.isPlacementTop()) {
-      const element = document.documentElement
-      if (element) {
-        this.el.style.bottom = `${element.clientHeight -
+    const doc = document.documentElement;
+    if (doc) {
+      const elementWidth = this.el.offsetWidth;
+      if (cursorOffset.left) {
+        const browserWidth = doc.clientWidth;
+        if (cursorOffset.left + elementWidth > browserWidth) {
+          cursorOffset.left = browserWidth - elementWidth;
+        }
+        this.el.style.left = `${cursorOffset.left}px`
+      } else if (cursorOffset.right) {
+        if (cursorOffset.right - elementWidth < 0) {
+          cursorOffset.right = 0;
+        }
+        this.el.style.right = `${cursorOffset.right}px`
+      }
+      if (this.isPlacementTop()) {
+        this.el.style.bottom = `${doc.clientHeight -
           cursorOffset.top +
           cursorOffset.lineHeight}px`
+      } else {
+        this.el.style.top = `${cursorOffset.top}px`
       }
-    } else {
-      this.el.style.top = `${cursorOffset.top}px`
     }
     return this
   }
