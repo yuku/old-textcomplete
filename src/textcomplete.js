@@ -68,6 +68,14 @@ export default class Textcomplete extends EventEmitter {
 
   /**
    * @return {this}
+   */
+  hide() {
+    this.dropdown.deactivate()
+    return this
+  }
+
+  /**
+   * @return {this}
    * @example
    * textcomplete.register([{
    *   match: /(^|\s)(\w+)$/,
