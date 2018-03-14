@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
+### Added
+- Add hide method to textcomplete to deactivate dropdown manually
 
 ## [0.16.1] - 2018-02-28
 ### Fixed
