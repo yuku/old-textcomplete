@@ -49,6 +49,7 @@
 -   [TextcompleteOptions](#textcompleteoptions)
 -   [Textcomplete](#textcomplete)
     -   [destroy](#destroy-6)
+    -   [hide](#hide)
     -   [register](#register)
     -   [trigger](#trigger)
 
@@ -443,6 +444,10 @@ The core of textcomplete. It acts as a mediator.
 **Parameters**
 
 -   `destroyEditor` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)**  (optional, default `true`)
+
+Returns **this** 
+
+### hide
 
 Returns **this** 
 

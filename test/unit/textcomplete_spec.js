@@ -46,6 +46,23 @@ describe("Textcomplete", function() {
     })
   })
 
+  describe("#hide", function() {
+    function subject() {
+      return textcomplete.hide()
+    }
+
+    it("should return itself", function() {
+      assert.strictEqual(subject(), textcomplete)
+    })
+
+    it("should deactivate dropdown", function() {
+      var stub = this.sinon.stub(textcomplete.dropdown, "deactivate")
+
+      subject()
+      assert(stub.calledOnce)
+    })
+  })
+
   describe("#register", function() {
     var props
 
