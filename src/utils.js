@@ -96,22 +96,36 @@ export function getLineHeightPx(node: HTMLElement): number {
 
   // Otherwise, the value is "normal".
   // If the line-height is "normal", calculate by font-size
+  return calculateLineHeightPx(node.nodeName, computedStyle);
+}
+
+
+/**
+ * Returns calculated line-height of the given node in pixels.
+ *
+ * @private
+ */
+export function calculateLineHeightPx(nodeName: string, computedStyle: CSSStyleDeclaration): number {
   const body = document.body
   if (!body) {
     return 0
   }
-  const tempNode = document.createElement(node.nodeName)
+
+  const tempNode = document.createElement(nodeName)
   tempNode.innerHTML = "&nbsp;"
   tempNode.style.fontSize = computedStyle.fontSize
   tempNode.style.fontFamily = computedStyle.fontFamily
   body.appendChild(tempNode)
+
   // Make sure textarea has only 1 row
   if (tempNode instanceof HTMLTextAreaElement)
   {
     (tempNode: HTMLTextAreaElement).rows = 1
   }
+
   // Assume the height of the element is the line-height
   const height = tempNode.offsetHeight
   body.removeChild(tempNode)
+
   return height
 }
