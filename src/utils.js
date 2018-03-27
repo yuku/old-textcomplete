@@ -105,6 +105,8 @@ export function getLineHeightPx(node: HTMLElement): number {
   tempNode.style.fontSize = computedStyle.fontSize
   tempNode.style.fontFamily = computedStyle.fontFamily
   body.appendChild(tempNode)
+  // Make sure textarea has only 1 row
+  tempNode.rows = 1
   // Assume the height of the element is the line-height
   const height = tempNode.offsetHeight
   body.removeChild(tempNode)
