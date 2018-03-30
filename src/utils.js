@@ -115,6 +115,7 @@ export function calculateLineHeightPx(nodeName: string, computedStyle: CSSStyleD
   tempNode.innerHTML = "&nbsp;"
   tempNode.style.fontSize = computedStyle.fontSize
   tempNode.style.fontFamily = computedStyle.fontFamily
+  tempNode.style.padding = "0";
   body.appendChild(tempNode)
 
   // Make sure textarea has only 1 row
