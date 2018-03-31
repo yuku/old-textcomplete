@@ -182,18 +182,18 @@ export default class Dropdown extends EventEmitter {
 
   /** @private */
   setOffset(cursorOffset: CursorOffset) {
-    const doc = document.documentElement;
+    const doc = document.documentElement
     if (doc) {
-      const elementWidth = this.el.offsetWidth;
+      const elementWidth = this.el.offsetWidth
       if (cursorOffset.left) {
-        const browserWidth = doc.clientWidth;
+        const browserWidth = doc.clientWidth
         if (cursorOffset.left + elementWidth > browserWidth) {
-          cursorOffset.left = browserWidth - elementWidth;
+          cursorOffset.left = browserWidth - elementWidth
         }
         this.el.style.left = `${cursorOffset.left}px`
       } else if (cursorOffset.right) {
         if (cursorOffset.right - elementWidth < 0) {
-          cursorOffset.right = 0;
+          cursorOffset.right = 0
         }
         this.el.style.right = `${cursorOffset.right}px`
       }
