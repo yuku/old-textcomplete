@@ -34,7 +34,7 @@ First of all, create an *editor* object. An editor encapsulates an HTML elements
 
 ```js
 var textareaElement = document.getElementById('your-textarea-element')
-var editor = new Textarea(elementElement);
+var editor = new Textarea(textareaElement);
 ```
 
 Initialize a [`Textcomplete`] with the editor and optional [`Textcomplete~Options`]:
