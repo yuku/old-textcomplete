@@ -12,6 +12,7 @@ export type CursorOffset = {
   top: number,
   left?: number,
   right?: number,
+  clientTop?: number
 }
 
 type KeyCode = "ESC" | "ENTER" | "UP" | "DOWN" | "OTHER"

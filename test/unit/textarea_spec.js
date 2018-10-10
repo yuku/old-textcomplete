@@ -195,7 +195,7 @@ describe("Textarea", function() {
 
       it("should return an object with top and left properties", function() {
         var result = subject()
-        ;["top", "left", "lineHeight"].forEach(name => {
+        ;["top", "left", "lineHeight", "clientTop"].forEach(name => {
           assert(isNumber(result[name]))
         })
         assert(!result.hasOwnProperty("right"))
@@ -209,7 +209,7 @@ describe("Textarea", function() {
 
       it("should return an object with top and right properties", function() {
         var result = subject()
-        ;["top", "right", "lineHeight"].forEach(name => {
+        ;["top", "right", "lineHeight", "clientTop"].forEach(name => {
           assert(isNumber(result[name]))
         })
         assert(!result.hasOwnProperty("left"))

@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## 2018-10-10
+### Added
+- Add 'auto' placement feature
+
 ## [0.17.1] - 2018-03-31
 ### Fixed
 - Fix placement of dropdown menu in textarea with no line-height set.

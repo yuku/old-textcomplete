@@ -53,6 +53,7 @@ describe("Dropdown", function() {
         top: 0,
         left: 0,
         lineHeight: 10,
+        clientTop: 10
       })
     }
 
@@ -260,8 +261,20 @@ describe("Dropdown", function() {
         it("should attach bottom property to the element", function() {
           subject()
           const el = dropdown.el
-          assert.equal(el.style.top, "")
+          assert.equal(el.style.top, "auto")
           assert.notEqual(el.style.bottom, "")
+        })
+      }),
+      context('and it is "auto"', function() {
+        beforeEach(function() {
+          dropdown = new Dropdown({ placement: "auto" })
+        })
+
+        it("should attach bottom property to the element", function() {
+          subject()
+          const el = dropdown.el
+          assert.notEqual(el.style.top, "")
+          assert.equal(el.style.bottom, "auto")
         })
       })
     })
