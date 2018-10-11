@@ -197,12 +197,25 @@ export default class Dropdown extends EventEmitter {
         }
         this.el.style.right = `${cursorOffset.right}px`
       }
-      if (this.isPlacementTop()) {
+
+      let forceTop = false;
+      
+      if(this.isPlacementAuto()) {
+        let dropdownHeight = this.items.length * cursorOffset.lineHeight;
+
+        if(cursorOffset.clientTop + dropdownHeight > doc.clientHeight) {
+          forceTop = true;
+        }
+      }
+      
+      if (this.isPlacementTop() || forceTop) {
         this.el.style.bottom = `${doc.clientHeight -
           cursorOffset.top +
-          cursorOffset.lineHeight}px`
+          cursorOffset.lineHeight}px`;
+        this.el.style.top = "auto";
       } else {
-        this.el.style.top = `${cursorOffset.top}px`
+        this.el.style.top = `${cursorOffset.top}px`;
+        this.el.style.bottom = "auto";
       }
     }
     return this
@@ -302,5 +315,9 @@ export default class Dropdown extends EventEmitter {
   /** @private */
   isPlacementTop() {
     return this.placement === "top"
+  }
+
+  isPlacementAuto() {
+    return this.placement === "auto";
   }
 }

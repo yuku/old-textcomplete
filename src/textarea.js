@@ -66,13 +66,14 @@ export default class Textarea extends Editor {
     const lineHeight = getLineHeightPx(this.el)
     const top = elOffset.top - elScroll.top + cursorPosition.top + lineHeight
     const left = elOffset.left - elScroll.left + cursorPosition.left
+    const clientTop = this.el.getBoundingClientRect().top;
     if (this.el.dir !== "rtl") {
-      return { top, left, lineHeight }
+      return { top, left, lineHeight, clientTop }
     } else {
       const right = document.documentElement
         ? document.documentElement.clientWidth - left
         : 0
-      return { top, right, lineHeight }
+      return { top, right, lineHeight, clientTop }
     }
   }
 
