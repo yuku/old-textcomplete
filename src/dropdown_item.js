@@ -17,6 +17,7 @@ interface Dropdown {
   rotate: ?Boolean;
   getActiveItem(): DropdownItem | null;
   select(DropdownItem): DropdownItem;
+  el: HTMLUListElement;
 }
 
 /**
@@ -98,6 +99,9 @@ export default class DropdownItem {
       this.dropdown.activeItem = this
       this.active = true
       this.el.className = this.activeClassName
+
+      const offsetToScroll = this.el.offsetTop
+      this.dropdown.el.scrollTop = offsetToScroll
     }
     return this
   }

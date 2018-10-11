@@ -11,6 +11,7 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 ## 2018-10-10
 ### Added
 - Add 'auto' placement feature
+- When dropdown has scrollbar applied, scroll position will follow active item
 
 ## [0.17.1] - 2018-03-31
 ### Fixed
