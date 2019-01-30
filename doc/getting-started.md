@@ -30,7 +30,10 @@ Note that these scripts are ignored by the Git repository so that they do not ap
 
 ### Synopsis
 
-First of all, create an *editor* object. An editor encapsulates an HTML elements where users write texts on. Currently, there is only a [`Textarea`] editor.
+First of all, create an *editor* object. An editor encapsulates an HTML element where users will be writing text. There are two editors available:
+
+* Textarea (bundled with this library)
+* [ContentEditable](https://github.com/yuku/textcomplete.contenteditable) &ndash; When loaded after Textcomplete, the ContentEditable editor is available via `Textcomplete.editors.ContentEditable`.
 
 ```js
 var textareaElement = document.getElementById('your-textarea-element')
