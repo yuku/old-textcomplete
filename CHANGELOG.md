@@ -8,6 +8,10 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
+## 2019-07-31
+### Added
+- Add parent property to `DropDownOptions` to enable specifying the element to append the drop down items to
+
 ## 2018-10-10
 ### Added
 - Add 'auto' placement feature
