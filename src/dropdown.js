@@ -18,6 +18,7 @@ export type DropdownOptions = {
   rotate?: boolean,
   style?: { [string]: string },
   item?: DropdownItemOptions,
+  parent?: HTMLElement,
 }
 
 /**
@@ -36,23 +37,29 @@ export default class Dropdown extends EventEmitter {
   rotate: $PropertyType<DropdownOptions, "rotate">
   placement: $PropertyType<DropdownOptions, "placement">
   itemOptions: DropdownItemOptions
+  _parent: HTMLElement
   _el: ?HTMLUListElement
 
-  static createElement(): HTMLUListElement {
+  static createElement(parent?: HTMLElement): HTMLUListElement {
     const el = document.createElement("ul")
     const style = el.style
     style.display = "none"
     style.position = "absolute"
     style.zIndex = "10000"
-    const body = document.body
-    if (body) {
-      body.appendChild(el)
+    if (parent) {
+      parent.appendChild(el);
+    } else {
+      const body = document.body
+      if (body) {
+        body.appendChild(el)
+      }
     }
     return el
   }
 
   constructor(options: DropdownOptions) {
     super()
+    this._parent = options.parent
     this.shown = false
     this.items = []
     this.activeItem = null
@@ -79,13 +86,14 @@ export default class Dropdown extends EventEmitter {
     if (parentNode) {
       parentNode.removeChild(this.el)
     }
+    this._parent = null
     this.clear()._el = null
     return this
   }
 
   get el(): HTMLUListElement {
     if (!this._el) {
-      this._el = Dropdown.createElement()
+      this._el = Dropdown.createElement(this._parent)
     }
     return this._el
   }

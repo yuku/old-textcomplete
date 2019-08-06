@@ -132,7 +132,7 @@ Returns **[DropdownItem](#dropdownitem)?**
 
 ## DropdownOptions
 
-Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?, item: [DropdownItemOptions](#dropdownitemoptions)?}
+Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?, item: [DropdownItemOptions](#dropdownitemoptions)?, parent: [HtmlElement](https://developer.mozilla.org/docs/Web/API/HTMLElement)?}
 
 **Properties**
 
@@ -144,6 +144,7 @@ Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 -   `rotate` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
 -   `style` **{}?** 
 -   `item` **[DropdownItemOptions](#dropdownitemoptions)?** 
+-   `parent` **[HtmlElement](https://developer.mozilla.org/docs/Web/API/HTMLElement)?** 
 
 ## Dropdown
 
