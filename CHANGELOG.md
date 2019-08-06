@@ -8,12 +8,9 @@ This change log adheres to [keepachangelog.com](http://keepachangelog.com).
 
 ## [Unreleased]
 
-## 2019-07-31
+## [0.18.0] 2019-08-06
 ### Added
 - Add parent property to `DropDownOptions` to enable specifying the element to append the drop down items to
-
-## 2018-10-10
-### Added
 - Add 'auto' placement feature
 - When dropdown has scrollbar applied, scroll position will follow active item
 
@@ -212,7 +209,8 @@ Textcomplete loses a lot of weight. Now it is smaller than jquery-textcomplete! 
 ### Added
 - Initial release.
 
-[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.17.1...HEAD
+[Unreleased]: https://github.com/yuku-t/textcomplete/compare/v0.18.0...HEAD
+[0.18.0]: https://github.com/yuku-t/textcomplete/compare/v0.17.1...v0.18.0
 [0.17.1]: https://github.com/yuku-t/textcomplete/compare/v0.17.0...v0.17.1
 [0.17.0]: https://github.com/yuku-t/textcomplete/compare/v0.16.1...v0.17.0
 [0.16.1]: https://github.com/yuku-t/textcomplete/compare/v0.16.0...v0.16.1
