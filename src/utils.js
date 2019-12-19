@@ -6,7 +6,7 @@
  * @private
  */
 export const createCustomEvent = (() => {
-  if (typeof window.CustomEvent === "function") {
+  if (typeof window !== 'undefined' && typeof window.CustomEvent === "function") {
     return function(
       type: string,
       options: ?{ detail?: Object, cancelable?: boolean },
