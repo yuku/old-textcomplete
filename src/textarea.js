@@ -51,7 +51,8 @@ export default class Textarea extends Editor {
       this.el.focus() // Clicking a dropdown item removes focus from the element.
       if (Array.isArray(replace)) {
         update(this.el, replace[0], replace[1])
-        this.el.dispatchEvent(new Event("input"))
+        if (this.el)
+          this.el.dispatchEvent(new Event("input"))
       }
     }
   }
