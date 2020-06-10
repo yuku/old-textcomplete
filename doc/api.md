@@ -132,7 +132,7 @@ Returns **[DropdownItem](#dropdownitem)?**
 
 ## DropdownOptions
 
-Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?, item: [DropdownItemOptions](#dropdownitemoptions)?, parent: [HtmlElement](https://developer.mozilla.org/docs/Web/API/HTMLElement)?}
+Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, footer: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, header: function (any): ([string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String) \| [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))?, maxCount: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, placement: [string](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?, rotate: [boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?, style: {}?, item: [DropdownItemOptions](#dropdownitemoptions)?, parent: [HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)?}
 
 **Properties**
 
@@ -144,7 +144,7 @@ Type: {className: [string](https://developer.mozilla.org/docs/Web/JavaScript/Ref
 -   `rotate` **[boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean)?** 
 -   `style` **{}?** 
 -   `item` **[DropdownItemOptions](#dropdownitemoptions)?** 
--   `parent` **[HtmlElement](https://developer.mozilla.org/docs/Web/API/HTMLElement)?** 
+-   `parent` **[HTMLElement](https://developer.mozilla.org/docs/Web/HTML/Element)?** 
 
 ## Dropdown
 
@@ -214,7 +214,7 @@ Returns **([DropdownItem](#dropdownitem) | null)**
 
 ## CursorOffset
 
-Type: {lineHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), top: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), left: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, right: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?}
+Type: {lineHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), top: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number), left: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, right: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?, clientTop: [number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?}
 
 **Properties**
 
@@ -222,6 +222,7 @@ Type: {lineHeight: [number](https://developer.mozilla.org/docs/Web/JavaScript/Re
 -   `top` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)** 
 -   `left` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
 -   `right` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
+-   `clientTop` **[number](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number)?** 
 
 ## Editor
 
