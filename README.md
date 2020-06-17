@@ -1,3 +1,7 @@
+:warning: This repository was merged into [yuku/textcomplete](https://github.com/yuku/textcomplete)
+
+---
+
 # textcomplete
 
 Autocomplete for textarea elements.
